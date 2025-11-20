@@ -1,0 +1,73 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.header {
+  background-color: #111;
+  color: #fff;
+  width: 100%;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+}
+
+.logo img {
+  width: 110px;
+  height: auto;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+.nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s;
+}
+
+.nav ul li a:hover {
+  color: #ff3c3c;
+}
+
+/* Icons (tim, user, tìm kiếm, giỏ hàng) */
+.icons {
+  display: flex;
+  gap: 18px;
+}
+
+.icons a {
+  color: #fff;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.icons a:hover {
+  color: #ff3c3c;
+}
+
+/* Dòng miễn phí vận chuyển */
+.free-ship {
+  background: #333;
+  text-align: center;
+  font-size: 14px;
+  padding: 8px 0;
+  letter-spacing: 1px;
+  color: #fff;
+}
+.free-ship span {
+  color: #ff3c3c;
+  font-weight: 600;
+}
