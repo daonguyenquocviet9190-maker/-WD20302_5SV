@@ -1,0 +1,33 @@
+<?php
+$adminName = "Admin";
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<!-- Thêm thư viện Chart.js từ CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="App/public/admin/css/admin.css">
+</head>
+<body>
+<div class="header">
+    <div>
+        <img src="App/img/unnamed-removebg-preview (1).png" alt="Logo">
+    </div>
+
+    <div class="admin-text">
+        Xin chào <?php echo $adminName; ?>
+    </div>
+</div>
+<nav>
+    <ul>
+        <li><a href="?page=home">Dashboard</a></li>
+        <li><a href="?page=product">Sản phẩm</a></li>
+        <li><a href="?page=category">Loại sản phẩm</a></li>
+        <li><a href="?page=product">Khách hàng</a></li>
+        <li><a href="?page=product">Đơn hàng</a></li>
+    </ul>
+</nav>
+
