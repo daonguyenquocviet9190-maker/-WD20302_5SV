@@ -14,21 +14,21 @@ class HomeController {
     }
     public function home()
     {
-        $dssp = $this->sanpham->getall_sp();
-        $total_sp = count($dssp);
-    // khi người dùng chọn số trang 
-    // Khi bấm trang 1:  0 1 2 (1-1)*3 = 0
-    // Khi bấm trang 2: 3 4 5 (2-1)*3 = 3
-    // Khi bấm trang 3: 6 7 8 (3-1)*3 = 6
-    // => Quy luật tính offset: offset = (số trang - 1) * 3
-    if(isset($_GET['trang'])){
-      $page_number = $_GET['trang'];
-    } else {
-      $page_number = 1;
-    }
-     $lim = 4;
-     $offset = ($page_number-1) * $lim;
-     $dssp_phantrang = $this->sanpham->phantrang($lim,$offset);
+    //     $dssp = $this->sanpham->getall_sp();
+    //     $total_sp = count($dssp);
+    // // khi người dùng chọn số trang 
+    // // Khi bấm trang 1:  0 1 2 (1-1)*3 = 0
+    // // Khi bấm trang 2: 3 4 5 (2-1)*3 = 3
+    // // Khi bấm trang 3: 6 7 8 (3-1)*3 = 6
+    // // => Quy luật tính offset: offset = (số trang - 1) * 3
+    // if(isset($_GET['trang'])){
+    //   $page_number = $_GET['trang'];
+    // } else {
+    //   $page_number = 1;
+    // }
+    //  $lim = 4;
+    //  $offset = ($page_number-1) * $lim;
+    //  $dssp_phantrang = $this->sanpham->phantrang($lim,$offset);
         include 'app/View/shop/home.php';
     }
     public function product()
