@@ -9,5 +9,5 @@
 //     $page = $_GET['page'];
 //     $controller -> $page();
 //   }
-//  include 'App/View/shop/footer.php';
+ include 'App/View/shop/footer.php';
 ?>
