@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Sport</title>
+    <title>5SV Sport Fashion</title>
     <link rel="stylesheet" href="App/public/shop/css/style.css">
     <link rel="stylesheet" href="App/public/shop/css/category.css">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
@@ -36,13 +36,57 @@
         <nav class="nav">
             <ul>
                 <li class="dropdown">
-                    <a href="?page=nu">Nữ <i class="fa-solid fa-caret-down"></i></a>
-                    <div class="dropdown-menu">
-                        <a href="#">Áo nữ</a>
-                        <a href="#">Quần nữ</a>
-                        <a href="#">Đồ tập nữ</a>
-                    </div>
-                </li>
+    <a href="?page=nu">Nữ <i class="fa-solid fa-caret-down"></i></a>
+
+    <div class="dropdown-menu large">
+        <div class="col">
+            <h4>Áo</h4>
+            <a href="#">Tất cả áo nữ</a>
+            <a href="#">Áo ngắn tay</a>
+            <a href="#">Áo dài tay</a>
+            <a href="#">Áo polo</a>
+            <a href="#">Áo tanktop</a>
+            <a href="#">Áo hoodie</a>
+            <a href="#">Áo bra</a>
+            <a href="#">Áo khoác</a>
+        </div>
+        <div class="col">
+            <h4>Quần</h4>
+            <a href="#">Tất cả quần nữ</a>
+            <a href="#">Quần dài</a>
+            <a href="#">Quần shorts</a>
+            <a href="#">Quần legging</a>
+            <a href="#">Váy / Đầm</a>
+        </div>
+
+        <div class="col">
+            <h4>Hoạt động</h4>
+            <a href="#">Mặc thường ngày</a>
+            <a href="#">Chạy bộ</a>
+            <a href="#">Tennis/ Cầu lông/ Pickleball</a>
+            <a href="#">Bóng đá</a>
+            <a href="#">Gym/ Yoga/ Pilates</a>
+            <a href="#">Bơi lội</a>
+        </div>
+
+        <div class="col">
+            <h4>Nổi bật</h4>
+            <a href="#">Dri Air</a>
+            <a href="#">Anti UV</a>
+            <a href="#">Eco Move</a>
+            <a href="#">U.S. Cotton</a>
+        </div>
+
+        <div class="col">
+            <h4>Giày</h4>
+            <a href="#">Tất cả giày nữ</a>
+            <a href="#">Casual</a>
+            <a href="#">Chạy bộ</a>
+            <a href="#">Tập luyện</a>
+            <a href="#">Đá bóng</a>
+        </div>
+    </div>
+</li>
 
                 <li class="dropdown">
                     <a href="?page=nam">Nam <i class="fa-solid fa-caret-down"></i></a>
