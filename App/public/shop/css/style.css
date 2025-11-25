@@ -326,7 +326,7 @@ body {
 }
 /* --- Pattern 11.11 lặp dọc giống ảnh --- */
 .promo-bottom::before {
-    content: "11.11 11.11 11.11 11.11 11.11 11.11 11.11";
+    content: "11.11 11.11 11.11 11.11 11.11 11.11";
     position: absolute;
     inset: 0;
     opacity: 0.18;
