@@ -25,7 +25,7 @@ $adminName = "Admin";
     <ul>
         <li><a href="?page=home">Dashboard</a></li>
         <li><a href="?page=product">Sản phẩm</a></li>
-        <li><a href="?page=category">Loại sản phẩm</a></li>
+        <li><a href="?page=categories">Loại sản phẩm</a></li>
         <li><a href="?page=product">Khách hàng</a></li>
         <li><a href="?page=product">Đơn hàng</a></li>
     </ul>
