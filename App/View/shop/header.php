@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Sport</title>
     <link rel="stylesheet" href="App/public/shop/css/style.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="App/public/shop/css/category.css">
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -27,7 +28,7 @@
         <!-- Logo -->
         <div class="logo">
             <a href="index.php?page=home">
-                <img src="App/img/logo5sv.png" alt="Logo">
+                <img src="App/public/img/logo5sv.png" alt="Logo">
             </a>
         </div>
 

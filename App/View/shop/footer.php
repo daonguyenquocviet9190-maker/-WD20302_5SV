@@ -74,7 +74,7 @@
     <!-- Copyright -->
     <div class="footer-bottom">
         <p>Số ĐKKD: 2800702548 do sở Kế Hoạch và Đầu Tư tỉnh Thanh Hóa cấp lần đầu ngày 05/08/2002</p>
-        <img src="App/img/logo-da-thong-bao-bo-cong-thuong-300x114.webp" alt="Bộ Công Thương">
+        <img src="App/public/img/logo-da-thong-bao-bo-cong-thuong-300x114.webp" alt="Bộ Công Thương">
     </div>
 
 </footer>

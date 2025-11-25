@@ -14,7 +14,7 @@ $adminName = "Admin";
 <body>
 <div class="header">
     <div>
-        <img src="App/img/unnamed-removebg-preview (1).png" alt="Logo">
+        <img src="App/public/img/logo5sv.png" alt="Logo">
     </div>
 
     <div class="admin-text">
@@ -25,7 +25,7 @@ $adminName = "Admin";
     <ul>
         <li><a href="?page=home">Dashboard</a></li>
         <li><a href="?page=product">Sản phẩm</a></li>
-        <li><a href="?page=categories">Loại sản phẩm</a></li>
+        <li><a href="?page=category">Loại sản phẩm</a></li>
         <li><a href="?page=product">Khách hàng</a></li>
         <li><a href="?page=product">Đơn hàng</a></li>
     </ul>

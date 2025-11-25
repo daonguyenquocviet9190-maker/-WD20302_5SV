@@ -14,6 +14,9 @@ class HomeController {
     }
     public function home()
     {
+         $gender = $_GET['gender'] ?? 'nu';
+    // Lấy danh mục theo gender
+    $dsdm = $this->danhmuc->get_dm_gender($gender);
     //     $dssp = $this->sanpham->getall_sp();
     //     $total_sp = count($dssp);
     // // khi người dùng chọn số trang 

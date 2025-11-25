@@ -1,0 +1,110 @@
+/* Tab container */
+.tab-container {
+    display: flex;
+    justify-content: start; /* căn giữa tab */
+    gap: 20px;
+    margin-bottom: 20px;
+    margin-left: 180px;
+    border-bottom: 1px solid #ddd;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.tab {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #888;
+    font-weight: bold;
+    padding: 0px 12px 5px 12px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+h2{
+    margin: 25px auto;
+    width: 79%;
+}
+.tab.active {
+    color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+/* Scroll wrapper */
+.wrap {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1200px; /* giới hạn chiều rộng slider */
+    margin: 0 auto; /* căn giữa wrap */
+}
+
+/* Category list */
+.category-list {
+    display: flex;
+    gap: 15px;
+    overflow-x: hidden; /* ẩn thanh scroll */
+    padding: 10px 0;
+}
+
+/* Category card */
+.category-card {
+    flex: 0 0 calc((100% - 60px)/5); /* chia 5 card + gap 15px*4 = 60px */
+    text-align: center;
+}
+
+.category-card img {
+    width: 100%;
+    height: 290px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+.category-card img:hover {
+    transform: scale(1.05);
+}
+
+/* Scroll buttons */
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    color: #fcfcfc;
+    background: linear-gradient(rgb(98, 93, 93), rgb(104, 104, 104));
+    padding: 5px 10px;
+    border-radius: 20%;
+    cursor: pointer;
+    z-index: 10;
+    user-select: none;
+}
+.scroll-btn:hover{
+    color: black;
+    background: linear-gradient(rgb(224, 224, 224), rgb(211, 211, 211));
+}
+.left-btn {
+    left: 0;
+}
+
+.right-btn {
+    right: 0;
+}
+
+.dots {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: black;
+}

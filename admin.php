@@ -10,5 +10,5 @@ if (!isset($_GET['page'])){
         $controller->$page();
     }
 
-// include "App/View/admin/footer.php";
+include "App/View/admin/footer.php";
 ?>

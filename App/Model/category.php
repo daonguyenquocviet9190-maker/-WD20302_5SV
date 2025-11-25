@@ -8,8 +8,15 @@ class Category {
         $this->db->connect();  // truy xuất tới hàm connect
     }
     // phương thức lấy tất cả danh mục
-    public function getall_dm(){
+     public function getall_dm(){
         $sql = "SELECT * FROM danhmuc";
+        return $this->db->get_all($sql);
+    }
+    public function get_dm_gender($gender){
+        if ($gender == "all") {
+            return $this->getall_dm();
+        }
+        $sql = "SELECT * FROM danhmuc WHERE gender = '{$gender}' ORDER BY id_DM ASC";
         return $this->db->get_all($sql);
     }
     // phương thức thêm danh mục mới
