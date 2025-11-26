@@ -56,3 +56,52 @@
         <img src="App/public/img/banner4.png" alt="">
     </div>
 </section>
+
+<h2 class="product-title">Deal 111K</h2>
+<div class="product-scroll">
+    <?php foreach($deal111k as $sp): ?>
+        <div class="product-card">
+            <div class="product-img-wrapper">
+                <img src="<?= $sp['img'] ?>" class="product-img">
+                <div class="product-icons">
+                    <a href="#" class="icon"><i class="fa fa-heart"></i></a>
+                    <a href="#" class="icon"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="#" class="icon"><i class="fa fa-search"></i></a>
+                </div>
+
+                <?php if($sp['Price'] < 200000): ?>
+                    <span class="sale-badge">SALE</span>
+                <?php endif; ?>
+            </div>
+
+            <div class="product-name"><?= $sp['Name'] ?></div>
+            <div class="product-price"><?= number_format($sp['Price']) ?>₫<?= number_format($sp['Price']) ?>₫</div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
+<h2 class="product-title">Sản phẩm mới</h2>
+<div class="product-scroll">
+    <?php foreach($sp_moi as $sp): ?>
+        <div class="product-card">
+            <div class="product-img-wrapper" href="?act=chitiet&id=<?= $sp['id_SP'] ?>">
+                <img src="<?= $sp['img'] ?>" class="product-img">
+                <div class="product-icons">
+                    <a href="#" class="icon"><i class="fa fa-heart"></i></a>
+                    <a href="#" class="icon"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="#" class="icon"><i class="fa fa-search"></i></a>
+                </div>
+
+                <span class="new-badge">MỚI</span>
+            </div>
+
+            <div class="product-name"><?= $sp['Name'] ?></div>
+            <div class="product-price"><?= number_format($sp['Price']) ?>₫</div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
+
+
