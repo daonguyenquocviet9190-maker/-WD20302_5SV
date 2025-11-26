@@ -13,11 +13,11 @@ class Product {
         return $this->db->get_all($sql);
     }
     public function get_sp_moi() {
-    $sql = "SELECT * FROM sanpham ORDER BY id_SP ASC LIMIT 10";
+    $sql = "SELECT * FROM sanpham ORDER BY id_SP ASC LIMIT 11";
     return $this->db->get_all($sql);
 }
 public function get_deal_111k() {
-    $sql = "SELECT * FROM sanpham WHERE Price = 111000 ORDER BY id_SP DESC";
+    $sql = "SELECT * FROM sanpham WHERE sale_price = 111000 ORDER BY id_SP ASC";
     return $this->db->get_all($sql);
 }
     // phương thức lọc sản phẩm theo danh mục
