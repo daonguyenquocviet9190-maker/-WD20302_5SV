@@ -101,5 +101,8 @@ class HomeController {
     public function giohang() {
     include 'App/View/shop/giohang.php';
 }
+public function bosuutap() {
+    include 'App/View/shop/bosuutap.php';
+}
 }
 ?>
