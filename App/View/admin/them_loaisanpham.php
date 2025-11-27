@@ -16,7 +16,7 @@ if(!empty($dm_edit) && isset($dm_edit['Name'])){
     <?php if(!empty($dm_edit)): ?>
         <input type="hidden" name="idedit" value="<?= $_GET['idedit'] ?>">
     <?php endif; ?>
-    <button type="submit" name="save_category">
+    <button type="submit" name="save_category" class="btn-them">
         <?= !empty($dm_edit) ? 'Cập nhật' : 'Thêm danh mục' ?>
     </button>
 </form>
