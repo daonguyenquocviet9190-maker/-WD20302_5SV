@@ -35,6 +35,11 @@
     return $result;
   }
 
+  public function get_one($sql){
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
   // Phương thức thêm, sửa, xóa
   public function action($sql){
     $stmt = $this->conn->prepare($sql);

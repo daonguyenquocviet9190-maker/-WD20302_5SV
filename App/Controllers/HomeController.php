@@ -89,7 +89,7 @@ class HomeController {
 
           if($role == 1) {
             header('location: admin.php');
-          } else {
+} else {
             header('location: index.php');
           }
         } else {
@@ -107,5 +107,8 @@ public function bosuutap() {
 public function order() {
     include 'App/View/shop/order.php';
 }
+    public function register() {
+        include 'App/View/shop/register.php';
+    }
 }
 ?>

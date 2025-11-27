@@ -26,28 +26,38 @@ public function get_deal_111k() {
         return $this->db->get_all($sql);
     }
     // phương thức lọc sản phẩm theo ID SP
-     public function get_sp_byID($id){
-        $sql = "SELECT * FROM sanpham WHERE ID = {$id}";
-        return $this->db->get_all($sql);
-    }
+   public function get_sp_byID($id){
+    $sql = "SELECT * FROM sanpham WHERE id_SP = {$id}";
+    return $this->db->get_one($sql);
+}
     // phương thức lọc sản phẩm liên quan
     public function get_sp_lq($id, $cat_id){
         $sql = "SELECT * FROM sanpham WHERE Cat_ID = {$cat_id} AND id != {$id}
         ORDER BY RAND() LIMIT 3";
         return $this->db->get_all($sql);
     }
-    public function add_sp($name, $price, $quantity, $cat_id, $img){
-        // $price = intval($price);
-        // $cat_id = intval($cat_id);
-        $sql = "INSERT INTO sanpham (Name, Price, Quantity, Cat_ID, Image) VALUES ('{$name}', {$price}, {$quantity}, {$cat_id}, '{$img}')";
+    // Thêm sản phẩm
+    public function add_sp($name, $price, $stock, $cat_id, $img){
+        $sql = "INSERT INTO sanpham (Name, Price, stock, id_DM, img)
+                VALUES ('{$name}', {$price}, {$stock}, {$cat_id}, '{$img}')";
         return $this->db->action($sql);
     }
+
+    // Xóa sản phẩm
     public function remove_sp($id){
-        $sql = "DELETE FROM sanpham WHERE `ID` = {$id}";
+        $sql = "DELETE FROM sanpham WHERE id_SP = {$id}";
         return $this->db->action($sql);
     }
-      public function update_sp($id, $name, $price, $quantity, $cat_id, $img){
-        $sql = "UPDATE `sanpham` SET `Name` = '{$name}', `Price` = {$price}, `Quantity` = {$quantity}, `Cat_ID` = {$cat_id}, `Image` = '{$img}' WHERE `ID` = {$id}";
+
+    // Sửa sản phẩm
+    public function update_sp($id, $name, $price, $stock, $cat_id, $img){
+        $sql = "UPDATE sanpham 
+                SET Name = '{$name}',
+                    Price = {$price},
+                    stock = {$stock},
+                    id_DM = {$cat_id},
+                    img = '{$img}'
+                WHERE id_SP = {$id}";
         return $this->db->action($sql);
     }
     // phương thức phân trang 
