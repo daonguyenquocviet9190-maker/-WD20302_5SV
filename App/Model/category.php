@@ -8,10 +8,6 @@ class Category {
         $this->db->connect();  // truy xuất tới hàm connect
     }
     // phương thức lấy tất cả danh mục
-     public function getall_dm(){
-        $sql = "SELECT * FROM danhmuc";
-        return $this->db->get_all($sql);
-    }
     public function get_dm_gender($gender){
         if ($gender == "all") {
             return $this->getall_dm();
@@ -19,6 +15,12 @@ class Category {
         $sql = "SELECT * FROM danhmuc WHERE gender = '{$gender}' ORDER BY id_DM ASC";
         return $this->db->get_all($sql);
     }
+    // Thêm danh mục
+    public function getall_dm(){
+        $sql = "SELECT * FROM danhmuc ORDER BY id_DM ASC";
+        return $this->db->get_all($sql);
+    }
+
     // Thêm danh mục
     public function add_dm($name){
         $sql = "INSERT INTO danhmuc (Name) VALUES ('{$name}')";
@@ -37,10 +39,14 @@ class Category {
         return $this->db->action($sql);
     }
 
-    // Lấy danh mục theo ID
+    // Lấy danh mục theo ID (trả về 1 record)
     public function get_dm_byID($id){
         $sql = "SELECT * FROM danhmuc WHERE id_DM = {$id}";
-        return $this->db->get_one($sql); // chỉ lấy 1 record
+        $rows = $this->db->get_all($sql);
+        if(!empty($rows)){
+            return $rows[0];
+        }
+        return null;
     }
 }
 ?>
