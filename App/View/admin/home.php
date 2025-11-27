@@ -1,24 +1,3 @@
-<?php
-// Dữ liệu giả – sau này thay bằng MySQL
-$revenue_today = 12480000;
-$order_count = 142;
-$new_customers = 36;
-$return_rate = 2.1;
-
-$recent_orders = [
-    ["DH001", "Nguyễn Văn A", "Đã giao"],
-    ["DH002", "Trần Thị B", "Đang xử lý"],
-    ["DH003", "Phạm C", "Hoàn thành"],
-    ["DH004", "Lê D", "Đã huỷ"],
-];
-
-$products = [
-    ["Áo phông nam", "4,500,000"],
-    ["Áo thể thao", "650,000"],
-    ["Áo thun nữ", "120,000"],
-];
-?>
-
 <div class="admin-container">
 
     <!-- Ô tìm kiếm -->
