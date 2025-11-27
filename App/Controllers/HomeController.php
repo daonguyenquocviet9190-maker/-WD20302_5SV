@@ -98,11 +98,16 @@ class HomeController {
       }
         include 'app/View/shop/login.php';
     }
+    public function register() {
+        include 'App/View/shop/register.php';
+    }
+
     public function giohang() {
-    include 'App/View/shop/giohang.php';
-}
-public function bosuutap() {
-    include 'App/View/shop/bosuutap.php';
-}
+        include 'App/View/shop/giohang.php';
+    }
+
+    public function bosuutap() {
+        include 'App/View/shop/bosuutap.php';
+    }
 }
 ?>
