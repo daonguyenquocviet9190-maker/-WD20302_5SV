@@ -54,7 +54,7 @@
     </div>
 </div>
 
-<h2>SẢN PHẨM LIÊN QUAN</h2>
+<h2>THƯỜNG MUA CÙNG</h2>
 <div class="product-scroll">
     <?php foreach($deal111k as $sp): ?>
         <div class="product-card">
