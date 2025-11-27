@@ -51,32 +51,49 @@ require 'App/Model/user.php';
         include 'App/View/admin/product.php';
     }
      public function category(){
-      // thêm danh mục mới
-    // if (isset($_POST['add_cat']) && ($_POST['add_cat'])) {
-    //   if($_POST['cat_name'] != null){
-    //    $name = $_POST['cat_name'];
-    //    $description = $_POST['cat_des'];
-    //    if(isset($_GET['idedit']) && $_GET['idedit'] != null){
-    //     $this->danhmuc->update_dm($_GET['idedit'],$name, $description);
-    //     header('location:admin.php?page=category');
-    //    } else{
-    //    $this->danhmuc->add_dm($name, $description);
-    //    header('location:admin.php?page=category');
-    //    }
-    //   }
-    // }
-    $dsdm = $this->danhmuc->getall_dm();
-    // if(isset($_GET['idedit'])){
-    //   $dm_edit = $this->danhmuc->get_dm_byID($_GET['idedit']);
-    //   // print_r($dm_edit);
-    // }
-    // // print_r($dsdm);
+   $dm_edit = null; // dùng cho form sửa
 
-    // // xóa danh mục
-    // if (isset($_GET['id'])) {
-    //   $this->danhmuc->remove_dm($_GET['id']);
-    //   header('location:admin.php?page=category');
-    // }
+        // XÓA DANH MỤC
+        if (isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'delete') {
+            $this->danhmuc->remove_dm($_GET['id']);
+            header("Location: admin.php?page=category");
+            exit;
+        }
+
+        // NHẤN THÊM → HIỂN THỊ FORM
+        if (isset($_GET['action']) && $_GET['action'] == 'add') {
+            include 'App/View/admin/them_loaisanpham.php';
+            return;
+        }
+
+        // NHẤN SỬA → HIỂN THỊ FORM EDIT
+        if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
+            $dm_edit = $this->danhmuc->get_dm_byID($_GET['id']);
+            include 'App/View/admin/them_loaisanpham.php';
+            return;
+        }
+
+        // LƯU FORM (THÊM + SỬA)
+        if (isset($_POST['save_category'])) {
+            $name = trim($_POST['cat_name']);
+
+            if ($name != "") {
+                // Sửa
+                if (!empty($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
+                    $this->danhmuc->update_dm($_GET['id'], $name);
+                }
+                // Thêm
+                else {
+                    $this->danhmuc->add_dm($name);
+                }
+            }
+
+            header("Location: admin.php?page=category");
+            exit;
+        }
+
+        // MẶC ĐỊNH → HIỂN THỊ DANH SÁCH
+        $dsdm = $this->danhmuc->getall_dm();
         include 'App/View/admin/category.php';
     }
        public function user(){

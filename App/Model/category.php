@@ -19,25 +19,28 @@ class Category {
         $sql = "SELECT * FROM danhmuc WHERE gender = '{$gender}' ORDER BY id_DM ASC";
         return $this->db->get_all($sql);
     }
-    // phương thức thêm danh mục mới
-    public function add_dm($name, $description){
-        $sql = "INSERT INTO danhmuc (Name, Description) VALUES ('{$name}', '{$description}')";
+    // Thêm danh mục
+    public function add_dm($name){
+        $sql = "INSERT INTO danhmuc (Name) VALUES ('{$name}')";
         return $this->db->action($sql);
     }
-    // phương thức xóa danh mục
-      public function remove_dm($id){
-        $sql = "DELETE FROM danhmuc WHERE `ID` = {$id}";
+
+    // Xóa danh mục
+    public function remove_dm($id){
+        $sql = "DELETE FROM danhmuc WHERE id_DM = {$id}";
         return $this->db->action($sql);
     }
-    // phương thức sửa danh mục
-     public function update_dm($id, $name, $description){
-        $sql = "UPDATE `danhmuc` SET `Name` = '{$name}', `Description` = '{$description}' WHERE `ID` = {$id}";
+
+    // Sửa danh mục
+    public function update_dm($id, $name){
+        $sql = "UPDATE danhmuc SET Name = '{$name}' WHERE id_DM = {$id}";
         return $this->db->action($sql);
     }
-    // phương thức lọc danh mục theo ID
-     public function get_dm_byID($id){
-        $sql = "SELECT * FROM danhmuc WHERE ID = {$id}";
-        return $this->db->get_all($sql);
+
+    // Lấy danh mục theo ID
+    public function get_dm_byID($id){
+        $sql = "SELECT * FROM danhmuc WHERE id_DM = {$id}";
+        return $this->db->get_one($sql); // chỉ lấy 1 record
     }
 }
 ?>

@@ -2,7 +2,7 @@
     <div class="main-content">
         <div class="content-header">
             <h2>Quản lý loại sản phẩm</h2>
-            <a href="them_loaisanpham.php" class="btn-add">Thêm</a>
+            <a href="?page=category&action=add" class="btn-add">Thêm</a>
         </div>
 
         <table class="data-table">
