@@ -4,7 +4,7 @@ class User {
     //  connect DB
     public $db;  // khởi tạo biến 
     public function __construct(){ // sau đó sử dụng hàm để kết nối
-        $this->db = new Database('localhost', 'asm2', 'root', ''); // khai báo tham số đầu vào
+        $this->db = new Database('localhost', '5svcode', 'root', ''); // khai báo tham số đầu vào
         $this->db->connect();  // truy xuất tới hàm connect
     }
     // phương thức lấy tất cả sản phẩm
