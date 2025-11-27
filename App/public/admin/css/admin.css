@@ -74,7 +74,7 @@ nav {
     width: 240px;
     background: #f4f6f9;
     height: 100vh;
-    position: fixed; /* Dùng fixed để sidebar luôn cố định */
+    position: absolute; /* Dùng fixed để sidebar luôn cố định */
     top: 100px; /* Nằm dưới header 100px */
     left: 0;
     padding-top: 20px;
