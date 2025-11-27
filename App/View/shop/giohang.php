@@ -52,8 +52,30 @@
         <button class="btn-checkout">Tiến hành thanh toán</button>
         <p style="text-align:center; margin-top:10px;">Tiếp tục xem sản phẩm</p>
     </div>
-
 </div>
 
+<h2>SẢN PHẨM LIÊN QUAN</h2>
+<div class="product-scroll">
+    <?php foreach($deal111k as $sp): ?>
+        <div class="product-card">
+            <div class="product-img-wrapper">
+                <img src="App/public/img/<?= $sp['img'] ?>" class="product-img">
+                <div class="product-icons">
+                    <a href="#" class="icon"><i class="fa fa-heart"></i></a>
+                    <a href="#" class="icon"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="#" class="icon"><i class="fa fa-search"></i></a>
+                </div>
+
+                <?php if($sp['sale_price'] < 200000): ?>
+                    <span class="sale-badge">SALE</span>
+                <?php endif; ?>
+            </div>
+
+            <div class="product-name"><?= $sp['Name'] ?></div>
+            <div class="product-price"><del style="color:#8E8E8E; font-size: 15px;"><?= number_format($sp['Price']) ?>₫</del>
+             <?= number_format($sp['sale_price']) ?>₫</div>
+        </div>
+    <?php endforeach; ?>
+</div>
 </body>
 </html>
