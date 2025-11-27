@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DELTA - FALL'25 Mini Collection & AllDay Bliss</title>
+  <title>5SV - FALL'25 Mini Collection & AllDay Bliss</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, Helvetica, sans-serif; background: #f5f5f5; }
@@ -80,10 +80,10 @@
 
   <!-- Banner 1 - FALL'25 MINI COLLECTION | PADDLE UP – SMASH UP -->
   <div class="banner" id="banner1">
-    <img src="App/public/img/Web-Bo-Suu-Tap-desktop (1).png" alt="DELTA Paddle Collection">
+    <img src="App/public/img/Web-Bo-Suu-Tap-desktop (1).png" alt="5SV Paddle Collection">
     <div class="content">
       <h1>FALL'25 MINI COLLECTION | PADDLE UP – SMASH UP</h1>
-      <p>Mùa thu này, hãy để DELTA mang một làn gió mới đến các "Pick thủ".
+      <p>Mùa thu này, hãy để 5SV mang một làn gió mới đến các "Pick thủ".
          Với Bộ Sưu Tập mùa thu mới - nơi tinh thần thể thao gặp gỡ sự tự do, nơi cảm xúc trên sân được hóa thành từng thớ vải mềm mại,
           từng đường cắt tôn dáng, từng gam màu khơi gợi năng lượng tích cực. Mỗi một sản phẩm như niềm khơi gợi cảm hứng vận động mỗi ngày,
            để chỉ cần nhìn thấy - chạm vào - mặc lên là muốn ra sân ngay lập tức. Sử dụng chất liệu mềm mại,
@@ -94,28 +94,28 @@
     </div>
   </div>
   <div class="banner" id="banner1">
-    <img src="App/public/img/web.png" alt="DELTA Paddle Collection">
+    <img src="App/public/img/web.png" alt="5SV Paddle Collection">
     <div class="content">
-      <h1>DELTA x Clarks | ALLDAY BLISS</h1>
+      <h1>5SV x Clarks | ALLDAY BLISS</h1>
       <p>Sự kết hợp lấy cảm hứng từ nhịp chuyển động không ngừng của cuộc sống, đem đến sự thoải mái tuyệt đối trong từng bước chân,
          cùng khả năng linh hoạt thích ứng với mọi hoàn cảnh.</p>
       <a href="#" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
-    <img src="App/public/img/a.png" alt="DELTA Paddle Collection">
+    <img src="App/public/img/a.png" alt="5SV Paddle Collection">
     <div class="content">
       <h1>Football Collection | BE THE ALL – STAR</h1>
-      <p>Trải nghiệm ra sân như cầu thủ chuyên nghiệp với bộ sưu tập TeamWear mới nhất tại DELTA.
+      <p>Trải nghiệm ra sân như cầu thủ chuyên nghiệp với bộ sưu tập TeamWear mới nhất tại 5SV.
          Linh hoạt trong mọi cú sút bởi chất liệu tái chế cao cấp, co giãn thoải mái, thiết kế tối ưu hiệu suất thi đấu.</p>
       <a href="#" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
-    <img src="App/public/img/a1.png" alt="DELTA Paddle Collection">
+    <img src="App/public/img/a1.png" alt="5SV Paddle Collection">
     <div class="content">
       <h1>Swimwear Collection | SUN KISSED</h1>
-      <p>Mùa hè 2025, DELTA đã chính thức mang swimwear quay trở lại với phiên bản năng động hơn,
+      <p>Mùa hè 2025, 5SV đã chính thức mang swimwear quay trở lại với phiên bản năng động hơn,
          trẻ trung hơn và chất lượng hơn. Tính năng Anti - Chlorine vượt trội giúp sản phẩm bền hơn,
           kéo dài tuổi thọ cho sản phẩm. Bên cạnh đó là khả năng chống tia UV hiệu quả,
            cùng chỉ số UPF 50+ giúp bảo vệ da dưới ánh mặt trời đến 99%. Tự tin "bật tung" năng lượng chill hè hết ý,
@@ -124,12 +124,12 @@
     </div>
   </div>
   <div class="banner" id="banner1">
-    <img src="App/public/img/a2.png" alt="DELTA Paddle Collection">
+    <img src="App/public/img/a2.png" alt="5SV Paddle Collection">
     <div class="content">
       <h1>Spring’25 Mini Collection | THE PERFECT BODY</h1>
       <p>Hơn cả một vóc dáng thon gọn, chủ nghĩa cơ thể hoàn mỹ bao gồm cả thể lực, săn chắc bên ngoài,
          khỏe mạnh bên trong. Khởi đầu năm mới sẵn sàng hành trình nâng cấp, trở thành một phiên bản tốt hơn của bản thân.
-          Đồng hành cùng mọi nỗ lực và kiên trì của bạn, DELTA luôn cố gắng mang đến các sản phẩm tất yếu - thoải mái - tiện dụng,
+          Đồng hành cùng mọi nỗ lực và kiên trì của bạn, 5SV luôn cố gắng mang đến các sản phẩm tất yếu - thoải mái - tiện dụng,
           đảm bảo trải nghiệm trọn vẹn trong quá trình tập luyện. Sử dụng chất vải tái chế,
            an toàn cho môi trường và mang tính bền vững, lan tỏa xu hướng thời trang xanh tích cực. Bên cạnh đó,
             sản phẩm tích hợp cùng tính năng DRI - AIR siêu khô thoáng, giúp bạn luôn trong trạng thái mát
@@ -138,7 +138,7 @@
     </div>
   </div>
   <div class="banner" id="banner1">
-    <img src="App/public/img/a3.png" alt="DELTA Paddle Collection">
+    <img src="App/public/img/a3.png" alt="5SV Paddle Collection">
     <div class="content">
       <h1>Winter’24 Collection | HOME SWEET HOME</h1>
       <p>Đón mùa lễ hội cùng những items không thể thiếu trong mọi tủ đồ, sẵn sàng chill đông với chất liệu ấm áp,
@@ -151,7 +151,7 @@
     </div>
   </div>
   <div class="banner" id="banner1">
-    <img src="App/public/img/a4.png" alt="DELTA Paddle Collection">
+    <img src="App/public/img/a4.png" alt="5SV Paddle Collection">
     <div class="content">
       <h1>Running Collection | NO LIMIT</h1>
       <p>Đồng hành trên mọi hành trình bứt phá giới hạn bản thân, với các tính năng ưu việt từ ANTI - UV chống nắng hiệu quả,
@@ -161,7 +161,7 @@
     </div>
   </div>
   <div class="banner" id="banner1">
-    <img src="App/public/img/a5.png" alt="DELTA Paddle Collection">
+    <img src="App/public/img/a5.png" alt="5SV Paddle Collection">
     <div class="content">
       <h1>GYM ESSENTIALS FOR MEN</h1>
       <p>Làm chủ mọi chuyển động, thỏa sức tận hưởng và tự tin bứt phá cùng chất liệu mềm nhẹ - co giãn tối ưu, 
