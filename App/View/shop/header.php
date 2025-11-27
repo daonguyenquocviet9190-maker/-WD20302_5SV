@@ -37,7 +37,6 @@
             <ul>
                 <li class="dropdown">
     <a href="?page=nu">Nữ <i class="fa-solid fa-caret-down"></i></a>
-
     <div class="dropdown-menu large">
         <div class="col">
             <h4>Áo</h4>
@@ -110,9 +109,46 @@
                     </div>
                 </li>
 
-                <li><a href="?page=giay">Giày Thể Thao <i class="fa-solid fa-caret-down"></i></a></li>
-                <li><a href="?page=phu-kien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a></li>
-                <li><a href="?page=deal">Single Deal <i class="fa-solid fa-caret-down"></i></a></li>
+                <li class="dropdown">
+                    <a href="?page=giay">Giày Thể Thao <i class="fa-solid fa-caret-down"></i></a>
+            <div class="dropdown-menu large">
+                        <div class="image">
+                            <a href="#"><img src="App/public/img/giay.png" alt=""></a>
+                            <a href="#"><img src="App/public/img/giay1.png" alt=""></a>
+                            <a href="#"><img src="App/public/img/giay2.png" alt=""></a>
+                            <a href="#"><img src="App/public/img/giay3.png" alt=""></a>
+                        </div>
+                    </div>
+            </li>
+                <li class="dropdown">
+                    <a href="?page=phu-kien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a>
+            <div class="dropdown-menu large">
+                        <div>
+                            <h4>Phụ kiện</h4>
+                            <a href="#">Balo</a>
+                            <a href="#">Nón</a>
+                            <a href="#">Tất</a>
+                        </div>
+                        <div>
+                            <h4>Dụng cụ thể thao</h4>
+                            <a href="#">Bóng chuyền</a>
+                            <a href="#">Bóng đá</a>
+                            <a href="#">Bóng mini</a>
+                        </div>
+                       <div class="image">
+                            <a href="#"><img src="App/public/img/b1.png" alt=""></a>
+                            <a href="#"><img src="App/public/img/b2.png" alt=""></a>
+                            <a href="#"><img src="App/public/img/b2.jpg" alt=""></a>
+                       </div>
+                    </div></li>
+                <li class="dropdown">
+                    <a href="?page=deal">Single Deal <i class="fa-solid fa-caret-down"></i></a>
+            <div class="dropdown-menu large">
+                        <div>
+                            <a href="#">Đồng giá 11k</a>
+                            <a href="#">Đồng giá 111k</a>
+                            <a href="#">Đồng giá 211k</a>
+                        </div></li>
                 <li><a href="?page=bo-suu-tap">Bộ Sưu Tập <i class="fa-solid fa-caret-down"></i></a></li>
             </ul>
         </nav>
