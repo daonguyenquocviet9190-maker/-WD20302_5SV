@@ -34,7 +34,7 @@ require 'App/Model/user.php';
     //   }
     // }
     // }
-    // $dssp = $this->sanpham->getall_sp();
+    $dssp = $this->sanpham->getall_sp();
     //  if(isset($_GET['idedit'])){
     //   $sp_edit = $this->sanpham->get_sp_byID($_GET['idedit']);
     //   print_r($sp_edit);
@@ -65,7 +65,7 @@ require 'App/Model/user.php';
     //    }
     //   }
     // }
-    // $dsdm = $this->danhmuc->getall_dm();
+    $dsdm = $this->danhmuc->getall_dm();
     // if(isset($_GET['idedit'])){
     //   $dm_edit = $this->danhmuc->get_dm_byID($_GET['idedit']);
     //   // print_r($dm_edit);

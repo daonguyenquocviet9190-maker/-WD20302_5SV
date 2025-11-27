@@ -16,27 +16,44 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($products)): ?>
-                <?php foreach ($products as $p): ?>
-                <tr>
-                    <td>
-                        <img src="<?= $p['image'] ?>" alt="<?= $p['name'] ?>" class="product-thumb">
-                    </td>
-                    <td><?= $p['name'] ?></td>
-                    <td>₫ <?= number_format($p['price'], 0, ',', '.') ?></td>
-                    <td><?= $p['quantity'] ?></td>
-                    <td><?= $p['category'] ?></td>
-                    <td class="actions">
-                        <a href="?page=product&action=edit&id=<?= $p['id'] ?>" title="Sửa"><i class="fas fa-edit"></i></a>
-                        <a href="?page=product&action=delete&id=<?= $p['id'] ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"><i class="fas fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="6">Không có sản phẩm nào.</td>
-                </tr>
-            <?php endif; ?>
+          <?php if (!empty($dssp)): ?>
+    <?php foreach ($dssp as $p): ?>
+        <tr>
+            <td>
+                <img src="App/public/img/<?= $p['img'] ?>" 
+                     alt="<?= $p['Name'] ?>" 
+                     class="product-thumb">
+            </td>
+
+            <td><?= $p['Name'] ?></td>
+
+            <td> <?= number_format($p['Price'], 0, ',', '.') ?>đ</td>
+
+            <td><?= $p['stock'] ?></td>
+
+            <td><?= $p['id_DM'] ?></td>
+
+            <td class="actions">
+                <!-- Sửa -->
+                <a href="admin.php?page=product&action=edit&id=<?= $p['id_SP'] ?>" 
+                   title="Sửa">
+                    <i class="fas fa-edit"></i>
+                </a>
+
+                <!-- Xóa -->
+                <a href="admin.php?page=product&action=delete&id=<?= $p['id_SP'] ?>" 
+                   onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"
+                   title="Xóa">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+<?php else: ?>
+    <tr>
+        <td colspan="6">Không có sản phẩm nào.</td>
+    </tr>
+<?php endif; ?>
         </tbody>
     </table>
 </div>
