@@ -149,7 +149,7 @@
                             <a href="#">Đồng giá 111k</a>
                             <a href="#">Đồng giá 211k</a>
                         </div></li>
-                <li><a href="?page=bo-suu-tap">Bộ Sưu Tập <i class="fa-solid fa-caret-down"></i></a></li>
+                <li><a href="?page=bosuutap">Bộ Sưu Tập <i class="fa-solid fa-caret-down"></i></a></li>
             </ul>
         </nav>
 
@@ -158,7 +158,7 @@
             <a href="#"><i class="fas fa-heart"></i></a>
             <a href="#"><i class="fas fa-user"></i></a>
             <a href="#"><i class="fas fa-search"></i></a>
-            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+            <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
         </div>
 
     </div>
