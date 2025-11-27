@@ -267,6 +267,11 @@ nav ul li a.active {
     display: flex;
     gap: 20px;
     margin-top: 20px;
+    overflow-x: auto ;
+}
+
+::-webkit-scrollbar{
+    /* display: none; */
 }
 
 .product-item {
@@ -451,4 +456,79 @@ input[type="file"] {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
+}
+
+/* ======================================= */
+/* ====== BỔ SUNG: STYLE RIÊNG CHO BẢNG KHÁCH HÀNG ====== */
+/* ======================================= */
+
+/* Định dạng chung cho trạng thái (online/offline) */
+.status-badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.status-online {
+    color: #1b8e4e; /* Màu xanh lá cây */
+    background-color: #d4edda;
+}
+
+.status-offline {
+    color: #721c24; /* Màu đỏ mờ */
+    background-color: #f8d7da;
+}
+
+/* Định dạng cho cột Xem Đơn hàng */
+.customer-table .actions a {
+    /* Đảm bảo chữ "Xem" rõ ràng như trong hình */
+    color: #007bff; /* Màu xanh dương */
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0; /* Bỏ padding cũ để chỉ hiển thị chữ */
+}
+.customer-table .actions a:hover {
+    text-decoration: underline;
+}
+
+/* ======================================= */
+/* ====== BỔ SUNG: STYLE RIÊNG CHO BẢNG ĐƠN HÀNG ====== */
+/* ======================================= */
+
+.order-table td:nth-child(4) { /* Cột Tổng tiền */
+    font-weight: bold;
+    color: #d9534f; /* Màu đỏ nổi bật */
+}
+
+/* Định dạng chung cho trạng thái đơn hàng */
+.order-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 600;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Trạng thái Chờ xử lý */
+.status-chờ-xử-lý {
+    color: #f0ad4e; /* Vàng cam */
+    background-color: #fdf8e8;
+    border: 1px solid #f0ad4e;
+}
+
+/* Trạng thái Đang xử lý */
+.status-đang-xử-lý {
+    color: #0275d8; /* Xanh dương */
+    background-color: #e0f0ff;
+    border: 1px solid #0275d8;
+}
+
+/* Trạng thái Đã hoàn thành */
+.status-đã-hoàn-thành {
+    color: #5cb85c; /* Xanh lá */
+    background-color: #eff7ef;
+    border: 1px solid #5cb85c;
 }

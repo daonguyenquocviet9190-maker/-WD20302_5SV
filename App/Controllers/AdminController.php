@@ -13,7 +13,7 @@ require 'App/Model/user.php';
     $this->user = new User();
   }
     public function home(){
-    //   $dssp = $this->sanpham->getall_sp();  
+      $dssp = $this->sanpham->getall_sp();  
     // $dsuser = $this->user->getall_user();
     include 'App/View/admin/home.php';
   }
@@ -107,5 +107,9 @@ if(isset($_GET['idedit'])){
         public function update_product(){
         include 'App/View/admin/update_product.php';
     }
+    public function order() {
+        include "App/View/admin/order.php"; 
+    }
   }
+  
 ?>
