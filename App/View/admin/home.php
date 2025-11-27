@@ -76,10 +76,11 @@
         </div>
 
         <div class="product-list">
-            <?php foreach ($products as $p): ?>
+            <?php foreach ($dssp as $p): ?>
             <div class="product-item">
-                <h4><?= $p[0] ?></h4>
-                <p>₫ <?= $p[1] ?></p>
+                <img src="App/public/img/<?= $p['img'] ?>" width="60%" alt="">
+                <h4><?= $p['Name'] ?></h4>
+                <p>₫ <?= $p["Price"] ?></p>
             </div>
             <?php endforeach; ?>
         </div>

@@ -63,7 +63,7 @@ body {
     position: absolute;
     z-index: 999;
     top: 280%;
-    left: 0;
+    left: -100%;
     background: white;
     color: #000;
     padding: 20px;
@@ -149,8 +149,39 @@ body {
 .dropdown-menu.mega a:hover {
     color: #d60000;
 }
+/* Sửa CSS cho hình giày nằm ngang + nhỏ lại (dán vào cuối style.css) */
+.dropdown-menu.large .image {
+    display: flex !important;          /* Làm 4 hình giày nằm ngang */
+    flex-direction: row !important;    /* Xếp theo hàng ngang */
+    justify-content: space-between !important;  /* Khoảng cách đều đẹp */
+    align-items: center !important;    /* Căn giữa chiều dọc */
+    gap: 20px !important;              /* Khoảng cách giữa các hình */
+    width: 100% !important;            /* Chiếm hết chiều rộng menu */
+    padding: 10px 20px !important;     /* Padding cho thoáng */
+    
+}
 
+.dropdown-menu.large .image a {
+    flex: 1 !important;                /* Mỗi <a> chiếm đều không gian */
+    text-align: center !important;     /* Căn giữa hình trong <a> */
+}
 
+.dropdown-menu.large .image img {
+    width: 100% !important;            /* Hình vừa khít <a> */
+    max-width: 200px !important;       /* Nhỏ lại đẹp (tùy chỉnh số này nếu cần nhỏ hơn) */
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto !important;
+    /* transform: rotate(-15deg) translateY(-10px) !important;  Nghiêng nằm ngang, nổi lên */
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4)) !important;
+    transition: all 0.4s ease !important;
+    border-radius: 10px;
+}
+
+/* Hover hiệu ứng */
+.dropdown-menu.large .image a:hover img {
+    transform: rotate(-15deg) translateY(-20px) scale(1.05) !important;
+}
 /* ICONS */
 .icons a {
     color: white;

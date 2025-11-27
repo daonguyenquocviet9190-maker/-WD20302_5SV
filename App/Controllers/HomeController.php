@@ -89,7 +89,7 @@ class HomeController {
 
           if($role == 1) {
             header('location: admin.php');
-          } else {
+} else {
             header('location: index.php');
           }
         } else {
@@ -101,5 +101,14 @@ class HomeController {
     public function giohang() {
     include 'App/View/shop/giohang.php';
 }
+public function bosuutap() {
+    include 'App/View/shop/bosuutap.php';
+}
+public function order() {
+    include 'App/View/shop/order.php';
+}
+    public function register() {
+        include 'App/View/shop/register.php';
+    }
 }
 ?>
