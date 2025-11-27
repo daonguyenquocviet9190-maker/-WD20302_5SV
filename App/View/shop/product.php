@@ -77,7 +77,7 @@ $dssp = $this->sanpham->getall_sp();
     <!-- NỘI DUNG CHÍNH -->
     <main class="main-content">
         <div class="top-bar">
-            <div class="result-count">Tất cả sản phẩm (<?= count($dssp) ?> sản phẩm)</div>
+            <div class="result-count"></div>
             <select class="form-select w-auto">
                 <option>Sắp xếp theo...</option>
                 <option>Sắp xếp theo mức độ phổ biến</option>
