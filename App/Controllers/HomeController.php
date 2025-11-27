@@ -104,5 +104,8 @@ class HomeController {
 public function bosuutap() {
     include 'App/View/shop/bosuutap.php';
 }
+public function order() {
+    include 'App/View/shop/order.php';
+}
 }
 ?>
