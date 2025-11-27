@@ -158,6 +158,7 @@ body {
     gap: 20px !important;              /* Khoảng cách giữa các hình */
     width: 100% !important;            /* Chiếm hết chiều rộng menu */
     padding: 10px 20px !important;     /* Padding cho thoáng */
+    
 }
 
 .dropdown-menu.large .image a {
@@ -174,6 +175,7 @@ body {
     /* transform: rotate(-15deg) translateY(-10px) !important;  Nghiêng nằm ngang, nổi lên */
     filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4)) !important;
     transition: all 0.4s ease !important;
+    border-radius: 10px;
 }
 
 /* Hover hiệu ứng */
