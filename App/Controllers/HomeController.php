@@ -98,5 +98,8 @@ class HomeController {
       }
         include 'app/View/shop/login.php';
     }
+    public function giohang() {
+    include 'App/View/shop/giohang.php';
+}
 }
 ?>
