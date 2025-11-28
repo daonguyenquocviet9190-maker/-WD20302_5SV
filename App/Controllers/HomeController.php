@@ -111,5 +111,8 @@ public function order() {
     public function register() {
         include 'App/View/shop/register.php';
     }
+     public function order_info() {
+        include 'App/View/shop/order_info.php';
+    }
 }
 ?>
