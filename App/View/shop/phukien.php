@@ -1,7 +1,6 @@
 <?php
 $dssp = $this->sanpham->getall_sp();
 ?>
-
 <div class="shop-wrapper">
 
     <!-- SIDEBAR LỌC MỚI - ĐẸP NHƯ HÌNH BẠN GỬI -->
@@ -89,7 +88,7 @@ $dssp = $this->sanpham->getall_sp();
         </div>
 
        <div class="product-grid">
-    <?php foreach($phukien as $sp): ?>
+    <?php foreach($sp_phukien as $sp): ?>
         
         <!-- ĐIỀU KIỆN DUY NHẤT: CHỈ HIỂN THỊ NẾU ĐANG GIẢM GIÁ -->
         <?php if (!empty($sp['sale_price']) && $sp['sale_price'] > 0 && $sp['sale_price'] < $sp['Price']): ?>

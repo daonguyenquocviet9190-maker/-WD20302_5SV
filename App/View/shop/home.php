@@ -86,13 +86,13 @@
 <div class="product-scroll">
     <?php foreach($sp_moi as $sp): ?>
         <div class="product-card">
-            <div class="product-img-wrapper" href="?act=chitiet&id=<?= $sp['id_SP'] ?>">
+            <a class="product-img-wrapper" href="?page=product_detail&id=<?= $sp['id_SP'] ?>">
                 <img src="App/public/img/<?= $sp['img'] ?>" class="product-img">
                 <div class="product-icons">
                     <a href="#" class="icon"><i class="fa fa-link"></i></a>
                     <a href="#" class="icon"><i class="fa fa-heart"></i></a>
                     <a href="#" class="icon"><i class="fa fa-arrows"></i></a>
-                </div>
+                </a>
 
                 <span class="new-badge">MỚI</span>
             </div>

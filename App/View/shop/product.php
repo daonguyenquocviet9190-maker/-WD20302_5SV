@@ -99,7 +99,7 @@ $dssp = $this->sanpham->getall_sp();
                 $discount = round(100 - ($sp['sale_price'] * 100 / $sp['Price']));
             ?>
 
-            <a href="index.php?page=product_detail&id=<?= $sp['id_SP'] ?>" class="product-card">
+            <a href="?page=product_detail&id=<?= $sp['id_SP'] ?>" class="product-card">
                 <div class="img-wrap">
                     <img src="App/public/img/<?= htmlspecialchars($sp['img']) ?>" alt="<?= htmlspecialchars($sp['Name']) ?>">
                     <div class="sale-badge">-<?= $discount ?>%</div>
