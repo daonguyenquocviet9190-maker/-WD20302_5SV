@@ -6,6 +6,7 @@
     <title>5SV Sport Fashion</title>
     <link rel="stylesheet" href="App/public/shop/css/style.css">
     <link rel="stylesheet" href="App/public/shop/css/category.css">
+    <link rel="stylesheet" href="App/public/shop/css/product.css">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -149,7 +150,7 @@
                             <a href="#">Đồng giá 111k</a>
                             <a href="#">Đồng giá 211k</a>
                         </div></li>
-                <li><a href="?page=bo-suu-tap">Bộ Sưu Tập <i class="fa-solid fa-caret-down"></i></a></li>
+                <li><a href="?page=bosuutap">Bộ Sưu Tập <i class="fa-solid fa-caret-down"></i></a></li>
             </ul>
         </nav>
 
@@ -158,7 +159,7 @@
             <a href="#"><i class="fas fa-heart"></i></a>
             <a href="index.php?page=register"><i class="fas fa-user"></i></a>
             <a href="#"><i class="fas fa-search"></i></a>
-            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+            <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
         </div>
 
     </div>
