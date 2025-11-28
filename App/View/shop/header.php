@@ -38,7 +38,7 @@
         <nav class="nav">
             <ul>
                 <li class="dropdown">
-    <a href="?page=nu">Nữ <i class="fa-solid fa-caret-down"></i></a>
+    <a href="?page=nu_product">Nữ <i class="fa-solid fa-caret-down"></i></a>
     <div class="dropdown-menu large">
         <div class="col">
             <h4>Áo</h4>
@@ -89,7 +89,7 @@
     </div>
 </li>
                 <li class="dropdown">
-                    <a href="?page=nam">Nam <i class="fa-solid fa-caret-down"></i></a>
+                    <a href="?page=nam_product">Nam <i class="fa-solid fa-caret-down"></i></a>
                     <div class="dropdown-menu large">
                         <div>
                             <h4>Áo</h4>
@@ -112,7 +112,7 @@
                 </li>
 
                 <li class="dropdown">
-                    <a href="?page=giay">Giày Thể Thao <i class="fa-solid fa-caret-down"></i></a>
+                    <a href="?page=giay_product">Giày Thể Thao <i class="fa-solid fa-caret-down"></i></a>
             <div class="dropdown-menu large">
                         <div class="image">
                             <a href="#"><img src="App/public/img/giay.png" alt=""></a>
@@ -123,7 +123,7 @@
                     </div>
             </li>
                 <li class="dropdown">
-                    <a href="?page=phu-kien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a>
+                    <a href="?page=phukien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a>
             <div class="dropdown-menu large">
                         <div>
                             <h4>Phụ kiện</h4>

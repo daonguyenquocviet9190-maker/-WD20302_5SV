@@ -8,16 +8,32 @@ class Product {
         $this->db->connect();  // truy xuất tới hàm connect
     }
     // phương thức lấy tất cả sản phẩm
-     public function getall_sp(){
-        $sql = "SELECT * FROM sanpham";
-        return $this->db->get_all($sql);
-    }
+   public function getall_sp(){
+    $sql = "SELECT * FROM sanpham WHERE gender IS NULL OR gender != 'phukien'";
+    return $this->db->get_all($sql);
+}
     public function get_sp_moi() {
     $sql = "SELECT * FROM sanpham ORDER BY id_SP ASC LIMIT 11";
     return $this->db->get_all($sql);
 }
 public function get_deal_111k() {
     $sql = "SELECT * FROM sanpham WHERE sale_price = 111000 ORDER BY id_SP ASC";
+    return $this->db->get_all($sql);
+}
+ public function get_sp_nu() {
+    $sql = "SELECT * FROM sanpham WHERE gender = 'nu' ";
+    return $this->db->get_all($sql);
+}
+ public function get_sp_nam() {
+    $sql = "SELECT * FROM sanpham WHERE gender = 'nam' ";
+    return $this->db->get_all($sql);
+}
+ public function get_sp_giay() {
+    $sql = "SELECT * FROM sanpham WHERE gender = 'giay' ";
+    return $this->db->get_all($sql);
+}
+ public function get_sp_phukien() {
+    $sql = "SELECT * FROM sanpham WHERE gender = 'phukien' ";
     return $this->db->get_all($sql);
 }
     // phương thức lọc sản phẩm theo danh mục

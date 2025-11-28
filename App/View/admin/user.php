@@ -10,28 +10,29 @@
                 <th style="width: 50px;">ID</th>
                 <th style="width: 20%;">TÊN</th>
                 <th style="width: 25%;">EMAIL</th>
+                <th style="width: 10%;">SDt</th>
                 <th style="width: 10%;">VAI TRÒ</th>
-                <th style="width: 15%;">LẦN ĐĂNG NHẬP CUỐI</th>
+                <!-- <th style="width: 15%;">LẦN ĐĂNG NHẬP CUỐI</th> -->
                 <th style="width: 10%;">TRẠNG THÁI</th>
                 <th style="width: 100px;">XEM ĐƠN HÀNG</th>
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($customers)): ?>
-                <?php foreach ($customers as $c): ?>
+            <?php if (!empty($user)): ?>
+                <?php foreach ($user as $c): ?>
                 <tr>
-                    <td><?= $c['id'] ?></td>
-                    <td><?= $c['name'] ?></td>
-                    <td><?= $c['email'] ?></td>
-                    <td><?= $c['role'] ?></td>
-                    <td><?= $c['last_login'] ?></td>
+                    <td><?= $c['id_User'] ?></td>
+                    <td><?= $c['Username'] ?></td>
+                    <td><?= $c['Email'] ?></td>
+                    <td><?= $c['Phone'] ?></td>
+                    <td><?= $c['Role'] ?></td>
                     <td>
                         <span class="status-badge status-<?= $c['status'] ?>">
                             <?= ucfirst($c['status']) ?>
                         </span>
                     </td>
                     <td class="actions">
-                        <a href="?page=order&customer_id=<?= $c['id'] ?>" title="Xem Đơn hàng">Xem</a>
+                        <a href="?page=order&customer_id=<?= $c['id_User'] ?>" title="Xem Đơn hàng">Xem</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
