@@ -122,7 +122,7 @@
                     </div>
             </li>
                 <li class="dropdown">
-                    <a href="?page=phu-kien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a>
+                    <a href="?page=phukien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a>
             <div class="dropdown-menu large">
                         <div>
                             <h4>Phụ kiện</h4>

@@ -105,6 +105,10 @@ class HomeController {
 public function bosuutap() {
     include 'App/View/shop/bosuutap.php';
 }
+public function phukien() {
+  $phukien = $this->sanpham->get_sp_phukien();
+    include 'App/View/shop/phukien.php';
+}
 public function order() {
     include 'App/View/shop/order.php';
 }
@@ -127,5 +131,6 @@ public function order() {
      public function order_info() {
         include 'App/View/shop/order_info.php';
     }
+    
 }
 ?>
