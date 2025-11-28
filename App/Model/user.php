@@ -12,8 +12,12 @@ class User {
         $sql = "SELECT * FROM user";
         return $this->db->get_all($sql);
     }
-     public function add_user($user, $pass){
-        $sql = "INSERT INTO user (User, Pass) VALUES ('{$user}', '{$pass}')";
+    public function add_user($username, $password, $email, $phone = null, $role = 'customer'){
+        // Mã hóa password (nên dùng password_hash cho bảo mật)
+        $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
+        
+        $sql = "INSERT INTO user (Username, Password, Email, Phone, Role) 
+                VALUES ('{$username}', '{$hashed_pass}', '{$email}', " . ($phone ? "'{$phone}'" : "NULL") . ", '{$role}')";
         return $this->db->action($sql);
     }
       public function remove_user($id){
