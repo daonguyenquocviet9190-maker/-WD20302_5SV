@@ -24,6 +24,7 @@
 } catch(PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }
+
 }
 // phương thức hiển thị tất cả
   public function get_all($sql)
@@ -45,5 +46,9 @@
     $stmt = $this->conn->prepare($sql);
     $stmt->execute(); 
   }
- }
+  public function getConnection() {
+        return $this->conn;
+    }
+}
+ 
 ?>
