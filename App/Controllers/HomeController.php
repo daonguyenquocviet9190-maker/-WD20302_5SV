@@ -99,6 +99,7 @@ class HomeController {
         include 'app/View/shop/login.php';
     }
     public function giohang() {
+       $deal111k = $this->sanpham->get_deal_111k();
     include 'App/View/shop/giohang.php';
 }
 public function bosuutap() {
@@ -110,6 +111,7 @@ public function order() {
     public function register() {
         include 'App/View/shop/register.php';
     }
+
     public function nu_product() {
       $sp_nu = $this->sanpham->get_sp_nu();
         include 'App/View/shop/nu_product.php';
@@ -121,6 +123,9 @@ public function order() {
        public function giay_product() {
       $sp_giay = $this->sanpham->get_sp_giay();
         include 'App/View/shop/giay_product.php';
+       }
+     public function order_info() {
+        include 'App/View/shop/order_info.php';
     }
 }
 ?>

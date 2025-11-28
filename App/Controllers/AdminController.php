@@ -2,15 +2,18 @@
 require 'App/Model/category.php';
 require 'App/Model/product.php';
 require 'App/Model/user.php';
+require 'App/Model/order.php';
   class AdminController {
      public $danhmuc;
   public $sanpham;
   public $user;
+  public $order;
   public function __construct()
   {
     $this->danhmuc = new Category();
     $this->sanpham = new Product();
     $this->user = new User();
+    $this->order = new Order();
   }
     public function home(){
       $dssp = $this->sanpham->getall_sp();  
@@ -132,6 +135,7 @@ if(isset($_GET['idedit'])){
       $this->user->remove_user($_GET['id']);
       header('location:admin.php?page=user');
     }
+    $user = $this->user->getall_user();
         include 'App/View/admin/user.php';
     }
         public function update_product(){
@@ -142,7 +146,36 @@ if(isset($_GET['idedit'])){
   } 
 
     public function order() {
-        include "App/View/admin/order.php"; 
+    $action = $_GET['action'] ?? 'list';
+    $id = $_GET['id'] ?? null;
+
+    /* ================== 1. XỬ LÝ HÀNH ĐỘNG XÓA ================== */
+    if ($action == 'delete' && $id != null) {
+        // Gọi hàm xóa đơn hàng trong Order Model
+        $this->order->remove_order($id); 
+        // Chuyển hướng về trang danh sách
+        header("Location: admin.php?page=order");
+        exit;
     }
+    
+    /* ================== 2. XỬ LÝ HÀNH ĐỘNG CHI TIẾT ================== */
+    if ($action == 'detail' && $id != null) {
+        // Lấy thông tin đơn hàng
+        $order_detail = $this->order->get_order_by_id($id);
+        // Lấy danh sách sản phẩm (cần thêm hàm get_order_items($id) trong Model)
+        // $items = $this->order->get_order_items($id);
+
+        // Include giao diện chi tiết (bạn cần tạo file này)
+        include "App/View/admin/order_detail.php";
+        return; // Dừng Controller
+    }
+
+    /* ================== 3. MẶC ĐỊNH → HIỂN THỊ DANH SÁCH ================== */
+    // Lấy tất cả đơn hàng từ Model và gán vào biến $orders
+    $orders = $this->order->get_all_orders(); 
+    
+    // Include giao diện danh sách
+    include "App/View/admin/order.php"; 
+}
   }
 ?>
