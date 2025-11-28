@@ -1,7 +1,9 @@
+<?php if(!isset($ct_sp)) { echo "Lỗi: Không tìm thấy sản phẩm"; exit; } ?>
 <div class="detail-container">
 
     <div class="detail-wrapper">
-        <!-- LEFT: HÌNH -->
+
+        <!-- LEFT IMAGE -->
         <div class="detail-left">
             <div class="main-image">
                 <img src="App/public/img/<?= $ct_sp['img'] ?>" alt="">
@@ -14,7 +16,7 @@
             </div>
         </div>
 
-        <!-- RIGHT: THÔNG TIN -->
+        <!-- RIGHT INFO -->
         <div class="detail-right">
 
             <h1 class="sp-title"><?= $ct_sp['Name'] ?></h1>
@@ -24,24 +26,43 @@
                 <ins><?= number_format($ct_sp['sale_price']) ?>đ</ins>
             </div>
 
-            <p class="label">Size</p>
-            <div class="size-list">
-                <div class="size-item active">M</div>
-                <div class="size-item">L</div>
-                <div class="size-item">XL</div>
-            </div>
+            
+<form action="index.php?page=add_to_cart" method="post">
 
-            <p class="label">Số lượng</p>
-            <div class="qty-box">
-                <button>-</button>
-                <input type="text" value="1" min="1">
-                <button>+</button>
-            </div>
+    <!-- GIỮ ID SẢN PHẨM -->
+    <input type="hidden" name="id_SP" value="<?= $ct_sp['id_SP'] ?>">
 
-            <div class="btn-group">
-                <button class="btn-add">Thêm vào giỏ hàng</button>
-                <button class="btn-buy">Mua ngay</button>
-            </div>
+    <!-- SIZE -->
+    <div class="size-container">
+        <p>Chọn size:</p>
+        <div class="sizes">
+            <span class="size-item active">M</span>
+            <span class="size-item">L</span>
+            <span class="size-item">XL</span>
+        </div>
+    </div>
+
+    <!-- QTY -->
+    <div class="qty-container">
+        <p>Số lượng:</p>
+        <div class="qty-box">
+            <button type="button">-</button>
+            <input type="text" value="1">
+            <button type="button">+</button>
+        </div>
+    </div>
+
+    <!-- HIDDEN INPUT -->
+    <input type="hidden" name="size" id="size-input" value="M">
+    <input type="hidden" name="qty" id="qty-input" value="1">
+
+    <div class="btn-group">
+        <button type="submit" class="btn-add">Thêm vào giỏ hàng</button>
+        <button type="button" class="btn-buy">Mua ngay</button>
+    </div>
+
+</form>
+
 
             <div class="support-box">
                 <p><strong>Hotline CSKH 1900 9201 từ 8h - 21h | T2 - T7</strong></p>
@@ -49,7 +70,6 @@
                 <p>30 ngày đổi trả dễ dàng</p>
             </div>
 
-            <!-- ACCORDION -->
             <div class="accordion">
                 <div class="acc-item">
                     <span>Mô tả sản phẩm</span> <i class="fas fa-plus"></i>
@@ -70,7 +90,6 @@
 
     <!-- REVIEW -->
     <div class="review-section">
-
         <h2>Đánh giá</h2>
         <p>Chưa có đánh giá nào.</p>
 
@@ -80,71 +99,65 @@
             <i class="far fa-star"></i>
         </div>
 
-        <textarea placeholder="Viết đánh giá của bạn..."></textarea>
-       <form action="" method="post">
-        <div class="review-inputs">
-            <div>
-                <label>Tên*</label>
-                <input type="text" required>
-            </div>
-            <div>
-                <label>Email*</label>
-                <input type="email" required>
-            </div>
-        </div>
+        <textarea placeholder="Viết đánh giá của bạn..." cols="5" rows="8"></textarea>
 
-        <button type="submit" class="review-btn">gửi đi</button>
+        <form action="" method="post">
+            <div class="review-inputs">
+                <div>
+                    <label>Tên*</label>
+                    <input type="text" required>
+                </div>
+                <div>
+                    <label>Email*</label>
+                    <input type="email" required>
+                </div>
+            </div>
+            <button type="submit" class="review-btn">Gửi đi</button>
         </form>
     </div>
-   
+
 </div>
+
 <script>
-// ====== CHỌN SIZE ======
+// ====== SIZE ======
 document.querySelectorAll('.size-item').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
         document.querySelectorAll('.size-item').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
+        document.getElementById("size-input").value = this.innerText;
     });
 });
 
-// ====== SỐ LƯỢNG ======
-document.querySelectorAll('.qty-box').forEach(box => {
-    const input = box.querySelector('input');
-    const btns = box.querySelectorAll('button');
+// ====== QTY ======
+const qtyInput = document.querySelector('.qty-box input');
+const [minusBtn, plusBtn] = document.querySelectorAll('.qty-box button');
 
-    btns[0].addEventListener('click', () => {
-        let val = parseInt(input.value);
-        if (val > 1) input.value = val - 1;
-    });
-    btns[1].addEventListener('click', () => {
-        let val = parseInt(input.value);
-        input.value = val + 1;
-    });
+minusBtn.addEventListener('click', () => {
+    let val = parseInt(qtyInput.value);
+    if (val > 1) qtyInput.value = val - 1;
+    document.getElementById("qty-input").value = qtyInput.value;
 });
-// ====== CHỌN STAR RATING ======
+
+plusBtn.addEventListener('click', () => {
+    let val = parseInt(qtyInput.value);
+    qtyInput.value = val + 1;
+    document.getElementById("qty-input").value = qtyInput.value;
+});
+
+// ====== STAR RATING ======
 const stars = document.querySelectorAll('.stars i');
 let selectedRating = 0;
 
 stars.forEach((star, idx) => {
-    // hover để highlight
     star.addEventListener('mouseover', () => {
-        stars.forEach((s, i) => {
-            s.classList.toggle('hovered', i <= idx);
-        });
+        stars.forEach((s, i) => s.classList.toggle('hovered', i <= idx));
     });
     star.addEventListener('mouseout', () => {
-        stars.forEach((s, i) => {
-            s.classList.toggle('hovered', i < selectedRating);
-        });
+        stars.forEach((s, i) => s.classList.toggle('hovered', i < selectedRating));
     });
-
-    // click để chọn rating
     star.addEventListener('click', () => {
         selectedRating = idx + 1;
-        stars.forEach((s, i) => {
-            s.classList.toggle('active', i < selectedRating);
-        });
+        stars.forEach((s, i) => s.classList.toggle('active', i < selectedRating));
     });
 });
-
 </script>

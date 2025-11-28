@@ -458,14 +458,14 @@ body {
 
 
 .product-scroll {
-    margin: 0 auto;
+    margin: 60px auto;
     width: 80%;
     display: flex;
     /* justify-content: center; */
-    /* align-items: center; */
+    align-items: center;
     gap: 20px;
     overflow-x: auto;
-    padding-bottom: 15px;
+    padding-bottom: 10px;   
 }
 
 .product-title{
@@ -483,12 +483,16 @@ body {
     border-radius: 12px;
     overflow: hidden;
     position: relative;
-    transition: 0.3s;
+    transition: 0.5s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    cursor: grab;
+    cursor: grab;   
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.05) translateY(-5px);
 }
 
 .product-img-wrapper {
@@ -498,11 +502,12 @@ body {
 .product-img {
     width: 100%;
     border-radius: 12px;
+    transition: 0.3s;
 }
 
 .product-icons {
     position: absolute;
-    bottom: 10px;
+    bottom: 100px;
     right: 10px;
     display: flex;
     flex-direction: column;

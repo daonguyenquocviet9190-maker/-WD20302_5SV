@@ -1,187 +1,191 @@
-/* ====== CHI TIẾT SẢN PHẨM ====== */
 .detail-container {
-    max-width: 1100px;
-    margin: 50px auto;
-    font-family: Arial, sans-serif;
-    color: #333;
-    padding: 0 15px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    font-family: Arial;
 }
 
-/* ====== BỐ CỤC 2 CỘT ====== */
 .detail-wrapper {
     display: flex;
     gap: 40px;
-    flex-wrap: wrap;
-    align-items: flex-start;
 }
 
-/* ----- LEFT: HÌNH ----- */
+/* LEFT IMAGE */
 .detail-left {
-    flex: 0 0 420px;
+    width: 45%;
+    position: relative;
 }
-.detail-left .main-image img {
+.main-image img {
     width: 100%;
-    height: 500px;
-    object-fit: cover;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    border-radius: 10px;
 }
-.detail-left .main-image img:hover {
-    transform: scale(1.03);
-}
+
 .image-icons {
-    margin-top: 15px;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
     display: flex;
-    gap: 15px;
+    flex-direction: column;
+    gap: 12px;
+}
+.image-icons i {
+    background: #fff;
+    padding: 10px;
+    border-radius: 50%;
     font-size: 18px;
-    color: #555;
+    cursor: pointer;
+    box-shadow: 0 0 5px #ccc;
 }
 
-/* ----- RIGHT: THÔNG TIN ----- */
+/* RIGHT INFO */
 .detail-right {
-    flex: 1;
-    min-width: 300px;
+    width: 55%;
 }
 
-.detail-right h1.sp-title {
+.sp-title {
     font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .sp-price {
-    margin: 12px 0;
+    font-size: 22px;
+    margin: 15px 0;
 }
 .sp-price del {
-    color: #999;
-    font-size: 14px;
+    color: #777;
+    margin-right: 10px;
 }
 .sp-price ins {
-    color: #ec0000;
-    font-size: 22px;
+    color: red;
     font-weight: bold;
-    margin-left: 10px;
+    text-decoration: none;
 }
 
-/* ----- SIZE ----- */
-.label {
-    margin: 15px 0 5px;
-    font-weight: 600;
+/* SIZE BOX */
+.size-container p {
+    font-weight: bold;
 }
-.size-list {
+.sizes {
     display: flex;
     gap: 10px;
+    margin-top: 10px;
 }
 .size-item {
-    padding: 6px 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 8px 18px;
+    border: 1px solid #333;
+    border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s;
 }
-.size-item.active,
-.size-item:hover {
-    border-color: #000;
-    font-weight: bold;
-    background: #f2f2f2;
+.size-item.active {
+    background: #333;
+    color: #fff;
 }
 
-/* ----- SỐ LƯỢNG ----- */
+/* QTY */
+.qty-container {
+    margin-top: 20px;
+}
 .qty-box {
     display: flex;
     align-items: center;
-    gap: 5px;
-    margin: 10px 0;
-}
-.qty-box input {
-    width: 60px;
-    text-align: center;
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-.qty-box button {
-    padding: 6px 12px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background: #f2f2f2;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-.qty-box button:hover {
-    background: #e0e0e0;
-}
-
-/* ----- BUTTONS ----- */
-.btn-group {
-    margin: 20px 0;
-    display: flex;
     gap: 10px;
 }
-.btn-add,
-.btn-buy {
-    padding: 10px 20px;
-    border-radius: 5px;
+.qty-box button {
+    width: 35px;
+    height: 35px;
     border: none;
-    font-weight: 600;
+    background: #eee;
     cursor: pointer;
-    transition: background 0.3s;
+    font-size: 20px;
+}
+.qty-box input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    height: 35px;
+}
+
+/* BUTTONS */
+.btn-group {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
 }
 .btn-add {
-    background: #5a5a5a;
-    color: #fff;
-}
-.btn-add:hover {
     background: #333;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
 }
 .btn-buy {
-    background: #ff6b6b;
+    background: red;
     color: #fff;
-}
-.btn-buy:hover {
-    background: #e65555;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
 }
 
-/* ----- SUPPORT BOX ----- */
+/* SUPPORT BOX */
 .support-box {
-    margin-top: 20px;
-    font-size: 14px;
+    margin-top: 25px;
+    padding: 15px;
+    border: 1px solid #ffb3b3;
+    background: #fff7f7;
+    border-radius: 6px;
     line-height: 1.6;
-    color: #555;
 }
 
-/* ----- ACCORDION ----- */
+/* ACCORDION */
 .accordion {
-    margin-top: 20px;
+    margin-top: 25px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
 }
 .acc-item {
+    padding: 15px;
     display: flex;
     justify-content: space-between;
-    padding: 10px 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-top: 8px;
     cursor: pointer;
-    transition: background 0.3s;
+    border-bottom: 1px solid #eee;
 }
-.acc-item:hover {
-    background: #f8f8f8;
+.acc-item:last-child {
+    border-bottom: none;
 }
 
-/* ----- REVIEW SECTION ----- */
+/* REVIEW SECTION */
 .review-section {
     margin-top: 50px;
 }
 .review-section h2 {
     font-size: 22px;
+    text-align: center;
     font-weight: 600;
     margin-bottom: 15px;
 }
+
+.review-section p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.review-section .stars {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
 .review-section .stars i {
-    font-size: 24px;
+    font-size: 30px;
     color: #ccc;
+    margin: 10px auto;
     margin-right: 4px;
+    width: 10%;
+    text-align: center;
 }
 .review-section textarea {
     width: 100%;
@@ -192,6 +196,7 @@
 }
 .review-inputs {
     display: flex; 
+    justify-content: center;
     flex-wrap: wrap;
     gap: 80px;
     margin-top: 10px;
@@ -216,30 +221,4 @@
 }
 .review-btn:hover {
     background: #cc0000;
-}
-
-/* ====== RESPONSIVE ====== */
-@media (max-width: 992px) {
-    .detail-wrapper {
-        flex-direction: column;
-    }
-    .detail-left,
-    .detail-right {
-        flex: 1 1 100%;
-        max-width: 100%;
-    }
-    .qty-box {
-        width: 100%;
-    }
-}
-
-.stars i {
-    font-size: 24px;
-    color: #ccc;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-.stars i.active,
-.stars i.hovered {
-    color: #f8c12c;
 }

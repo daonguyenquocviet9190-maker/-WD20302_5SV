@@ -1,8 +1,8 @@
 .shop-wrapper { display: flex; min-height: 100vh; }
-        
         /* ==================== SIDEBAR MỚI - ĐẸP NHƯ SHOPEE 2025 ==================== */
         .filter-sidebar-new {
-            width: 280px;
+            width: 300px;
+            min-height: max-content;
             background: #fff;
             border-right: 1px solid #eee;
             position: absolute;
@@ -90,7 +90,6 @@
             background: var(--red);
             color: #d20808;
         }
-
         /* Màu sắc */
         .color-options {
             display: grid;

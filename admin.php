@@ -4,7 +4,7 @@ include "App/Controllers/AdminController.php";
 include "App/View/admin/header.php";
 
 if (!isset($_GET['page'])){
-        include "App/View/admin/home.php";
+       header('location:admin.php?page=home');
     }else{
         $page = $_GET['page'];
         $controller->$page();

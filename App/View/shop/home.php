@@ -64,9 +64,9 @@
             <a class="product-img-wrapper" href="?page=product_detail&id=<?= $sp['id_SP'] ?>">
                 <img src="App/public/img/<?= $sp['img'] ?>" class="product-img">
                 <div class="product-icons">
+                      <a href="#" class="icon"><i class="fa fa-link"></i></a>
                     <a href="#" class="icon"><i class="fa fa-heart"></i></a>
-                    <a href="#" class="icon"><i class="fa fa-shopping-cart"></i></a>
-                    <a href="#" class="icon"><i class="fa fa-search"></i></a>
+                    <a href="#" class="icon"><i class="fa fa-arrows"></i></a>
                 </div>
 
                 <?php if($sp['sale_price'] < 200000): ?>
@@ -92,10 +92,10 @@
                     <a href="#" class="icon"><i class="fa fa-link"></i></a>
                     <a href="#" class="icon"><i class="fa fa-heart"></i></a>
                     <a href="#" class="icon"><i class="fa fa-arrows"></i></a>
-                </a>
+    </div>
 
                 <span class="new-badge">MỚI</span>
-            </div>
+    </a>
 
             <div class="product-name"><?= $sp['Name'] ?></div>
             <div class="product-price" style="color: black; font-weight: 550;"><?= number_format($sp['Price']) ?>₫</div>

@@ -113,11 +113,31 @@ class HomeController
     }
     include 'app/View/shop/login.php';
   }
-  public function giohang()
-  {
+public function giohang()
+{
+    session_start(); // đảm bảo session hoạt động
+
+    if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+        echo "Giỏ hàng trống!";
+        return;
+    }
+
+    $cart = $_SESSION['cart'];
+    $total = 0;
+
+    foreach($cart as $item){
+        $total += $item['price'] * $item['quantity'];
+    }
+
+    $shipping = 30000;
+    $grandTotal = $total + $shipping;
+
     $deal111k = $this->sanpham->get_deal_111k();
     include 'App/View/shop/giohang.php';
-  }
+}
+
+
+
   public function bosuutap()
   {
     include 'App/View/shop/bosuutap.php';
@@ -155,6 +175,65 @@ class HomeController
   {
     include 'App/View/shop/order_info.php';
   }
+
+  public function add_to_cart()
+{
+    session_start(); // Bắt buộc phải có để lưu session
+
+    // Kiểm tra phương thức POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        die("Sai phương thức gửi!");
+    }
+
+    // Kiểm tra ID sản phẩm
+    if (!isset($_POST['id_SP']) || empty($_POST['id_SP'])) {
+        die("Thiếu ID sản phẩm!");
+    }
+
+    $id = intval($_POST['id_SP']); // sửa val() thành intval
+    $size = $_POST['size'] ?? 'M';
+    $qty = intval($_POST['qty'] ?? 1);
+
+    // Lấy sản phẩm từ DB
+    $sp = $this->sanpham->get_sp_byID($id);
+    if (!$sp) {
+        die("Không tìm thấy sản phẩm!");
+    }
+
+    // Khởi tạo giỏ hàng nếu chưa có
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    // Kiểm tra nếu sản phẩm đã tồn tại (cùng id + size) → cộng dồn số lượng
+    $found = false;
+    foreach($_SESSION['cart'] as &$item) {
+        if ($item['id'] == $id && $item['size'] == $size) {
+            $item['quantity'] += $qty;
+            $found = true;
+            break;
+        }
+    }
+    // Nếu chưa có, thêm mới
+    if (!$found) {
+        $_SESSION['cart'][] = [
+            "id"       => $id,
+            "image"    => $sp['img'],
+            "name"     => $sp['Name'],
+            "size"     => $size,
+            "price"    => $sp['sale_price'],
+            "quantity" => $qty
+        ];
+    }
+
+    // Redirect về giỏ hàng
+    header("Location: index.php?page=giohang");
+    exit;
+}
+
+
+
+
 
 }
 ?>
