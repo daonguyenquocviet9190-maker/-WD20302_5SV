@@ -20,6 +20,18 @@ public function get_deal_111k() {
     $sql = "SELECT * FROM sanpham WHERE sale_price = 111000 ORDER BY id_SP ASC";
     return $this->db->get_all($sql);
 }
+ public function get_sp_nu() {
+    $sql = "SELECT * FROM sanpham WHERE gender = 'nu' ";
+    return $this->db->get_all($sql);
+}
+ public function get_sp_nam() {
+    $sql = "SELECT * FROM sanpham WHERE gender = 'nam' ";
+    return $this->db->get_all($sql);
+}
+ public function get_sp_giay() {
+    $sql = "SELECT * FROM sanpham WHERE gender = 'giay' ";
+    return $this->db->get_all($sql);
+}
     // phương thức lọc sản phẩm theo danh mục
      public function get_sp_byIDDM($cat_id){
         $sql = "SELECT * FROM sanpham WHERE Cat_ID = {$cat_id}";

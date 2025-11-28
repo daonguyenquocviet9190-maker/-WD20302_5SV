@@ -110,5 +110,17 @@ public function order() {
     public function register() {
         include 'App/View/shop/register.php';
     }
+    public function nu_product() {
+      $sp_nu = $this->sanpham->get_sp_nu();
+        include 'App/View/shop/nu_product.php';
+    }
+      public function nam_product() {
+      $sp_nam = $this->sanpham->get_sp_nam();
+        include 'App/View/shop/nam_product.php';
+    }
+       public function giay_product() {
+      $sp_giay = $this->sanpham->get_sp_giay();
+        include 'App/View/shop/giay_product.php';
+    }
 }
 ?>
