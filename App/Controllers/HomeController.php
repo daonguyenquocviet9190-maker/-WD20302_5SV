@@ -56,12 +56,26 @@ class HomeController {
     }
     public function product_detail()
     {
-        if(isset($_GET['id'])) {
-          $ct_sp = $this->sanpham->get_sp_byID($_GET['id']);
-          // print_r($ct_sp);
-          $sp_lq = $this->sanpham->get_sp_lq($_GET['id'], $ct_sp[0]['Cat_ID']);
-          // print_r($sp_lq);
+      if (isset($_GET['id'])) {
+
+        // Lấy ID sản phẩm
+        $id = intval($_GET['id']);
+
+        // Lấy sản phẩm chính
+        $ct_sp = $this->sanpham->get_sp_byID($id);
+
+        // Kiểm tra sản phẩm tồn tại
+        if (!$ct_sp) {
+            echo "Sản phẩm không tồn tại!";
+            return;
         }
+
+        // Lấy danh mục của sản phẩm
+        $id_dm = $ct_sp['id_DM'];
+
+        // Lấy sản phẩm liên quan
+        $sp_lq = $this->sanpham->get_sp_lq($id, $id_dm);
+    }
         include 'app/View/shop/product_detail.php';
     }
     public function cart()

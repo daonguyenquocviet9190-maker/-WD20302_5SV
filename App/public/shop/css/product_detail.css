@@ -1,0 +1,245 @@
+/* ====== CHI TIẾT SẢN PHẨM ====== */
+.detail-container {
+    max-width: 1100px;
+    margin: 50px auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 0 15px;
+}
+
+/* ====== BỐ CỤC 2 CỘT ====== */
+.detail-wrapper {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+/* ----- LEFT: HÌNH ----- */
+.detail-left {
+    flex: 0 0 420px;
+}
+.detail-left .main-image img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+.detail-left .main-image img:hover {
+    transform: scale(1.03);
+}
+.image-icons {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    font-size: 18px;
+    color: #555;
+}
+
+/* ----- RIGHT: THÔNG TIN ----- */
+.detail-right {
+    flex: 1;
+    min-width: 300px;
+}
+
+.detail-right h1.sp-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.sp-price {
+    margin: 12px 0;
+}
+.sp-price del {
+    color: #999;
+    font-size: 14px;
+}
+.sp-price ins {
+    color: #ec0000;
+    font-size: 22px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* ----- SIZE ----- */
+.label {
+    margin: 15px 0 5px;
+    font-weight: 600;
+}
+.size-list {
+    display: flex;
+    gap: 10px;
+}
+.size-item {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.size-item.active,
+.size-item:hover {
+    border-color: #000;
+    font-weight: bold;
+    background: #f2f2f2;
+}
+
+/* ----- SỐ LƯỢNG ----- */
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0;
+}
+.qty-box input {
+    width: 60px;
+    text-align: center;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.qty-box button {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #f2f2f2;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.qty-box button:hover {
+    background: #e0e0e0;
+}
+
+/* ----- BUTTONS ----- */
+.btn-group {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+.btn-add,
+.btn-buy {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.btn-add {
+    background: #5a5a5a;
+    color: #fff;
+}
+.btn-add:hover {
+    background: #333;
+}
+.btn-buy {
+    background: #ff6b6b;
+    color: #fff;
+}
+.btn-buy:hover {
+    background: #e65555;
+}
+
+/* ----- SUPPORT BOX ----- */
+.support-box {
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* ----- ACCORDION ----- */
+.accordion {
+    margin-top: 20px;
+}
+.acc-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.acc-item:hover {
+    background: #f8f8f8;
+}
+
+/* ----- REVIEW SECTION ----- */
+.review-section {
+    margin-top: 50px;
+}
+.review-section h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+.review-section .stars i {
+    font-size: 24px;
+    color: #ccc;
+    margin-right: 4px;
+}
+.review-section textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+}
+.review-inputs {
+    display: flex; 
+    flex-wrap: wrap;
+    gap: 80px;
+    margin-top: 10px;
+}
+.review-inputs input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.review-btn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px 0;
+    background: #ff0000;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.review-btn:hover {
+    background: #cc0000;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 992px) {
+    .detail-wrapper {
+        flex-direction: column;
+    }
+    .detail-left,
+    .detail-right {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    .qty-box {
+        width: 100%;
+    }
+}
+
+.stars i {
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.stars i.active,
+.stars i.hovered {
+    color: #f8c12c;
+}

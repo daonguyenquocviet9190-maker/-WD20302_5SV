@@ -1,166 +1,150 @@
-<?php
-// app/View/shop/product_detail.php
-if (!isset($ct_sp) || empty($ct_sp)) {
-    echo "<h3>Sản phẩm không tồn tại!</h3>";
-    return;
-}
-$sp = $ct_sp[0]; // Thông tin sản phẩm chính
-?>
+<div class="detail-container">
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($sp['TenSP']) ?> - 5GV</title>
-    <link rel="stylesheet" href="public/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .product-detail { padding: 20px 0; }
-        .product-images { text-align: center; }
-        .product-images img { max-width: 100%; border: 1px solid #ddd; }
-        .product-info h1 { font-size: 24px; margin: 10px 0; color: #333; }
-        .price del { color: #999; }
-        .price ins { color: #e74c3c; font-size: 28px; text-decoration: none; font-weight: bold; }
-        .size-btn { display: inline-block; padding: 8px 15px; border: 1px solid #ddd; margin: 5px; cursor: pointer; }
-        .size-btn.active { border-color: #000; background: #000; color: #fff; }
-        .quantity { width: 60px; text-align: center; padding: 8px; }
-        .btn-addcart { background: #e74c3c; color: #fff; padding: 12px 30px; border: none; cursor: pointer; font-size: 16px; }
-        .btn-buynow { background: #000; color: #fff; padding: 12px 30px; border: none; cursor: pointer; margin-left: 10px; }
-        .related-products { margin-top: 50px; }
-        .related-products h3 { font-size: 22px; margin-bottom: 20px; }
-        .product-item { text-align: center; margin-bottom: 30px; }
-        .product-item img { width: 100%; height: auto; }
-        .rating { color: #f39c12; }
-    </style>
-</head>
-<body>
+    <div class="detail-wrapper">
+        <!-- LEFT: HÌNH -->
+        <div class="detail-left">
+            <div class="main-image">
+                <img src="App/public/img/<?= $ct_sp['img'] ?>" alt="">
+            </div>
 
-<div class="container product-detail">
-    <div class="row">
-        <!-- Hình ảnh sản phẩm -->
-        <div class="col-md-5 product-images">
-            <img src="public/images/products/<?= htmlspecialchars($sp['HinhAnh']) ?>" alt="<?= htmlspecialchars($sp['TenSP']) ?>">
+            <div class="image-icons">
+                <i class="fas fa-phone"></i>
+                <i class="fas fa-comment"></i>
+                <i class="fas fa-share"></i>
+            </div>
         </div>
 
-        <!-- Thông tin sản phẩm -->
-        <div class="col-md-7 product-info">
-            <h1><?= htmlspecialchars($sp['TenSP']) ?></h1>
-            
-            <div class="rating">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                <span>(245 đánh giá)</span>
+        <!-- RIGHT: THÔNG TIN -->
+        <div class="detail-right">
+
+            <h1 class="sp-title"><?= $ct_sp['Name'] ?></h1>
+
+            <div class="sp-price">
+                <del><?= number_format($ct_sp['Price']) ?>đ</del>
+                <ins><?= number_format($ct_sp['sale_price']) ?>đ</ins>
             </div>
 
-            <div class="price">
-                <del><?= number_format($sp['GiaGoc'], 0, ',', '.') ?>đ</del>
-                <ins><?= number_format($sp['GiaKhuyenMai'], 0, ',', '.') ?>đ</ins>
+            <p class="label">Size</p>
+            <div class="size-list">
+                <div class="size-item active">M</div>
+                <div class="size-item">L</div>
+                <div class="size-item">XL</div>
             </div>
 
-            <p><strong>Mã sản phẩm:</strong> <?= htmlspecialchars($sp['MaSP']) ?></p>
-            <p><strong>Thương hiệu:</strong> 5GV</p>
-
-            <!-- Chọn size -->
-            <div class="size-selection">
-                <p><strong>Size:</strong></p>
-                <div class="size-btn active">M</div>
-                <div class="size-btn">L</div>
-                <div class="size-btn">XL</div>
+            <p class="label">Số lượng</p>
+            <div class="qty-box">
+                <button>-</button>
+                <input type="text" value="1" min="1">
+                <button>+</button>
             </div>
 
-            <!-- Số lượng -->
-            <div style="margin: 20px 0;">
-                <label><strong>Số lượng:</strong></label>
-                <input type="number" class="quantity" value="1" min="1">
+            <div class="btn-group">
+                <button class="btn-add">Thêm vào giỏ hàng</button>
+                <button class="btn-buy">Mua ngay</button>
             </div>
 
-            <!-- Nút thêm giỏ hàng & mua ngay -->
+            <div class="support-box">
+                <p><strong>Hotline CSKH 1900 9201 từ 8h - 21h | T2 - T7</strong></p>
+                <p>Miễn phí vận chuyển đơn hàng từ 500K</p>
+                <p>30 ngày đổi trả dễ dàng</p>
+            </div>
+
+            <!-- ACCORDION -->
+            <div class="accordion">
+                <div class="acc-item">
+                    <span>Mô tả sản phẩm</span> <i class="fas fa-plus"></i>
+                </div>
+                <div class="acc-item">
+                    <span>Chất liệu</span> <i class="fas fa-plus"></i>
+                </div>
+                <div class="acc-item">
+                    <span>Thông số sản phẩm</span> <i class="fas fa-plus"></i>
+                </div>
+                <div class="acc-item">
+                    <span>Hướng dẫn bảo quản</span> <i class="fas fa-plus"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- REVIEW -->
+    <div class="review-section">
+
+        <h2>Đánh giá</h2>
+        <p>Chưa có đánh giá nào.</p>
+
+        <div class="stars">
+            <i class="far fa-star"></i><i class="far fa-star"></i>
+            <i class="far fa-star"></i><i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+        </div>
+
+        <textarea placeholder="Viết đánh giá của bạn..."></textarea>
+       <form action="" method="post">
+        <div class="review-inputs">
             <div>
-                <button class="btn-addcart"><i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng</button>
-                <button class="btn-buynow">Mua ngay</button>
+                <label>Tên*</label>
+                <input type="text" required>
             </div>
-
-            <!-- Khuyến mãi -->
-            <div style="margin-top: 30px; padding: 15px; background: #fff8f8; border: 1px solid #fab1b1; border-radius: 5px;">
-                <p style="margin:5px 0; color:#e74c3c;"><strong>Hotline CSKH:</strong> 1900 9201 (8h - 21h | T2 - T7)</p>
-                <p style="margin:5px 0; color:#e74c3c;">Miễn phí vận chuyển đơn hàng từ 500k</p>
-                <p style="margin:5px 0; color:#e74c3c;">30 ngày đổi trả dễ dàng</p>
-                <p style="margin:5px 0; color:#e74c3c;">Mã giảm thêm</p>
+            <div>
+                <label>Email*</label>
+                <input type="email" required>
             </div>
         </div>
-    </div>
 
-    <!-- Mô tả chi tiết -->
-    <div class="row" style="margin-top: 50px;">
-        <div class="col-12">
-            <h3>Chi tiết sản phẩm</h3>
-            <div style="line-height: 1.8;">
-                <?= nl2br(htmlspecialchars($sp['MoTa'] ?? 'Áo tanktop unisex phiên bản giới hạn với chất liệu cotton mềm mại, thoáng mát, phù hợp cho mọi hoạt động hàng ngày.')) ?>
-            </div>
-        </div>
+        <button type="submit" class="review-btn">gửi đi</button>
+        </form>
     </div>
-
-    <!-- Đánh giá & bình luận -->
-    <div class="row" style="margin-top: 50px;">
-        <div class="col-12">
-            <h3>Đánh giá sản phẩm</h3>
-            <p>Chưa có đánh giá nào.</p>
-            <p>Hãy là người đầu tiên <a href="#">đánh giá</a> sản phẩm này</p>
-
-            <!-- Form bình luận -->
-            <form action="" method="post" style="margin-top: 30px;">
-                <div class="form-group">
-                    <label>Tên *</label>
-                    <input type="text" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Đánh giá của bạn</label>
-                    <textarea class="form-control" rows="5" placeholder="Viết đánh giá của bạn tại đây..."></textarea>
-                </div>
-                <button type="submit" style="background:#e74c3c; color:#fff; padding:10px 20px; border:none;">Gửi đi</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Sản phẩm liên quan -->
-    <div class="related-products">
-        <h3>Sản phẩm liên quan</h3>
-        <div class="row">
-            <?php if(isset($sp_lq) && count($sp_lq) > 0): ?>
-                <?php foreach($sp_lq as $item): ?>
-                    <div class="col-md-3 col-6">
-                        <div class="product-item">
-                            <a href="index.php?page=product_detail&id=<?= $item['id_SP'] ?>">
-                                <img src="public/images/products/<?= htmlspecialchars($item['img']) ?>" alt="<?= htmlspecialchars($item['Name']) ?>">
-                                <h4><?= htmlspecialchars($item['TenSP']) ?></h4>
-                                <p class="price">
-                                    <del><?= number_format($item['GiaGoc'], 0, ',', '.') ?>đ</del>
-                                    <ins><?= number_format($item['GiaKhuyenMai'], 0, ',', '.') ?>đ</ins>
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>Chưa có sản phẩm liên quan.</p>
-            <?php endif; ?>
-        </div>
-    </div>
+   
 </div>
-
 <script>
-// Chọn size
-document.querySelectorAll('.size-btn').forEach(btn => {
+// ====== CHỌN SIZE ======
+document.querySelectorAll('.size-item').forEach(btn => {
     btn.addEventListener('click', function() {
-        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.size-item').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
     });
 });
-</script>
 
-</body>
-</html>
+// ====== SỐ LƯỢNG ======
+document.querySelectorAll('.qty-box').forEach(box => {
+    const input = box.querySelector('input');
+    const btns = box.querySelectorAll('button');
+
+    btns[0].addEventListener('click', () => {
+        let val = parseInt(input.value);
+        if (val > 1) input.value = val - 1;
+    });
+    btns[1].addEventListener('click', () => {
+        let val = parseInt(input.value);
+        input.value = val + 1;
+    });
+});
+// ====== CHỌN STAR RATING ======
+const stars = document.querySelectorAll('.stars i');
+let selectedRating = 0;
+
+stars.forEach((star, idx) => {
+    // hover để highlight
+    star.addEventListener('mouseover', () => {
+        stars.forEach((s, i) => {
+            s.classList.toggle('hovered', i <= idx);
+        });
+    });
+    star.addEventListener('mouseout', () => {
+        stars.forEach((s, i) => {
+            s.classList.toggle('hovered', i < selectedRating);
+        });
+    });
+
+    // click để chọn rating
+    star.addEventListener('click', () => {
+        selectedRating = idx + 1;
+        stars.forEach((s, i) => {
+            s.classList.toggle('active', i < selectedRating);
+        });
+    });
+});
+
+</script>

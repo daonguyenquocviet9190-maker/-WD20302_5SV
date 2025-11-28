@@ -31,11 +31,15 @@ public function get_deal_111k() {
     return $this->db->get_one($sql);
 }
     // phương thức lọc sản phẩm liên quan
-    public function get_sp_lq($id, $cat_id){
-        $sql = "SELECT * FROM sanpham WHERE Cat_ID = {$cat_id} AND id != {$id}
-        ORDER BY RAND() LIMIT 3";
-        return $this->db->get_all($sql);
-    }
+   public function get_sp_lq($id, $id_dm){
+    $sql = "SELECT * FROM sanpham 
+            WHERE id_DM = {$id_dm} 
+            AND id_SP != {$id}
+            ORDER BY RAND() 
+            LIMIT 3";
+    return $this->db->get_all($sql);
+}
+
     // Thêm sản phẩm
     public function add_sp($name, $price, $stock, $cat_id, $img){
         $sql = "INSERT INTO sanpham (Name, Price, stock, id_DM, img)
