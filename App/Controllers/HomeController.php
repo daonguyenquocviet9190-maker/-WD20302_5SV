@@ -99,6 +99,7 @@ class HomeController {
         include 'app/View/shop/login.php';
     }
     public function giohang() {
+       $deal111k = $this->sanpham->get_deal_111k();
     include 'App/View/shop/giohang.php';
 }
 public function bosuutap() {
