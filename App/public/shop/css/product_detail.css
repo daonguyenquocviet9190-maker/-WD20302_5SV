@@ -222,3 +222,6 @@
 .review-btn:hover {
     background: #cc0000;
 }
+.stars i.hovered {
+    color: gold;
+}
