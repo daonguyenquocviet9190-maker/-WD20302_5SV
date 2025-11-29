@@ -225,6 +225,7 @@ body {
     color: white;
     padding: 40px 150px;
     font-family: 'Poppins', sans-serif;
+
 }
 
 /* NEWSLETTER BLOCK */
@@ -232,6 +233,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding-bottom: 30px;
+    
 }
 
 .news-left h3 {
