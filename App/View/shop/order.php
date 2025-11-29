@@ -13,7 +13,7 @@
         .step { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 30px; font-weight: 600; }
         .step span { background: #eee; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .step span.active { background: #d60000; color: white; }
-        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0 16px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
         label { font-weight: 500; color: #333; }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 

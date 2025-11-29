@@ -15,6 +15,7 @@
     }
 
     // Phương thức kết nối DB
+
     public function connect(){
         try {
   $this->conn = new PDO("mysql:host=$this->db_host;dbname=$this->db_name", $this->db_user, $this->db_pass);
@@ -25,16 +26,18 @@
   echo "Connection failed: " . $e->getMessage();
 }
 
-}
+    }
+    // FILE: App/Model/database.php (Sửa trong connect)
+
 // phương thức hiển thị tất cả
-  public function get_all($sql)
-  {
-    $stmt = $this->conn->prepare($sql); // prepare(chuẩn bị) đẩy câu lệnh sql lên chờ và ktra sau khi xog nó đẩy xuống
-    $stmt->execute(); // thực thi code
-    // set the resulting array to associative
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // setFetchMode (FETCH_ASSOC: HT dạng mảng liên kết)
-    return $result;
-  }
+  public function get_all($sql, $params = []) // <--- CHỖ SỬA ĐÂY (Thêm $params)
+    {
+        $stmt = $this->conn->prepare($sql); 
+        $stmt->execute($params); // <--- CHỖ SỬA ĐÂY (Truyền $params)
+        // set the resulting array to associative
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        return $result;
+    }
 
   public function get_one($sql){
     $stmt = $this->conn->prepare($sql);
@@ -49,6 +52,7 @@
   public function getConnection() {
         return $this->conn;
     }
-}
- 
+
+    
+  }
 ?>
