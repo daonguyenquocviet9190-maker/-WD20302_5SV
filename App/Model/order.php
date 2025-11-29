@@ -12,18 +12,16 @@ class Order {
         $this->db->connect();
     }
     
-    public function get_all_orders  () {
+    public function get_all_orders() {
     // Ví dụ: Giả sử tên bảng chính xác là don_hang
-    $sql = "SELECT dh.id_dh as id, u.Username as customer_name, u.Phone, dh.ngay_mua as time 
-            FROM [DÁN TÊN BẢNG CHÍNH XÁC] dh // <--- DÁN TÊN VÀO ĐÂY
-            JOIN users u ON dh.id_User = u.id_User
-            ORDER BY dh.ngay_mua DESC";
+    $sql = "SELECT * FROM donhang";
+    return $this->db->get_all($sql);
     // ...
 }
 
     // Lấy chi tiết đơn hàng
     public function get_order_by_id($id) {
-        $sql = "SELECT * FROM don_hang WHERE id_dh = ?";
+        $sql = "SELECT * FROM donhang WHERE id_dh = ?";
         
         // Sửa lỗi: Thay thế $this->pdo_query_one($sql, $id)
         // và truyền tham số $id vào phương thức get_one() của DB
@@ -37,7 +35,7 @@ class Order {
         $sql_detail = "DELETE FROM chi_tiet_don_hang WHERE id_dh = ?";
         $this->db->action($sql_detail, [$id]); 
 
-        $sql_order = "DELETE FROM don_hang WHERE id_dh = ?";
+        $sql_order = "DELETE FROM donhang WHERE id_dh = ?";
         $this->db->action($sql_order, [$id]);
     }
 }
