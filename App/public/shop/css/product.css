@@ -93,8 +93,8 @@
         /* Màu sắc */
         .color-options {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
         }
         .color-btn {
             width: 38px; height: 38px;
