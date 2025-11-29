@@ -9,25 +9,25 @@
     <div class="stats-box">
         <div class="stat-item">
             <p class="title">Doanh thu (Hôm nay)</p>
-            <h2>₫ <?= number_format($revenue_today) ?></h2>
+            <<h2>₫ <?= number_format($revenue_today ?? 0) ?></h2>
             <span class="increase">+8.4% so với hôm qua</span>
         </div>
 
         <div class="stat-item">
             <p class="title">Đơn hàng</p>
-            <h2><?= $order_count ?></h2>
+            <h2><?= $order_count ?? 0 ?></h2>
             <span class="sub">5 đơn mới</span>
         </div>
 
         <div class="stat-item">
             <p class="title">Khách hàng mới</p>
-            <h2><?= $new_customers ?></h2>
+            <h2><?= $new_customers ?? 0 ?></h2>
             <span class="sub">Trong 7 ngày</span>
         </div>
 
         <div class="stat-item">
             <p class="title">Tỷ lệ hoàn trả</p>
-            <h2><?= $return_rate ?>%</h2>
+            <h2><?= ($return_rate ?? 0) ?>%</h2>
             <span class="sub">Ổn định</span>
         </div>
     </div>
@@ -58,7 +58,8 @@
                 <th>TRẠNG THÁI</th>
             </tr>
 
-            <?php foreach ($recent_orders as $o): ?>
+            <?php foreach ($recent_orders ?? [] as $o): ?>
+            
             <tr>
                 <td><?= $o[0] ?></td>
                 <td><?= $o[1] ?></td>

@@ -27,8 +27,8 @@
                     <td><?= $c['Phone'] ?></td>
                     <td><?= $c['Role'] ?></td>
                     <td>
-                        <span class="status-badge status-<?= $c['status'] ?>">
-                            <?= ucfirst($c['status']) ?>
+                        <span class="status-badge status-<?= $c['Trang_Thai'] ?>">
+                            <?= ucfirst($c['Trang_Thai']) ?>
                         </span>
                     </td>
                     <td class="actions">
