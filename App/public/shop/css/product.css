@@ -90,40 +90,29 @@
             background: var(--red);
             color: #d20808;
         }
-/* MÀU SẮC - ĐƠN GIẢN + ĐẸP NHƯ SHOPEE */
-.color-options {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 15px 16px;        /* ngang 14px, dọc 12px → vừa khít khung */
-    padding: 8px 0;
-}
-
-.color-btn {
-    width: 32px;           /* tăng lên 42px cho to hơn, đầy đặn hơn */
-    height: 32px;          /* vuông đều */
-    border-radius: 10px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    transition: all 0.25s;
-}
-
-.color-btn:hover {
-    transform: scale(1.15);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-}
-
-.color-btn.active {
-    border: 3px solid #ffffff;
-    transform: scale(1.2);
-    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #000000;  /* viền cam đỏ Shopee */
-}
-
-/* Màu trắng vẫn thấy được */
-.color-btn[style*="white"], 
-.color-btn[style*="ffffff"] {
-    border: 2px solid #e0e0e0 !important;
-}
+        /* Màu sắc */
+        .color-options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        .color-btn {
+            width: 38px; height: 38px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all .3s;
+            box-shadow: 0 1px 4px rgba(0,0,0,.15);
+        }
+        .color-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,.25);
+        }
+        .color-btn.active {
+            border-color: #000;
+            transform: scale(1.15);
+            box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--red);
+        }
 
         /* ==================== MAIN CONTENT ==================== */
         .main-content {
