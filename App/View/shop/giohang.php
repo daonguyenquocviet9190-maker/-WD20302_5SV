@@ -35,8 +35,8 @@
         <hr>
         <p><b>Tổng: <?= number_format($total) ?> đ</b></p>
 
-        <button class="btn-checkout">Tiến hành thanh toán</button>
-        <a href="index.php?page=home">Tiếp tục xem sản phẩm</a>
+        <a href="index.php?page=order" class="btn-checkout" style="padding: 12px 102px;">Tiến hành thanh toán</a> <br>
+        <a href="index.php?page=home" class="ttxsp">Tiếp tục xem sản phẩm</a>
     </div>
 </div>
 
