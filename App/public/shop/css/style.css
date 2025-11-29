@@ -797,7 +797,7 @@ body {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #f9f9f9;
 }
 
@@ -815,16 +815,17 @@ body {
     max-width: 1100px;
     background: #fff;
     border-radius: 16px;
-    overflow: hidden;
+    /* overflow: hidden; */
+    overflow: visible;
     box-shadow: 0 15px 50px rgba(0,0,0,0.12);
     display: flex;
-    height: 680px;
+    /* XÓA height: 680px; để nó tự co giãn theo nội dung */
 }
 
-/* Ảnh bên trái */
 .auth-image {
     flex: 1;
     overflow: hidden;
+    min-height: 400px; /* đảm bảo ảnh vẫn có chiều cao tối thiểu */
 }
 
 .auth-image img {
@@ -839,14 +840,14 @@ body {
     transform: scale(1.05);
 }
 
-/* Form bên phải */
 .auth-form {
     flex: 1;
-    padding: 60px 70px;
+    padding: 60px 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     background: #fff;
+    min-width: 360px; /* tránh bị co quá hẹp trên mobile */
 }
 
 .auth-tabs {
@@ -871,15 +872,16 @@ body {
     border-bottom: 4px solid #e31e24;
 }
 
+/* QUAN TRỌNG: Bỏ min-height cố định */
 .form-wrapper {
-    min-height: 480px;
+    /* min-height: 480px; → xóa hoặc comment dòng này */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 20px; /* thêm khoảng cách giữa các phần tử */
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
@@ -904,10 +906,11 @@ body {
     border-color: #e31e24;
 }
 
-.form-group input::placeholder {
-    color: #aaa;
+.btn-google, .btn-submit {
+    margin-top: 10px;
 }
 
+/* Các phần còn lại giữ nguyên... */
 .btn-google {
     background: #fff;
     border: 1.5px solid #ddd;
@@ -919,15 +922,9 @@ body {
     gap: 12px;
     font-size: 16px;
     font-weight: 500;
-    margin: 30px 0 20px;
+    margin: 20px 0;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.btn-google:hover {
-    border-color: #ccc;
-    background: #fdfdfd;
 }
 
 .btn-submit {
@@ -940,7 +937,6 @@ body {
     font-weight: bold;
     cursor: pointer;
     width: 100%;
-    transition: 0.3s;
 }
 
 .btn-submit:hover {
@@ -956,14 +952,12 @@ body {
     color: #e31e24;
     text-decoration: none;
     font-weight: 500;
-    font-size: 15px;
 }
 
 /* Responsive */
 @media (max-width: 992px) {
     .auth-container { 
         flex-direction: column; 
-        height: auto; 
     }
     .auth-image { 
         height: 320px; 
