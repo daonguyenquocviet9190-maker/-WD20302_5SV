@@ -234,6 +234,7 @@ body {
     justify-content: space-between;
     padding-bottom: 30px;
     
+    
 }
 
 .news-left h3 {
@@ -260,6 +261,8 @@ body {
 }
 
 .newsletter-box button {
+    margin-top: 8px;
+    margin-bottom: 16px;
     background: #fff;
     border: none;
     padding: 0 18px;
@@ -307,15 +310,18 @@ body {
     color: #ccc;
     text-decoration: none;
     margin-bottom: 8px;
+    
 }
 
 .footer-col a:hover {
     color: #ff0000;
+    text-decoration: underline;
 }
 
 .footer-col p {
     color: #ccc;
     font-size: 14px;
+    
 }
 
 /* FOOTER BOTTOM */
@@ -325,6 +331,7 @@ body {
     margin-top: 25px;
     /* text-align: center; */
     color: #ccc;
+    
 }
 
 .footer-bottom img {

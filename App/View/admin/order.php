@@ -19,19 +19,19 @@
             <?php if (!empty($orders)): ?>
                 <?php foreach ($orders as $o): ?>
                 <tr>
-                    <td><?= $o['id'] ?></td>
+                    <td><?= $o['id_dh'] ?></td>
                     <td><?= $o['customer_name'] ?></td>
-                    <td><?= $o['phone'] ?></td>
-                    <td><?= number_format($o['total_amount'], 0, ',', '.') ?> VNĐ</td>
-                    <td><?= $o['time'] ?></td>
+                    <td><?= $o['Phone'] ?></td>
+                    <td><?= number_format($o['Tong_Tien'], 0, ',', '.') ?> VNĐ</td>
+                    <td><?= $o['ngay_dg'] ?></td>
                     <td>
-                        <span class="order-status status-<?= str_replace(' ', '-', strtolower($o['status'])) ?>">
-                            <?= $o['status'] ?>
+                        <span class="order-status status-<?= str_replace(' ', '-', strtolower($o['Trang_Thai'])) ?>">
+                            <?= $o['Trang_Thai'] ?>
                         </span>
                     </td>
                     <td class="actions">
-                        <a href="?page=order&action=detail&id=<?= $o['id'] ?>" title="Chi tiết"><i class="fas fa-eye"></i></a>
-                        <a href="?page=order&action=delete&id=<?= $o['id'] ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"><i class="fas fa-trash-alt"></i></a>
+                        <a href="?page=order&action=detail&id=<?= $o['id_dh'] ?>" title="Chi tiết"><i class="fas fa-eye"></i></a>
+                        <a href="?page=order&action=delete&id=<?= $o['id_dh'] ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"><i class="fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
