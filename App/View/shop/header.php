@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="App/public/shop/css/product.css">
     <link rel="stylesheet" href="App/public/shop/css/product_detail.css">
      <link rel="stylesheet" href="App/public/shop/css/cart.css">
+     <link rel="stylesheet" href="App/public/shop/css/order.css">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
