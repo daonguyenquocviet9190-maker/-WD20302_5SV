@@ -28,9 +28,11 @@
                         <td><?= $p['Name'] ?></td>
 
                         <td><?= number_format($p['Price'], 0, ',', '.') ?>đ</td>
-
+                        <?php if ($p['stock'] > 0) :?>
                         <td><?= $p['stock'] ?></td>
-
+                        <?php else :?>
+                        <td style="color:red;">Số lượng phải là số dương</td>
+                        <?php endif ;?>
                         <td>
                             <?php
                             // Hiển thị tên danh mục
@@ -48,9 +50,9 @@
                             </a>
 
                             <!-- Xóa -->
-                            <a href="admin.php?page=product&action=delete&id=<?= $p['id_SP'] ?>"
+                            <!-- <a href="admin.php?page=product&action=delete&id=<?= $p['id_SP'] ?>"
                                 onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');" class="btn-delete" title="Xóa">
-                                <i class="fas fa-trash-alt"></i>
+                                <i class="fas fa-trash-alt"></i> -->
                             </a>
                         </td>
                     </tr>
