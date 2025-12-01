@@ -24,10 +24,11 @@
         </div>
 
         <div class="form-group">
-            <label>SỐ LƯỢNG</label>
-            <input type="number" name="so_luong"
-                   value="<?= !empty($sp_edit) ? $sp_edit['stock'] : '' ?>" required>
-        </div>
+    <label>SỐ LƯỢNG</label>
+    <input type="number" name="so_luong" min="1"
+           value="<?= !empty($sp_edit) ? $sp_edit['stock'] : '' ?>" required>
+</div>
+
 
         <div class="form-group">
             <label>LOẠI SẢN PHẨM</label>

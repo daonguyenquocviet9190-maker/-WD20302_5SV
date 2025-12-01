@@ -28,11 +28,7 @@
                         <td><?= $p['Name'] ?></td>
 
                         <td><?= number_format($p['Price'], 0, ',', '.') ?>đ</td>
-                        <?php if ($p['stock'] > 0) :?>
                         <td><?= $p['stock'] ?></td>
-                        <?php else :?>
-                        <td style="color:red;">Số lượng phải là số dương</td>
-                        <?php endif ;?>
                         <td>
                             <?php
                             // Hiển thị tên danh mục
