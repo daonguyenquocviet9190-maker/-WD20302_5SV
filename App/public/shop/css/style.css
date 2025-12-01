@@ -872,12 +872,12 @@ body {
     border-bottom: 4px solid #e31e24;
 }
 
-/* QUAN TRỌNG: Bỏ min-height cố định */
+
 .form-wrapper {
-    /* min-height: 480px; → xóa hoặc comment dòng này */
+    min-height: 700px; 
     display: flex;
     flex-direction: column;
-    gap: 20px; /* thêm khoảng cách giữa các phần tử */
+    gap: 20px; /
 }
 
 .form-group {
