@@ -46,7 +46,7 @@
 <div class="product-scroll">
     <?php foreach($deal111k as $sp): ?>
         <div class="product-card">
-            <div class="product-img-wrapper">
+            <a class="product-img-wrapper" href="?page=product_detail&id=<?= $sp['id_SP'] ?>">
                 <img src="App/public/img/<?= $sp['img'] ?>" class="product-img">
                 <div class="product-icons">
                     <a href="#" class="icon"><i class="fa fa-heart"></i></a>
@@ -57,7 +57,7 @@
                 <?php if($sp['sale_price'] < 200000): ?>
                     <span class="sale-badge">SALE</span>
                 <?php endif; ?>
-            </div>
+                </a>
 
             <div class="product-name"><?= $sp['Name'] ?></div>
             <div class="product-price"><del style="color:#8E8E8E; font-size: 15px;"><?= number_format($sp['Price']) ?>₫</del>

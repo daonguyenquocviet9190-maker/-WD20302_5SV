@@ -1,10 +1,30 @@
+<?php
+session_start();
+
+// Nếu không có giỏ hàng thì về trang chủ
+if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
+    echo "<script>alert('Giỏ hàng đang trống!'); window.location='index.php';</script>";
+    exit;
+}
+
+$subtotal = 0;
+$shipping = 30000;
+
+foreach ($_SESSION['cart'] as $item) {
+    $subtotal += $item['price'] * $item['quantity'];
+}
+
+$total = $subtotal + $shipping;
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đặt hàng - 5SV Sport</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         body { font-family: 'Poppins', sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
         .container { max-width: 1200px; margin: 40px auto; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
@@ -29,10 +49,7 @@
         .btn { background: #000; color: white; padding: 16px; text-align: center; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; }
         .btn:hover { background: #333; }
 
-        /* Radio đẹp */
-        .payment-section input[type="radio"] {
-            position: absolute; opacity: 0;
-        }
+        .payment-section input[type="radio"] { position: absolute; opacity: 0; }
         .payment-section label {
             display: flex; align-items: center; font-size: 16px;
             font-weight: 500; color: #333; margin: 18px 0;
@@ -60,7 +77,7 @@
 
 <div class="container">
 
-    <!-- CỘT TRÁI - FORM -->
+    <!-- FORM TRÁI -->
     <div class="left">
         <div class="step">
             <span class="active">1</span> Giỏ hàng >
@@ -105,83 +122,58 @@
                 <label for="momo">Thanh toán qua Momo</label>
             </div>
 
+            <!-- Truyền tổng tiền -->
+            <input type="hidden" name="order_subtotal" value="<?= $subtotal ?>">
+            <input type="hidden" name="order_shipping" value="<?= $shipping ?>">
+            <input type="hidden" name="order_total" value="<?= $total ?>">
+
             <button class="btn" type="submit" name="submit">ĐẶT HÀNG</button>
         </form>
     </div>
 
-    <!-- CỘT PHẢI → GIỎ HÀNG -->
+    <!-- CỘT PHẢI GIỎ HÀNG -->
     <div class="right order-summary">
         <h2>Đơn hàng của bạn</h2>
 
-        <div class="product">
-            <img id="cart_img" src="">
-            <div class="product-info">
-                <h4 id="cart_name"></h4>
-                <p id="cart_detail"></p>
+        <?php foreach ($_SESSION['cart'] as $item): ?>
+            <div class="product">
+                <img src="App/public/img/<?= $item['image'] ?>">
+                <div class="product-info">
+                    <h4><?= $item['name'] ?></h4>
+                    <p>Size: <?= $item['size'] ?></p>
+                    <p>Số lượng: <?= $item['quantity'] ?></p>
+                    <p><b><?= number_format($item['price']) ?> đ</b></p>
+                </div>
             </div>
-        </div>
+        <?php endforeach; ?>
 
-        <div class="price-row"><span>Tạm tính</span> <strong id="cart_subtotal">0đ</strong></div>
-        <div class="price-row"><span>Vận chuyển</span> <strong id="cart_ship">10.000đ</strong></div>
-        <div class="price-row total"><span>Tổng</span> <strong id="cart_total">0đ</strong></div>
+        <div class="price-row"><span>Tạm tính</span> <strong><?= number_format($subtotal) ?> đ</strong></div>
+        <div class="price-row"><span>Vận chuyển</span> <strong><?= number_format($shipping) ?> đ</strong></div>
+        <div class="price-row total"><span>Tổng</span> <strong><?= number_format($total) ?> đ</strong></div>
     </div>
 
 </div>
 
-<!-- ================= JS: LẤY GIỎ HÀNG LOCALSTORAGE ================= -->
-<script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-if (cart.length > 0) {
-
-    let p = cart[0]; // chỉ demo 1 sản phẩm
-
-    // Hiển thị
-    document.getElementById("cart_img").src = p.img;
-    document.getElementById("cart_name").textContent = p.name;
-    document.getElementById("cart_detail").textContent =
-        `Màu sắc: ${p.color} / Size: ${p.size}`;
-
-    let subtotal = p.price * p.quantity;
-    let shipping = 10000;
-    let total = subtotal + shipping;
-
-    document.getElementById("cart_subtotal").textContent = subtotal.toLocaleString() + "đ";
-    document.getElementById("cart_total").textContent = total.toLocaleString() + "đ";
-
-    // Gửi sang php
-    document.querySelector("form").innerHTML += `
-        <input type="hidden" name="product_name" value="${p.name}">
-        <input type="hidden" name="product_price" value="${p.price}">
-        <input type="hidden" name="product_size" value="${p.size}">
-        <input type="hidden" name="product_color" value="${p.color}">
-        <input type="hidden" name="product_quantity" value="${p.quantity}">
-        <input type="hidden" name="cart_total" value="${total}">
-    `;
-}
-</script>
-
 <?php
-/* ================= XỬ LÝ PHP ================= */
-if(isset($_POST['submit'])) {
+/*============= XỬ LÝ ĐẶT HÀNG =============*/
+if (isset($_POST['submit'])) {
 
     $fullname = $_POST['fullname'];
-    $phone = $_POST['phone'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
-    $note = $_POST['note'];
+    $phone    = $_POST['phone'];
+    $email    = $_POST['email'];
+    $address  = $_POST['address'];
+    $note     = $_POST['note'];
 
-    // Sản phẩm
-    $name = $_POST['product_name'];
-    $price = $_POST['product_price'];
-    $size = $_POST['product_size'];
-    $color = $_POST['product_color'];
-    $qty = $_POST['product_quantity'];
-    $total = $_POST['cart_total'];
+    $subtotal = $_POST['order_subtotal'];
+    $shipping = $_POST['order_shipping'];
+    $total    = $_POST['order_total'];
 
     echo "<script>
-        alert('Đặt hàng thành công! $fullname đã mua $name. Tổng tiền: $total đ');
+        alert('Đặt hàng thành công! Cảm ơn $fullname. Tổng tiền: " . number_format($total) . " đ');
+        window.location='index.php';
     </script>";
+
+    unset($_SESSION['cart']);
 }
 ?>
 
