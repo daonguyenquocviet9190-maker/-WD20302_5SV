@@ -77,7 +77,7 @@ if (isset($_POST['login'])) {
 }
 ?>
 
-<<<<<<< HEAD
+
     <style>
         /* CSS bổ sung để giống 100% ảnh bạn gửi */
         .error-msg {
@@ -98,7 +98,6 @@ if (isset($_POST['login'])) {
             height: 20px;
         }
     </style>
-=======
 <!DOCTYPE html>
 <html lang="vi">
 <head>
