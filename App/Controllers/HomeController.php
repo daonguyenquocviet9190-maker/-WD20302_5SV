@@ -261,7 +261,64 @@ public function giohang()
     header("Location: index.php?page=giohang");
     exit;
 }
+public function add_to_wishlist() {
+    session_start();
+    
+    if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+        header("Location: index.php?page=home");
+        exit;
+    }
+    
+    $id = intval($_GET['id']);
+    
+    // Khởi tạo wishlist nếu chưa có
+    if (!isset($_SESSION['wishlist'])) {
+        $_SESSION['wishlist'] = [];
+    }
+    
+    // Kiểm tra đã có trong wishlist chưa
+    $exists = false;
+    foreach ($_SESSION['wishlist'] as $item) {
+        if ($item['id'] == $id) {
+            $exists = true;
+            break;
+        }
+    }
+    
+    if (!$exists) {
+        $_SESSION['wishlist'][] = ['id' => $id];
+        
+        // Optional: lưu vào DB nếu đã đăng nhập
+        // if (isset($_SESSION['user_id'])) { ... }
+    }
+    
+    // Quay lại trang trước hoặc trang chi tiết
+    $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=home';
+    header("Location: $referer");
+    exit;
+}
 
+public function removefromwishlist() {
+    session_start();
+    
+    if (isset($_GET['id'])) {
+        $id = intval($_GET['id']);
+        $_SESSION['wishlist'] = array_filter($_SESSION['wishlist'], function($item) use ($id) {
+            return $item['id'] != $id;
+        });
+        // Re-index mảng
+        $_SESSION['wishlist'] = array_values($_SESSION['wishlist']);
+    }
+    
+    $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php?page=wishlist';
+    header("Location: $referer");
+    exit;
+}
+
+public function wishlist() {
+    $this->sanpham = new Product(); // cần khởi tạo để lấy sản phẩm
+    include 'App/View/shop/wishlist.php';
+}
 
 
 
