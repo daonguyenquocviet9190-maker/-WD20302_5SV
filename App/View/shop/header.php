@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,8 @@
     <link rel="stylesheet" href="App/public/shop/css/category.css">
     <link rel="stylesheet" href="App/public/shop/css/product.css">
     <link rel="stylesheet" href="App/public/shop/css/product_detail.css">
-     <link rel="stylesheet" href="App/public/shop/css/cart.css">
-     <link rel="stylesheet" href="App/public/shop/css/order.css">
+    <link rel="stylesheet" href="App/public/shop/css/cart.css">
+    <link rel="stylesheet" href="App/public/shop/css/order.css">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,145 +18,159 @@
 
 <body>
 
-    <?php 
-// Banner tiêu đề theo page
+    <?php
+    // Banner tiêu đề theo page
 // if(isset($_GET['page'])) {
 //     echo "<div class='page-banner'>".$_GET['page']."</div>";
 // }
-?>
+    ?>
 
-<!-- HEADER -->
-<header class="header">
+    <!-- HEADER -->
+    <header class="header">
 
-    <div class="header-container">
+        <div class="header-container">
 
-        <!-- Logo -->
-        <div class="logo">
-            <a href="index.php?page=home">
-                <img src="App/public/img/logo5sv.png" alt="Logo">
-            </a>
-        </div>
+            <!-- Logo -->
+            <div class="logo">
+                <a href="index.php?page=home">
+                    <img src="App/public/img/logo5sv.png" alt="Logo">
+                </a>
+            </div>
 
-        <!-- NAVIGATION -->
-        <nav class="nav">
-            <ul>
-                <li class="dropdown">
-    <a href="?page=nu_product">Nữ <i class="fa-solid fa-caret-down"></i></a>
-    <div class="dropdown-menu large">
-        <div class="col">
-            <h4>Áo</h4>
-            <a href="#">Tất cả áo nữ</a>
-            <a href="#">Áo ngắn tay</a>
-            <a href="#">Áo dài tay</a>
-            <a href="#">Áo polo</a>
-            <a href="#">Áo tanktop</a>
-            <a href="#">Áo hoodie</a>
-            <a href="#">Áo bra</a>
-            <a href="#">Áo khoác</a>
-        </div>
-        <div class="col">
-            <h4>Quần</h4>
-            <a href="#">Tất cả quần nữ</a>
-            <a href="#">Quần dài</a>
-            <a href="#">Quần shorts</a>
-            <a href="#">Quần legging</a>
-            <a href="#">Váy / Đầm</a>
-        </div>
+            <!-- NAVIGATION -->
+            <nav class="nav">
+                <ul>
+                    <li class="dropdown">
+                        <a href="?page=product">Tất cả<i class=""></i></a>
+                    <li class="dropdown"></li>
+                    <li class="dropdown">
+                        <a href="?page=nu_product">Nữ <i class="fa-solid fa-caret-down"></i></a>
+                        <div class="dropdown-menu large">
+                            <div class="col">
+                                <h4>Áo</h4>
+                                <a href="#">Tất cả áo nữ</a>
+                                <a href="#">Áo ngắn tay</a>
+                                <a href="#">Áo dài tay</a>
+                                <a href="#">Áo polo</a>
+                                <a href="#">Áo tanktop</a>
+                                <a href="#">Áo hoodie</a>
+                                <a href="#">Áo bra</a>
+                                <a href="#">Áo khoác</a>
+                            </div>
+                            <div class="col">
+                                <h4>Quần</h4>
+                                <a href="#">Tất cả quần nữ</a>
+                                <a href="#">Quần dài</a>
+                                <a href="#">Quần shorts</a>
+                                <a href="#">Quần legging</a>
+                                <a href="#">Váy / Đầm</a>
+                            </div>
 
-        <div class="col">
-            <h4>Hoạt động</h4>
-            <a href="#">Mặc thường ngày</a>
-            <a href="#">Chạy bộ</a>
-            <a href="#">Tennis/ Cầu lông/ Pickleball</a>
-            <a href="#">Bóng đá</a>
-            <a href="#">Gym/ Yoga/ Pilates</a>
-            <a href="#">Bơi lội</a>
-        </div>
+                            <div class="col">
+                                <h4>Hoạt động</h4>
+                                <a href="#">Mặc thường ngày</a>
+                                <a href="#">Chạy bộ</a>
+                                <a href="#">Tennis/ Cầu lông/ Pickleball</a>
+                                <a href="#">Bóng đá</a>
+                                <a href="#">Gym/ Yoga/ Pilates</a>
+                                <a href="#">Bơi lội</a>
+                            </div>
 
-        <div class="col">
-            <h4>Nổi bật</h4>
-            <a href="#">Dri Air</a>
-            <a href="#">Anti UV</a>
-            <a href="#">Eco Move</a>
-            <a href="#">U.S. Cotton</a>
-        </div>
+                            <div class="col">
+                                <h4>Nổi bật</h4>
+                                <a href="#">Dri Air</a>
+                                <a href="#">Anti UV</a>
+                                <a href="#">Eco Move</a>
+                                <a href="#">U.S. Cotton</a>
+                            </div>
 
-        <div class="col">
-            <h4>Giày</h4>
-            <a href="#">Tất cả giày nữ</a>
-            <a href="#">Casual</a>
-            <a href="#">Chạy bộ</a>
-            <a href="#">Tập luyện</a>
-            <a href="#">Đá bóng</a>
-        </div>
-    </div>
-</li>
-                <li class="dropdown">
-                    <a href="?page=nam_product">Nam <i class="fa-solid fa-caret-down"></i></a>
-                    <div class="dropdown-menu large">
-                        <div>
-                            <h4>Áo</h4>
-                            <a href="#">Áo thun</a>
-                            <a href="#">Áo tanktop</a>
-                            <a href="#">Áo hoodie</a>
+                            <div class="col">
+                                <h4>Giày</h4>
+                                <a href="#">Tất cả giày nữ</a>
+                                <a href="#">Casual</a>
+                                <a href="#">Chạy bộ</a>
+                                <a href="#">Tập luyện</a>
+                                <a href="#">Đá bóng</a>
+                            </div>
                         </div>
-                        <div>
-                            <h4>Quần</h4>
-                            <a href="#">Quần shorts</a>
-                            <a href="#">Quần dài</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="?page=nam_product">Nam <i class="fa-solid fa-caret-down"></i></a>
+                        <div class="dropdown-menu large">
+                            <div>
+                                <h4>Áo</h4>
+                                <a href="#">Áo thun</a>
+                                <a href="#">Áo tanktop</a>
+                                <a href="#">Áo hoodie</a>
+                            </div>
+                            <div>
+                                <h4>Quần</h4>
+                                <a href="#">Quần shorts</a>
+                                <a href="#">Quần dài</a>
+                            </div>
+                            <div>
+                                <h4>Hoạt động</h4>
+                                <a href="#">Gym</a>
+                                <a href="#">Bơi</a>
+                                <a href="#">Chạy bộ</a>
+                            </div>
                         </div>
-                        <div>
-                            <h4>Hoạt động</h4>
-                            <a href="#">Gym</a>
-                            <a href="#">Bơi</a>
-                            <a href="#">Chạy bộ</a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
 
-                <li class="dropdown">
-                    <a href="?page=giay_product">Giày Thể Thao <i class="fa-solid fa-caret-down"></i></a>
-            <div class="dropdown-menu large">
-                        <div class="image">
-                            <a href="#"><img src="App/public/img/giay.png" alt=""></a>
-                            <a href="#"><img src="App/public/img/giay1.png" alt=""></a>
-                            <a href="#"><img src="App/public/img/giay2.png" alt=""></a>
-                            <a href="#"><img src="App/public/img/giay3.png" alt=""></a>
+                    <li class="dropdown">
+                        <a href="?page=giay_product">Giày Thể Thao <i class="fa-solid fa-caret-down"></i></a>
+                        <div class="dropdown-menu large">
+                            <div class="image">
+                                <a href="#"><img src="App/public/img/giay.png" alt=""></a>
+                                <a href="#"><img src="App/public/img/giay1.png" alt=""></a>
+                                <a href="#"><img src="App/public/img/giay2.png" alt=""></a>
+                                <a href="#"><img src="App/public/img/giay3.png" alt=""></a>
+                            </div>
                         </div>
-                    </div>
-            </li>
-                <li class="dropdown">
-                    <a href="?page=phukien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a>
-            <div class="dropdown-menu large">
-                        <div>
-                            <h4>Phụ kiện</h4>
-                            <a href="#">Balo</a>
-                            <a href="#">Nón</a>
-                            <a href="#">Tất</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="?page=phukien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a>
+                        <div class="dropdown-menu large">
+                            <div>
+                                <h4>Phụ kiện</h4>
+                                <a href="#">Balo</a>
+                                <a href="#">Nón</a>
+                                <a href="#">Tất</a>
+                            </div>
+                            <div>
+                                <h4>Dụng cụ thể thao</h4>
+                                <a href="#">Bóng chuyền</a>
+                                <a href="#">Bóng đá</a>
+                                <a href="#">Bóng mini</a>
+                            </div>
+                            <div class="image">
+                                <a href="#"><img src="App/public/img/b1.png" alt=""></a>
+                                <a href="#"><img src="App/public/img/b2.png" alt=""></a>
+                                <a href="#"><img src="App/public/img/b2.jpg" alt=""></a>
+                            </div>
                         </div>
-                        <div>
-                            <h4>Dụng cụ thể thao</h4>
-                            <a href="#">Bóng chuyền</a>
-                            <a href="#">Bóng đá</a>
-                            <a href="#">Bóng mini</a>
-                        </div>
-                       <div class="image">
-                            <a href="#"><img src="App/public/img/b1.png" alt=""></a>
-                            <a href="#"><img src="App/public/img/b2.png" alt=""></a>
-                            <a href="#"><img src="App/public/img/b2.jpg" alt=""></a>
-                       </div>
-                    </div></li>
-                <li class="dropdown">
-                    <a href="?page=deal">Single Deal <i class="fa-solid fa-caret-down"></i></a>
-            <div class="dropdown-menu large">
-                        <div>
-                            <a href="#">Đồng giá 11k</a>
-                            <a href="#">Đồng giá 111k</a>
-                            <a href="#">Đồng giá 211k</a>
-                        </div></li>
-                <li><a href="?page=bosuutap">Bộ Sưu Tập <i class="fa-solid fa-caret-down"></i></a></li>
-            </ul>
-        </nav>
+                    </li>
+                    <li class="dropdown">
+                        <a href="?page=single_deal">Single Deal <i class="fa-solid fa-caret-down"></i></a>
+                        <div class="dropdown-menu large">
+                            <div>
+                                <a href="?page=single_deal&price=11">Đồng giá 11k</a>
+                                <a href="?page=single_deal&price=111">Đồng giá 111k</a>
+                                <a href="?page=single_deal&price=211">Đồng giá 211k</a>
+                            </div>
+                    </li>
+                    <li><a href="?page=bosuutap">Bộ Sưu Tập <i class="fa-solid fa-caret-down"></i></a></li>
+                </ul>
+            </nav>
+
+            <!-- Icons -->
+            <div class="icons">
+                <a href="#"><i class="fas fa-heart"></i></a>
+                <a href="index.php?page=register"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-search"></i></a>
+                <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+
 
         <!-- Icons -->
         <div class="icons">
@@ -225,3 +240,10 @@ document.addEventListener('keydown', function(e) {
 });
 </script>
 </body>
+=======
+        </div>
+
+        <div class="free-ship">MIỄN PHÍ VẬN CHUYỂN HOÁ ĐƠN TỪ 500K</div>
+
+    </header>
+>>>>>>> giang
