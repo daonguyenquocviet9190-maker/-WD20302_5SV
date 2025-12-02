@@ -31,7 +31,7 @@
     <div class="footer-content">
 
         <div class="footer-col">
-            <h4>DELTAHOLIC</h4>
+            <h4>5SV</h4>
             <a href="#">Đăng ký thành viên</a>
             <a href="#">Ưu đãi & Đặc quyền</a>
         </div>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="footer-col">
-            <h4>VỀ DELTA</h4>
+            <h4>VỀ 5SV</h4>
             <a href="#">Giới thiệu</a>
             <a href="#">Cam kết thương hiệu</a>
             <a href="#">Hệ thống cửa hàng</a>
