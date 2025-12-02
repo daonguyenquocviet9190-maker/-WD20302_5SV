@@ -161,7 +161,7 @@
         <div class="icons">
             <a href="#"><i class="fas fa-heart"></i></a>
             <a href="index.php?page=register"><i class="fas fa-user"></i></a>
-            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="javascript:void(0)" id="openSearchPopup"><i class="fas fa-search"></i></a>
             <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
         </div>
 
@@ -170,5 +170,58 @@
     <div class="free-ship">MIỄN PHÍ VẬN CHUYỂN HOÁ ĐƠN TỪ 500K</div>
 
 </header>
+<!-- Nền mờ -->
+<div class="search-overlay-bg" id="searchOverlayBg"></div>
 
+<!-- Popup tìm kiếm nổi -->
+<div class="search-popup" id="searchPopup">
+    <div class="search-popup-header">
+        <h3>Tìm kiếm sản phẩm</h3>
+        <span class="close-search-popup" id="closeSearchPopup">×</span>
+    </div>
 
+    <div class="search-popup-input">
+        <input type="text" placeholder="Nhập tên sản phẩm, mã SP, từ khóa..." autofocus>
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="search-popup-suggestions">
+        <p style="color:#666; font-size:14px; margin:0 0 10px;">Từ khóa gợi ý:</p>
+        <div class="quick-tags-popup">
+            <a href="index.php?page=nam_product">Áo thun nam</a>
+            <a href="index.php?page=nu_product">Quần short nữ</a>
+            <a href="">Áo khoác</a>
+            <a href="index.php?page=giay_product">Giày thể thao</a>
+            <a href="#">Đồ bơi</a>
+            <a href="#">Hoodie</a>
+            <a href="#">Legging</a>
+            <a href="#">Áo polo</a>
+            <a href="#">Quần jogger</a>
+        </div>
+    </div>
+</div>  
+<script>
+// Mở popup tìm kiếm
+document.getElementById('openSearchPopup').addEventListener('click', function() {
+    document.getElementById('searchOverlayBg').classList.add('active');
+    document.getElementById('searchPopup').classList.add('active');
+    document.querySelector('#searchPopup input').focus();
+});
+
+// Đóng popup
+function closeSearchPopup() {
+    document.getElementById('searchOverlayBg').classList.remove('active');
+    document.getElementById('searchPopup').classList.remove('active');
+}
+
+document.getElementById('closeSearchPopup').addEventListener('click', closeSearchPopup);
+document.getElementById('searchOverlayBg').addEventListener('click', closeSearchPopup);
+
+// Đóng bằng phím ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeSearchPopup();
+    }
+});
+</script>
+</body>
