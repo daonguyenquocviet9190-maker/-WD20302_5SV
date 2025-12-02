@@ -1,6 +1,35 @@
 <?php
-$dssp = $this->sanpham->getall_sp();
+// Lấy danh sách sản phẩm phụ kiện (giả sử $sp_phukien đã được gán từ controller)
+$dssp = $sp_phukien ?? [];
+
+// Lấy giá trị sắp xếp từ URL
+$sort = $_GET['sort'] ?? 'default';
+
+// Sắp xếp sản phẩm dựa trên giá trị sort
+if ($sort !== 'default') {
+    usort($dssp, function($a, $b) use ($sort) {
+        // Giá sử dụng sale_price nếu có, không thì Price
+        $priceA = $a['sale_price'] > 0 ? $a['sale_price'] : $a['Price'];
+        $priceB = $b['sale_price'] > 0 ? $b['sale_price'] : $b['Price'];
+
+        if ($sort === 'price_high') {
+            return $priceB <=> $priceA; // Cao đến thấp
+        } elseif ($sort === 'price_low') {
+            return $priceA <=> $priceB; // Thấp đến cao
+        } elseif ($sort === 'newest') {
+            return $b['id_SP'] <=> $a['id_SP']; // Giả sử id_SP lớn hơn là mới hơn
+        } elseif ($sort === 'popular') {
+            // Giả sử có cột views hoặc sales, nếu không thì giữ nguyên
+            return ($b['views'] ?? 0) <=> ($a['views'] ?? 0);
+        } elseif ($sort === 'average') {
+            // Giả sử có cột rating, nếu không thì giữ nguyên
+            return ($b['rating'] ?? 0) <=> ($a['rating'] ?? 0);
+        }
+        return 0;
+    });
+}
 ?>
+
 <div class="shop-wrapper">
 
     <!-- SIDEBAR LỌC MỚI - ĐẸP NHƯ HÌNH BẠN GỬI -->
@@ -72,47 +101,72 @@ $dssp = $this->sanpham->getall_sp();
             </div>
         </div>
     </aside>
-
-    <!-- NỘI DUNG CHÍNH -->
+   <!-- MAIN CONTENT -->
     <main class="main-content">
         <div class="top-bar">
-            <div class="result-count"></div>
-            <select class="form-select w-auto">
-                <option>Sắp xếp theo...</option>
-                <option>Sắp xếp theo mức độ phổ biến</option>
-                <option>Sắp xếp theo mức độ trung bình</option>
-                <option>Sắp xếp theo mới nhất</option>
-                <option>Sắp xếp theo giá: thấp đến cao</option>
-                <option>Sắp xếp theo giá: cao đến thấp</option>
+            <div class="result-count">
+
+            </div>
+            <!-- Dropdown sắp xếp -->
+            <select id="sort-select" onchange="updateSort(this.value)">
+                <option value="default" <?= $sort === 'default' ? 'selected' : '' ?>>Sắp xếp theo...</option>
+                <!-- <option value="popular" <?= $sort === 'popular' ? 'selected' : '' ?>>Sắp xếp theo mức độ phổ biến</option>
+                <option value="average" <?= $sort === 'average' ? 'selected' : '' ?>>Sắp xếp theo mức độ trung bình</option> -->
+                <option value="newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Sắp xếp theo mới nhất</option>
+                <option value="price_low" <?= $sort === 'price_low' ? 'selected' : '' ?>>Sắp xếp theo giá: thấp đến cao</option>
+                <option value="price_high" <?= $sort === 'price_high' ? 'selected' : '' ?>>Sắp xếp theo giá: cao đến thấp</option>
             </select>
         </div>
 
-       <div class="product-grid">
-    <?php foreach($sp_phukien as $sp): ?>
-        
-        <!-- ĐIỀU KIỆN DUY NHẤT: CHỈ HIỂN THỊ NẾU ĐANG GIẢM GIÁ -->
-        <?php if (!empty($sp['sale_price']) && $sp['sale_price'] > 0 && $sp['sale_price'] < $sp['Price']): ?>
-            
-            <?php 
-                // Tính % giảm để hiện badge
-                $discount = round(100 - ($sp['sale_price'] * 100 / $sp['Price']));
-            ?>
 
-            <a href="index.php?page=product_detail&id=<?= $sp['id_SP'] ?>" class="product-card">
-                <div class="img-wrap">
-                    <img src="App/public/img/<?= htmlspecialchars($sp['img']) ?>" alt="<?= htmlspecialchars($sp['Name']) ?>">
-                    <div class="sale-badge">-<?= $discount ?>%</div>
+       <div class="product-grid">
+    <?php foreach ($dssp as $sp): 
+        // === FIX LỖI NULL & ÉP KIỂU AN TOÀN ===
+        $original_price = (float)($sp['Price'] ?? 0);                    // Giá gốc
+        $sale_price     = (float)($sp['sale_price'] ?? 0);              // Giá giảm (NULL → 0)
+        
+        // Tính % giảm giá
+        $discount_percent = 0;
+        if ($sale_price > 0 && $sale_price < $original_price) {
+            $discount_percent = round(100 - ($sale_price * 100 / $original_price));
+        }
+
+        // Giá hiển thị cuối cùng
+        $display_price = ($discount_percent > 0) ? $sale_price : $original_price;
+    ?>
+
+        <a href="?page=product_detail&id=<?= $sp['id_SP'] ?>" class="product-card">
+            <div class="img-wrap">
+                <img src="App/public/img/<?= htmlspecialchars($sp['img'] ?? 'default.jpg') ?>" 
+                     alt="<?= htmlspecialchars($sp['Name'] ?? 'Sản phẩm') ?>">
+                     
+                <!-- Chỉ hiện badge khi thực sự giảm giá -->
+                <?php if ($discount_percent > 0): ?>
+                    <div class="sale-badge">-<?= $discount_percent ?>%</div>
+                <?php endif; ?>
+            </div>
+
+            <div class="product-info">
+                <div class="product-name">
+                    <?= htmlspecialchars($sp['Name'] ?? 'Sản phẩm không tên') ?>
                 </div>
-                <div class="product-info">
-                    <div class="product-name"><?= htmlspecialchars($sp['Name']) ?></div>
-                    <div class="price-wrap">
-                        <del class="price-old"><?= number_format($sp['Price'],0,',','.') ?>đ</del>
-                        <span class="price-current" style="color: red;  font-style: italic;"><?= number_format($sp['sale_price'],0,',','.') ?>đ</span>
-                    </div>
+
+                <div class="price-wrap">
+                    <!-- Giá cũ (gạch ngang) chỉ hiện khi có giảm -->
+                    <?php if ($discount_percent > 0): ?>
+                        <del class="price-old">
+                            <?= number_format($original_price, 0, ',', '.') ?>đ
+                        </del>
+                    <?php endif; ?>
+
+                    <!-- Giá hiện tại (đỏ đậm) -->
+                    <span class="price-current" style="color:red; font-weight:600; font-size:16px;">
+                        <?= number_format($display_price, 0, ',', '.') ?>đ
+                    </span>
                 </div>
-            </a>
-            
-        <?php endif; ?>
+            </div>
+        </a>
+
     <?php endforeach; ?>
 </div>
     </main>
@@ -141,4 +195,14 @@ document.querySelectorAll('.color-btn').forEach(btn => {
         this.classList.add('active');
     });
 });
+// Hàm update sort khi chọn dropdown
+function updateSort(value) {
+    const url = new URL(window.location);
+    if (value === 'default') {
+        url.searchParams.delete('sort');
+    } else {
+        url.searchParams.set('sort', value);
+    }
+    window.location.href = url.toString();
+}
 </script>

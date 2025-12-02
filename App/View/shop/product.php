@@ -87,6 +87,18 @@ if ($sort !== 'default') {
                 </div>
             </div>
         </div>
+         <!-- Hoạt động (nếu cần sau này) -->
+        <div class="filter-group-new">
+            <div class="filter-header-new">Hoạt động <i class="fas fa-chevron-down"></i></div>
+            <div class="filter-content-new">
+                <label><input type="checkbox"> Bóng Đá</label>
+                <label><input type="checkbox"> Cầu lông/Tennis</label>
+                <label><input type="checkbox"> Chạy Bộ</label>
+                <label><input type="checkbox"> Bơi lội</label>
+                <label><input type="checkbox"> Gym/ Yoga/ Pilates</label>
+                <label><input type="checkbox"> Mặc thường ngày</label>
+            </div>
+        </div>
     </aside>
 
     <!-- MAIN CONTENT -->
