@@ -98,8 +98,8 @@ if ($sort !== 'default') {
             <!-- Dropdown sắp xếp -->
             <select id="sort-select" onchange="updateSort(this.value)">
                 <option value="default" <?= $sort === 'default' ? 'selected' : '' ?>>Sắp xếp theo...</option>
-                <option value="popular" <?= $sort === 'popular' ? 'selected' : '' ?>>Sắp xếp theo mức độ phổ biến</option>
-                <option value="average" <?= $sort === 'average' ? 'selected' : '' ?>>Sắp xếp theo mức độ trung bình</option>
+                <!-- <option value="popular" <?= $sort === 'popular' ? 'selected' : '' ?>>Sắp xếp theo mức độ phổ biến</option>
+                <option value="average" <?= $sort === 'average' ? 'selected' : '' ?>>Sắp xếp theo mức độ trung bình</option> -->
                 <option value="newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Sắp xếp theo mới nhất</option>
                 <option value="price_low" <?= $sort === 'price_low' ? 'selected' : '' ?>>Sắp xếp theo giá: thấp đến cao</option>
                 <option value="price_high" <?= $sort === 'price_high' ? 'selected' : '' ?>>Sắp xếp theo giá: cao đến thấp</option>
