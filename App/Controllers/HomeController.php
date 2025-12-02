@@ -175,6 +175,37 @@ public function giohang()
   {
     include 'App/View/shop/order_info.php';
   }
+    public function single_deal()
+  {
+    $all_products = $this->sanpham->getall_sp();
+
+    // Lấy tham số price từ URL
+    $target_price = $_GET['price'] ?? null;
+
+    if ($target_price !== null) {
+        // Chuyển về số (11k → 11000, 111k → 111000, 211k → 211000)
+        $target = (int)$target_price * 1000;
+
+        // Lọc sản phẩm có sale_price đúng bằng giá đồng giá
+        $deal_products = array_filter($all_products, function($sp) use ($target) {
+            return !empty($sp['sale_price']) && $sp['sale_price'] == $target;
+        });
+
+        // Tạo tiêu đề trang
+        $page_title = "Đồng giá " . number_format($target, 0, ',', '.') . "đ";
+    } else {
+        // Nếu không chọn đồng giá nào → hiển thị tất cả sản phẩm đang giảm giá
+        $deal_products = array_filter($all_products, function($sp) {
+            return !empty($sp['sale_price']) && $sp['sale_price'] > 0 && $sp['sale_price'] < $sp['Price'];
+        });
+        $page_title = "Tất cả sản phẩm đang giảm giá";
+    }
+
+    // Đưa dữ liệu ra view
+    $this->deal_products = $deal_products;
+    $this->page_title    = $page_title;
+      include 'App/View/shop/single_deal.php';
+  }
 
   public function add_to_cart()
 {
