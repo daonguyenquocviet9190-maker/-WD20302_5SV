@@ -180,5 +180,3 @@
         <img src="App/public/img/ca3.png">
     </div>
 </div>
-
-

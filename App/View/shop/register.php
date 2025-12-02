@@ -77,6 +77,7 @@ if (isset($_POST['login'])) {
 }
 ?>
 
+<<<<<<< HEAD
     <style>
         /* CSS bổ sung để giống 100% ảnh bạn gửi */
         .error-msg {
@@ -97,6 +98,43 @@ if (isset($_POST['login'])) {
             height: 20px;
         }
     </style>
+=======
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký / Đăng nhập - 5SV Sport Fashion</title>
+    <link rel="stylesheet" href="App/public/shop/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    .form-wrapper { gap: 19px !important; }
+    .form-group { margin: 0 !important; }
+    .form-group label { margin-bottom: 7px !important; font-size: 14.5px !important; }
+    .form-group input { padding: 15px 18px !important; font-size: 15.5px !important; }
+    .btn-submit { margin-top: 14px !important; padding: 17px !important; font-size: 17.5px !important; }
+    .auth-form { padding: 60px 50px !important; }
+
+    /* LOGO GOOGLE ĐẸP HOÀN HẢO */
+    .btn-google {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        padding: 15px 18px !important;
+        margin: 20px 0 8px 0 !important;
+        font-size: 15.5px !important;
+    }
+    .btn-google img {
+        width: 18px !important;
+        height: 18px !important;
+        flex-shrink: 0;
+        transform: translateY(-1px);
+    }
+</style>
+</head>
+<body>
+>>>>>>> sonha
 
 <div class="auth-page">
     <div class="auth-container">
