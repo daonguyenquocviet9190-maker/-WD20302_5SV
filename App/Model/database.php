@@ -16,6 +16,26 @@ class Database{
     }
 
     // Phương thức kết nối DB
+
+
+ public function connect() {
+    try {
+        $this->conn = new PDO(
+            "mysql:host=$this->db_host;dbname=$this->db_name;charset=utf8", 
+            $this->db_user, 
+            $this->db_pass
+        );
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch(PDOException $e) {
+        die("Connection failed: " . $e->getMessage());
+    }
+
+    return $this->conn; // <--- quan trọng, phải return kết nối
+}
+
+    // FILE: App/Model/database.php (Sửa trong connect)
+
+// phương thức hiển thị tất cả
     public function connect(){
         try {
             // Sử dụng PDO để kết nối
@@ -62,5 +82,11 @@ class Database{
     public function getConnection() {
         return $this->conn;
     }
- }
- ?>
+    public function lastInsertId() {
+    return $this->conn->lastInsertId();
+}
+
+    
+  }
+?>
+

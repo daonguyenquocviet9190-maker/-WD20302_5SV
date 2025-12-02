@@ -1,181 +1,262 @@
 <?php
 session_start();
 
-// Nếu không có giỏ hàng thì về trang chủ
+// Kết nối database
+require_once __DIR__ . "/../../Model/database.php";
+$db = new Database("localhost", "5svcode", "root", "");
+$pdo = $db->connect();
+
+// Nếu giỏ hàng trống thì về trang chủ
 if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
-    echo "<script>alert('Giỏ hàng đang trống!'); window.location='index.php';</script>";
+    echo "<script>alert('Giỏ hàng trống!'); window.location='index.php';</script>";
     exit;
 }
 
+// Tính tổng
 $subtotal = 0;
 $shipping = 30000;
-
 foreach ($_SESSION['cart'] as $item) {
     $subtotal += $item['price'] * $item['quantity'];
 }
-
 $total = $subtotal + $shipping;
-?>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đặt hàng - 5SV Sport</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
-        .container { max-width: 1200px; margin: 40px auto; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
-        .left, .right { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        h2 { font-size: 22px; margin-bottom: 20px; color: #d60000; }
-        .step { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 30px; font-weight: 600; }
-        .step span { background: #eee; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .step span.active { background: #d60000; color: white; }
-        input, select, textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
-        label { font-weight: 500; color: #333; }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-        .order-summary { position: sticky; top: 20px; }
-        .product { display: flex; gap: 15px; padding: 20px 0; border-bottom: 1px solid #eee; }
-        .product img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; }
-        .product-info h4 { margin: 0; font-size: 16px; }
-        .product-info p { margin: 5px 0 0; color: #666; font-size: 14px; }
-
-        .price-row { display: flex; justify-content: space-between; padding: 12px 0; }
-        .total { font-size: 20px; font-weight: 700; color: #d60000; border-top: 2px solid #eee; padding-top: 15px; margin-top: 15px; }
-
-        .btn { background: #000; color: white; padding: 16px; text-align: center; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; }
-        .btn:hover { background: #333; }
-
-        .payment-section input[type="radio"] { position: absolute; opacity: 0; }
-        .payment-section label {
-            display: flex; align-items: center; font-size: 16px;
-            font-weight: 500; color: #333; margin: 18px 0;
-            cursor: pointer; padding-left: 38px; position: relative;
-        }
-        .payment-section label::before {
-            content: ''; position: absolute; left: 0; top: 50%;
-            transform: translateY(-50%); width: 24px; height: 24px;
-            border: 2px solid #ccc; border-radius: 50%; transition: .3s;
-        }
-        .payment-section label::after {
-            content: ''; position: absolute; left: 4px; top: 50%;
-            transform: translateY(-50%) scale(0); width: 18px; height: 18px;
-            background: #d60000; border-radius: 50%; transition: .3s;
-        }
-        .payment-section input[type="radio"]:checked + label::before {
-            border-color: #d60000; box-shadow: 0 0 0 4px rgba(214,0,0,0.1);
-        }
-        .payment-section input[type="radio"]:checked + label::after {
-            transform: translateY(-50%) scale(1);
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-
-    <!-- FORM TRÁI -->
-    <div class="left">
-        <div class="step">
-            <span class="active">1</span> Giỏ hàng >
-            <span class="active">2</span> Thanh toán >
-            <span>3</span> Đơn hàng
-        </div>
-
-        <h2>THÔNG TIN MUA HÀNG</h2>
-
-        <form method="POST">
-
-            <label>Họ và tên *</label>
-            <input type="text" name="fullname" required>
-
-            <div class="row">
-                <div>
-                    <label>Số điện thoại *</label>
-                    <input type="text" name="phone" required>
-                </div>
-                <div>
-                    <label>Email</label>
-                    <input type="email" name="email">
-                </div>
-            </div>
-
-            <label>Địa chỉ *</label>
-            <input type="text" name="address" required>
-
-            <label>Ghi chú đơn hàng</label>
-            <textarea name="note" rows="3"></textarea>
-
-            <div class="payment-section">
-                <h2>PHƯƠNG THỨC THANH TOÁN</h2>
-
-                <input type="radio" name="payment" value="cod" id="cod" checked>
-                <label for="cod">Thanh toán khi nhận hàng (COD)</label>
-
-                <input type="radio" name="payment" value="bank" id="bank">
-                <label for="bank">Chuyển khoản ngân hàng</label>
-
-                <input type="radio" name="payment" value="momo" id="momo">
-                <label for="momo">Thanh toán qua Momo</label>
-            </div>
-
-            <!-- Truyền tổng tiền -->
-            <input type="hidden" name="order_subtotal" value="<?= $subtotal ?>">
-            <input type="hidden" name="order_shipping" value="<?= $shipping ?>">
-            <input type="hidden" name="order_total" value="<?= $total ?>">
-
-            <button class="btn" type="submit" name="submit">ĐẶT HÀNG</button>
-        </form>
-    </div>
-
-    <!-- CỘT PHẢI GIỎ HÀNG -->
-    <div class="right order-summary">
-        <h2>Đơn hàng của bạn</h2>
-
-        <?php foreach ($_SESSION['cart'] as $item): ?>
-            <div class="product">
-                <img src="App/public/img/<?= $item['image'] ?>">
-                <div class="product-info">
-                    <h4><?= $item['name'] ?></h4>
-                    <p>Size: <?= $item['size'] ?></p>
-                    <p>Số lượng: <?= $item['quantity'] ?></p>
-                    <p><b><?= number_format($item['price']) ?> đ</b></p>
-                </div>
-            </div>
-        <?php endforeach; ?>
-
-        <div class="price-row"><span>Tạm tính</span> <strong><?= number_format($subtotal) ?> đ</strong></div>
-        <div class="price-row"><span>Vận chuyển</span> <strong><?= number_format($shipping) ?> đ</strong></div>
-        <div class="price-row total"><span>Tổng</span> <strong><?= number_format($total) ?> đ</strong></div>
-    </div>
-
-</div>
-
-<?php
-/*============= XỬ LÝ ĐẶT HÀNG =============*/
+// Khi submit
 if (isset($_POST['submit'])) {
-
     $fullname = $_POST['fullname'];
     $phone    = $_POST['phone'];
     $email    = $_POST['email'];
     $address  = $_POST['address'];
     $note     = $_POST['note'];
+    $payment  = $_POST['payment'];
 
-    $subtotal = $_POST['order_subtotal'];
-    $shipping = $_POST['order_shipping'];
-    $total    = $_POST['order_total'];
+    // Lưu đơn hàng
+    $sql_order = "INSERT INTO donhang (fullname, phone, email, address, note, payment, subtotal, shipping, total, ngay_mua)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    $stmt = $pdo->prepare($sql_order);
+    $stmt->execute([$fullname, $phone, $email, $address, $note, $payment, $subtotal, $shipping, $total]);
+    $order_id = $pdo->lastInsertId();
 
-    echo "<script>
-        alert('Đặt hàng thành công! Cảm ơn $fullname. Tổng tiền: " . number_format($total) . " đ');
-        window.location='index.php';
-    </script>";
+    // Lưu chi tiết đơn hàng
+    foreach ($_SESSION['cart'] as $item) {
+        $sql_detail = "INSERT INTO chitiet_donhang (id_dh, id_SP, size, soluong, giamua)
+                       VALUES (?, ?, ?, ?, ?)";
+        $stmt_detail = $pdo->prepare($sql_detail);
+        $stmt_detail->execute([
+            $order_id,
+            $item['id'],
+            $item['size'],
+            $item['quantity'],
+            $item['price']
+        ]);
+    }
 
     unset($_SESSION['cart']);
+    header("Location: index.php?page=order_info&id=$order_id");
+    exit;
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Đặt hàng - 5SV Sport</title>
+
+<style>
+
+.container {
+    max-width: 1180px;
+    margin: 10px sauto;
+    display: flex;
+    gap: 30px;
+}
+
+.left, .right {
+    background: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+}
+
+.left {
+    flex: 2;
+}
+
+.right {
+    flex: 1;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 22px;
+    font-weight: 600;
+}
+
+/* Label */
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* INPUT */
+input, select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: 0.25s;
+    background: #fafafa;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #000;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(0,0,0,0.12);
+    outline: none;
+}
+
+/* Nút đặt hàng */
+.btn {
+    width: 100%;
+    background: #f80000ff;
+    padding: 15px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.btn:hover {
+    background: #ff2727ff;
+}
+
+/* Sản phẩm bên phải */
+.product {
+    display: flex;
+    gap: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+}
+
+.product img {
+    width: 85px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.product b {
+    font-size: 15px;
+}
+
+/* Tổng */
+.right p {
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.right p:last-child {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+hr {
+    margin: 18px 0;
+    border: none;
+    border-top: 1px solid #e5e5e5;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <!-- FORM -->
+    <div class="left">
+        <h2>Thông tin mua hàng</h2>
+
+        <form method="POST">
+            
+            <div class="form-group">
+                <label>Họ và tên *</label>
+                <input type="text" name="fullname" required>
+            </div>
+
+            <div class="form-group">
+                <label>Số điện thoại *</label>
+                <input type="text" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email">
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ *</label>
+                <input type="text" name="address" required>
+            </div>
+
+            <div class="form-group">
+                <label>Ghi chú</label>
+                <textarea name="note" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Phương thức thanh toán</label>
+                <select name="payment">
+                    <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                    <option value="bank">Chuyển khoản ngân hàng</option>
+                    <option value="momo">Thanh toán qua Momo</option>
+                </select>
+            </div>
+
+            <button type="submit" name="submit" class="btn">Đặt hàng</button>
+        </form>
+    </div>
+
+    <!-- GIỎ HÀNG -->
+    <div class="right">
+        <h2>Đơn hàng của bạn</h2>
+
+        <?php foreach ($_SESSION['cart'] as $item): ?>
+            <div class="product">
+                <img src="App/public/img/<?= $item['image'] ?>">
+                <div>
+                    <b><?= $item['name'] ?></b><br>
+                    Size: <?= $item['size'] ?><br>
+                    SL: <?= $item['quantity'] ?><br>
+                    Giá: <?= number_format($item['price']) ?> đ
+                </div>
+            </div>
+        <?php endforeach; ?>
+
+        <hr>
+
+        <p><span>Tạm tính:</span><span><?= number_format($subtotal) ?> đ</span></p>
+        <p><span>Vận chuyển:</span><span><?= number_format($shipping) ?> đ</span></p>
+        <p><span>Tổng cộng:</span><span><?= number_format($total) ?> đ</span></p>
+    </div>
+
+</div>
 
 </body>
 </html>

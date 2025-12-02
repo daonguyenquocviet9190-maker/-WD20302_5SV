@@ -22,9 +22,14 @@
             <h1 class="sp-title"><?= $ct_sp['Name'] ?></h1>
 
             <div class="sp-price">
-                <del><?= number_format($ct_sp['Price']) ?>đ</del>
-                <ins><?= number_format($ct_sp['sale_price']) ?>đ</ins>
-            </div>
+    <?php if($ct_sp['sale_price'] < $ct_sp['Price'] && $ct_sp['sale_price'] > 0): ?>
+        <del><?= number_format($ct_sp['Price']) ?>đ</del>
+        <ins><?= number_format($ct_sp['sale_price']) ?>đ</ins>
+    <?php else: ?>
+        <ins><?= number_format($ct_sp['Price']) ?>đ</ins>
+    <?php endif; ?>
+</div>
+
 
             
 <form action="index.php?page=add_to_cart" method="post">
