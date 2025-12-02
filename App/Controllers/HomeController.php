@@ -143,9 +143,10 @@ public function giohang()
     include 'App/View/shop/bosuutap.php';
   }
   public function order()
-  {
-    include 'App/View/shop/order.php';
-  }
+{
+    include "App/View/shop/order.php";
+}
+
   public function register()
   {
     include 'App/View/shop/register.php';
@@ -221,7 +222,7 @@ public function giohang()
             "image"    => $sp['img'],
             "name"     => $sp['Name'],
             "size"     => $size,
-            "price"    => $sp['sale_price'],
+            "price" => ($sp['sale_price'] > 0 && $sp['sale_price'] < $sp['Price']) ? $sp['sale_price'] : $sp['Price'],
             "quantity" => $qty
         ];
     }

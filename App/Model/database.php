@@ -16,17 +16,21 @@
 
     // Phương thức kết nối DB
 
-    public function connect(){
-        try {
-  $this->conn = new PDO("mysql:host=$this->db_host;dbname=$this->db_name", $this->db_user, $this->db_pass);
-  // set the PDO error mode to exception
-  $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  // echo "Connected successfully";
-} catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
+ public function connect() {
+    try {
+        $this->conn = new PDO(
+            "mysql:host=$this->db_host;dbname=$this->db_name;charset=utf8", 
+            $this->db_user, 
+            $this->db_pass
+        );
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch(PDOException $e) {
+        die("Connection failed: " . $e->getMessage());
+    }
+
+    return $this->conn; // <--- quan trọng, phải return kết nối
 }
 
-    }
     // FILE: App/Model/database.php (Sửa trong connect)
 
 // phương thức hiển thị tất cả
@@ -52,6 +56,10 @@
   public function getConnection() {
         return $this->conn;
     }
+
+    public function lastInsertId() {
+    return $this->conn->lastInsertId();
+}
 
     
   }
