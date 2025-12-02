@@ -21,7 +21,7 @@
                 <tr>
                     <td><?= $o['id_dh'] ?></td>
                     <td><?= $o['customer_name'] ?></td>
-                    <td><?= $o['Phone'] ?></td>
+                    <td><?= $o['phone'] ?></td>
                     <td><?= number_format($o['Tong_Tien'], 0, ',', '.') ?> VNĐ</td>
                     <td><?= $o['ngay_dg'] ?></td>
                     <td>

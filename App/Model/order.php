@@ -13,30 +13,29 @@ class Order {
     }
     
     public function get_all_orders() {
-    // Ví dụ: Giả sử tên bảng chính xác là don_hang
-    $sql = "SELECT * FROM donhang";
-    return $this->db->get_all($sql);
-    // ...
-}
+        // Ví dụ: Giả sử tên bảng chính xác là don_hang
+        $sql = "SELECT * FROM donhang";
+        return $this->db->get_all($sql);
+    }
 
-    // Lấy chi tiết đơn hàng
+    // Lấy chi tiết đơn hàng (Đã sửa lỗi, sử dụng get_one với tham số)
     public function get_order_by_id($id) {
-        $sql = "SELECT * FROM donhang WHERE id_dh = ?";
+        $sql = "SELECT * FROM donhang WHERE id_dh = ?"; // Sử dụng placeholder
         
-        // Sửa lỗi: Thay thế $this->pdo_query_one($sql, $id)
-        // và truyền tham số $id vào phương thức get_one() của DB
-        return $this->db->get_one($sql, [$id]); // <--- CHỖ SỬA ĐÂY
+        // Truyền $id vào phương thức get_one() của DB
+        return $this->db->get_one($sql, [$id]); 
     }
     
-    // Xóa đơn hàng và chi tiết
+    // Xóa đơn hàng và chi tiết (Sử dụng action() đã được sửa để nhận tham số)
     public function remove_order($id) {
-        // ... (Logic xóa an toàn)
-        // Ví dụ, sử dụng phương thức action() của DB để xóa:
+        // Xóa chi tiết đơn hàng trước (quan trọng cho ràng buộc khóa ngoại)
         $sql_detail = "DELETE FROM chi_tiet_don_hang WHERE id_dh = ?";
         $this->db->action($sql_detail, [$id]); 
 
+        // Xóa đơn hàng
         $sql_order = "DELETE FROM donhang WHERE id_dh = ?";
         $this->db->action($sql_order, [$id]);
     }
+    
 }
 ?>

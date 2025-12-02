@@ -57,22 +57,40 @@
     </div>
 </section>
 
+<!-- Deal 111K -->
 <h2 class="product-title">Deal 111K</h2>
 <div class="product-scroll">
     <?php foreach($deal111k as $sp): ?>
         <div class="product-card">
             <a class="product-img-wrapper" href="?page=product_detail&id=<?= $sp['id_SP'] ?>">
                 <img src="App/public/img/<?= $sp['img'] ?>" class="product-img">
+                
+                <!-- Sửa: Chỉ một div product-icons, loại bỏ lồng lặp -->
                 <div class="product-icons">
-                      <a href="#" class="icon"><i class="fa fa-link"></i></a>
-                    <a href="#" class="icon"><i class="fa fa-heart"></i></a>
+                    <a href="#" class="icon"><i class="fa fa-link"></i></a>
+                    <?php 
+                    $is_wished = false;
+                    if (isset($_SESSION['wishlist'])) {
+                        foreach ($_SESSION['wishlist'] as $item) {
+                            if ($item['id'] == $sp['id_SP']) {
+                                $is_wished = true;
+                                break;
+                            }
+                        }
+                    }
+                    ?>
+                    <a href="?page=<?= $is_wished ? 'removefromwishlist' : 'add_to_wishlist' ?>&id=<?= $sp['id_SP'] ?>"
+                       class="icon heart-icon <?= $is_wished ? 'liked' : '' ?>"
+                       title="<?= $is_wished ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích' ?>">
+                        <i class="fa<?= $is_wished ? 's' : 'r' ?> fa-heart"></i>  <!-- Sửa: far cho chưa thích, fas cho liked -->
+                    </a>
                     <a href="#" class="icon"><i class="fa fa-arrows"></i></a>
                 </div>
 
                 <?php if($sp['sale_price'] < 200000): ?>
                     <span class="sale-badge">SALE</span>
                 <?php endif; ?>
-                </a>
+            </a>
 
             <div class="product-name"><?= $sp['Name'] ?></div>
             <div class="product-price"><del style="color:#8E8E8E; font-size: 15px;"><?= number_format($sp['Price']) ?>₫</del>
@@ -81,28 +99,44 @@
     <?php endforeach; ?>
 </div>
 
-
+<!-- Sản phẩm mới (tương tự, áp dụng sửa giống trên) -->
 <h2 class="product-title">Sản phẩm mới</h2>
 <div class="product-scroll">
     <?php foreach($sp_moi as $sp): ?>
         <div class="product-card">
             <a class="product-img-wrapper" href="?page=product_detail&id=<?= $sp['id_SP'] ?>">
                 <img src="App/public/img/<?= $sp['img'] ?>" class="product-img">
+                
+                <!-- Sửa: Chỉ một div product-icons -->
                 <div class="product-icons">
                     <a href="#" class="icon"><i class="fa fa-link"></i></a>
-                    <a href="#" class="icon"><i class="fa fa-heart"></i></a>
+                    <?php 
+                    $is_wished = false;
+                    if (isset($_SESSION['wishlist'])) {
+                        foreach ($_SESSION['wishlist'] as $item) {
+                            if ($item['id'] == $sp['id_SP']) {
+                                $is_wished = true;
+                                break;
+                            }
+                        }
+                    }
+                    ?>
+                    <a href="?page=<?= $is_wished ? 'removefromwishlist' : 'add_to_wishlist' ?>&id=<?= $sp['id_SP'] ?>"
+                       class="icon heart-icon <?= $is_wished ? 'liked' : '' ?>"
+                       title="<?= $is_wished ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích' ?>">
+                        <i class="fa<?= $is_wished ? 's' : 'r' ?> fa-heart"></i>
+                    </a>
                     <a href="#" class="icon"><i class="fa fa-arrows"></i></a>
-    </div>
+                </div>
 
                 <span class="new-badge">MỚI</span>
-    </a>
+            </a>
 
             <div class="product-name"><?= $sp['Name'] ?></div>
             <div class="product-price" style="color: black; font-weight: 550;"><?= number_format($sp['Price']) ?>₫</div>
         </div>
     <?php endforeach; ?>
 </div>
-
 <div class="eco-banner">
     
     <!-- CỘT TRÁI: ẢNH FULL + TEXT OVERLAY -->
@@ -180,5 +214,3 @@
         <img src="App/public/img/ca3.png">
     </div>
 </div>
-
-

@@ -32,7 +32,7 @@
 
         <div class="footer-col">
             <h4>5SV</h4>
-            <a href="#">Đăng ký thành viên</a>
+            <a href="index.php?page=register">Đăng ký thành viên</a>
             <a href="#">Ưu đãi & Đặc quyền</a>
         </div>
 
