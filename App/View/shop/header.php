@@ -163,15 +163,7 @@
                 </ul>
             </nav>
 
-            <!-- Icons -->
-            <div class="icons">
-                <a href="#"><i class="fas fa-heart"></i></a>
-                <a href="index.php?page=register"><i class="fas fa-user"></i></a>
-                <a href="#"><i class="fas fa-search"></i></a>
-                <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
-            </div>
-
-
+        
         <!-- Icons -->
         <div class="icons">
             <a href="#"><i class="fas fa-heart"></i></a>
@@ -240,10 +232,5 @@ document.addEventListener('keydown', function(e) {
 });
 </script>
 </body>
-=======
         </div>
-
-        <div class="free-ship">MIỄN PHÍ VẬN CHUYỂN HOÁ ĐƠN TỪ 500K</div>
-
     </header>
->>>>>>> giang
