@@ -106,25 +106,56 @@ if ($sort !== 'default') {
             </select>
         </div>
 
-        <div class="product-grid">
-            <?php foreach ($dssp as $sp): 
-                $discount = round(100 - ($sp['sale_price'] * 100 / $sp['Price']));
-            ?>
-                <a href="?page=product_detail&id=<?= $sp['id_SP'] ?>" class="product-card">
-                    <div class="img-wrap">
-                        <img src="App/public/img/<?= htmlspecialchars($sp['img']) ?>" alt="<?= htmlspecialchars($sp['Name']) ?>">
-                        <div class="sale-badge">-<?= $discount ?>%</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name"><?= htmlspecialchars($sp['Name']) ?></div>
-                        <div class="price-wrap">
-                            <del class="price-old"><?= number_format($sp['Price'],0,',','.') ?>đ</del>
-                            <span class="price-current" style="color: red; font-style: italic;"><?= number_format($sp['sale_price'],0,',','.') ?>đ</span>
-                        </div>
-                    </div>
-                </a>
-            <?php endforeach; ?>
-        </div>
+       <div class="product-grid">
+    <?php foreach ($dssp as $sp): 
+        // === FIX LỖI NULL & ÉP KIỂU AN TOÀN ===
+        $original_price = (float)($sp['Price'] ?? 0);                    // Giá gốc
+        $sale_price     = (float)($sp['sale_price'] ?? 0);              // Giá giảm (NULL → 0)
+        
+        // Tính % giảm giá
+        $discount_percent = 0;
+        if ($sale_price > 0 && $sale_price < $original_price) {
+            $discount_percent = round(100 - ($sale_price * 100 / $original_price));
+        }
+
+        // Giá hiển thị cuối cùng
+        $display_price = ($discount_percent > 0) ? $sale_price : $original_price;
+    ?>
+
+        <a href="?page=product_detail&id=<?= $sp['id_SP'] ?>" class="product-card">
+            <div class="img-wrap">
+                <img src="App/public/img/<?= htmlspecialchars($sp['img'] ?? 'default.jpg') ?>" 
+                     alt="<?= htmlspecialchars($sp['Name'] ?? 'Sản phẩm') ?>">
+                     
+                <!-- Chỉ hiện badge khi thực sự giảm giá -->
+                <?php if ($discount_percent > 0): ?>
+                    <div class="sale-badge">-<?= $discount_percent ?>%</div>
+                <?php endif; ?>
+            </div>
+
+            <div class="product-info">
+                <div class="product-name">
+                    <?= htmlspecialchars($sp['Name'] ?? 'Sản phẩm không tên') ?>
+                </div>
+
+                <div class="price-wrap">
+                    <!-- Giá cũ (gạch ngang) chỉ hiện khi có giảm -->
+                    <?php if ($discount_percent > 0): ?>
+                        <del class="price-old">
+                            <?= number_format($original_price, 0, ',', '.') ?>đ
+                        </del>
+                    <?php endif; ?>
+
+                    <!-- Giá hiện tại (đỏ đậm) -->
+                    <span class="price-current" style="color:red; font-weight:600; font-size:16px;">
+                        <?= number_format($display_price, 0, ',', '.') ?>đ
+                    </span>
+                </div>
+            </div>
+        </a>
+
+    <?php endforeach; ?>
+</div>
     </main>
 </div>
 
