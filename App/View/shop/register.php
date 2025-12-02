@@ -133,7 +133,6 @@ if (isset($_POST['login'])) {
 </style>
 </head>
 <body>
->>>>>>> sonha
 
 <div class="auth-page">
     <div class="auth-container">
