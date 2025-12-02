@@ -36,22 +36,6 @@ class Database{
     // FILE: App/Model/database.php (Sửa trong connect)
 
 // phương thức hiển thị tất cả
-    public function connect(){
-        try {
-            // Sử dụng PDO để kết nối
-            $this->conn = new PDO("mysql:host=$this->db_host;dbname=$this->db_name", $this->db_user, $this->db_pass);
-            // Thiết lập chế độ báo lỗi PDO thành ngoại lệ (Exception)
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            // Thiết lập chế độ Fetch mặc định (tùy chọn)
-            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        } catch(PDOException $e) {
-            // Hiển thị lỗi nếu kết nối thất bại
-            echo "Connection failed: " . $e->getMessage();
-            // Trong môi trường production, bạn nên log lỗi thay vì echo
-            die();
-        }
-    }
-    
     // Phương thức hiển thị tất cả (SELECT nhiều dòng)
     // Đã được sửa để nhận tham số $params
     public function get_all($sql, $params = []) 
@@ -89,4 +73,3 @@ class Database{
     
   }
 ?>
-
