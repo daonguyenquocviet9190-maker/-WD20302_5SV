@@ -159,13 +159,7 @@
 
         <!-- Icons -->
         <div class="icons">
-            <a href="?page=wishlist"><i class="fas fa-heart"></i>
-    <?php if(!empty($_SESSION['wishlist'])): ?>
-        <span class="badge" style="background:red;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">
-            <?= count($_SESSION['wishlist']) ?>
-        </span>
-    <?php endif; ?>
-</a>
+            <a href="?page=wishlist"><i class="fas fa-heart"></i></a>
             <a href="index.php?page=register"><i class="fas fa-user"></i></a>
             <a href="javascript:void(0)" id="openSearchPopup"><i class="fas fa-search"></i></a>
             <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
