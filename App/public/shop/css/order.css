@@ -45,3 +45,4 @@
         .payment-section input[type="radio"]:checked + label::after {
             transform: translateY(-50%) scale(1);
         }
+        

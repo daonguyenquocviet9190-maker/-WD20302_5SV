@@ -40,7 +40,15 @@ $shipping = 30000;
                         <button class="qty-plus">+</button>
                     </div>
 
-                    <button class="btn-remove">X</button>
+                    <button class="btn-remove" style="width: 25%;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #ff4c3b;
+    color: white;
+">X</button>
                 </div>
             </div>
         <?php endforeach; ?>
