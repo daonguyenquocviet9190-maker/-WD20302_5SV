@@ -27,9 +27,8 @@ if (isset($_SESSION['wishlist']) && !empty($_SESSION['wishlist'])) {
 
     <?php if (empty($ds_sp_wish)): ?>
         <div class="wishlist-empty" style="text-align: center; padding: 60px 20px; background: #f8f9fa; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-            <i class="fas fa-heart-broken" style="font-size: 80px; color: #ddd; margin-bottom: 20px;"></i>
-            <h3 style="color: #555; font-size: 24px;">Chưa có sản phẩm nào trong danh sách yêu thích</h3>
-            <p style="color: #888; font-size: 16px; margin-bottom: 30px;">Hãy thêm những món đồ bạn thích nhé!</p>
+
+
             <a href="index.php?page=home" style="background: #e74c3c; color: white; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 10px rgba(231,76,60,0.3); transition: all 0.3s;">
                 Tiếp tục mua sắm
             </a>

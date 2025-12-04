@@ -1402,3 +1402,88 @@ body {
         height: 240px;
     }
 }
+/* Thanh bước + Link lịch sử mua hàng */
+.step-container {
+    position: relative;
+    max-width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 25px 40px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.step {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+    margin-left: 0; /* bỏ margin-left: 550px cũ */
+}
+
+.step span {
+    background: #eee;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.step span.active {
+    background: #d60000;
+    color: white;
+}
+
+/* Link Lịch sử mua hàng – góc trên bên phải */
+.header-actions {
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+}
+
+.order-history-link {
+    display: inline-block;
+    background: #222;
+    color: white !important;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.order-history-link:hover {
+    background: #d60000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(214,0,0,0.4);
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .step-container {
+        padding: 20px;
+        text-align: center;
+        position: relative;
+    }
+    .step {
+        justify-content: center;
+    }
+    .header-actions {
+        position: static;
+        transform: none;
+        margin-top: 15px;
+    }
+    .order-history-link {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+}
