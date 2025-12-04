@@ -68,36 +68,26 @@
                 <!-- Sửa: Chỉ một div product-icons, loại bỏ lồng lặp -->
                 <div class="product-icons">
                     <a href="#" class="icon"><i class="fa fa-link"></i></a>
-                    <?php 
-                    $is_wished = false;
-                    if (isset($_SESSION['wishlist'])) {
-                        foreach ($_SESSION['wishlist'] as $item) {
-                            if ($item['id'] == $sp['id_SP']) {
-                                $is_wished = true;
-                                break;
-                            }
-                        }
-                    }
-                    ?>
-                    <a href="?page=<?= $is_wished ? 'removefromwishlist' : 'add_to_wishlist' ?>&id=<?= $sp['id_SP'] ?>"
-                       class="icon heart-icon <?= $is_wished ? 'liked' : '' ?>"
-                       title="<?= $is_wished ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích' ?>">
-                        <i class="fa<?= $is_wished ? 's' : 'r' ?> fa-heart"></i>  <!-- Sửa: far cho chưa thích, fas cho liked -->
+                    <a href="javascript:void(0)" 
+                    onclick="toggleWish(<?= $sp['id_SP'] ?>, this)"
+                    class="icon heart-icon <?= $is_wished ? 'liked' : '' ?>"
+                    title="<?= $is_wished ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích' ?>">
+                        <i class="fa<?= $is_wished ? 's' : 'r' ?> far fa-heart"></i>
                     </a>
-                    <a href="#" class="icon"><i class="fa fa-arrows"></i></a>
-                </div>
+                                        <a href="#" class="icon"><i class="fa fa-arrows"></i></a>
+                                    </div>
 
-                <?php if($sp['sale_price'] < 200000): ?>
-                    <span class="sale-badge">SALE</span>
-                <?php endif; ?>
-            </a>
+                                    <?php if($sp['sale_price'] < 200000): ?>
+                                        <span class="sale-badge">SALE</span>
+                                    <?php endif; ?>
+                                </a>
 
-            <div class="product-name"><?= $sp['Name'] ?></div>
-            <div class="product-price"><del style="color:#8E8E8E; font-size: 15px;"><?= number_format($sp['Price']) ?>₫</del>
-             <?= number_format($sp['sale_price']) ?>₫</div>
-        </div>
-    <?php endforeach; ?>
-</div>
+                                <div class="product-name"><?= $sp['Name'] ?></div>
+                                <div class="product-price"><del style="color:#8E8E8E; font-size: 15px;"><?= number_format($sp['Price']) ?>₫</del>
+                                <?= number_format($sp['sale_price']) ?>₫</div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
 
 <!-- Sản phẩm mới (tương tự, áp dụng sửa giống trên) -->
 <h2 class="product-title">Sản phẩm mới</h2>
@@ -110,21 +100,11 @@
                 <!-- Sửa: Chỉ một div product-icons -->
                 <div class="product-icons">
                     <a href="#" class="icon"><i class="fa fa-link"></i></a>
-                    <?php 
-                    $is_wished = false;
-                    if (isset($_SESSION['wishlist'])) {
-                        foreach ($_SESSION['wishlist'] as $item) {
-                            if ($item['id'] == $sp['id_SP']) {
-                                $is_wished = true;
-                                break;
-                            }
-                        }
-                    }
-                    ?>
-                    <a href="?page=<?= $is_wished ? 'removefromwishlist' : 'add_to_wishlist' ?>&id=<?= $sp['id_SP'] ?>"
-                       class="icon heart-icon <?= $is_wished ? 'liked' : '' ?>"
-                       title="<?= $is_wished ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích' ?>">
-                        <i class="fa<?= $is_wished ? 's' : 'r' ?> fa-heart"></i>
+                    <a href="javascript:void(0)" 
+                    onclick="toggleWish(<?= $sp['id_SP'] ?>, this)"
+                    class="icon heart-icon <?= $is_wished ? 'liked' : '' ?>"
+                    title="<?= $is_wished ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích' ?>">
+                        <i class="fa<?= $is_wished ? 's' : 'r' ?> far fa-heart"></i>
                     </a>
                     <a href="#" class="icon"><i class="fa fa-arrows"></i></a>
                 </div>
@@ -214,3 +194,22 @@
         <img src="App/public/img/ca3.png">
     </div>
 </div>
+<script>
+    function toggleWish(id, el) {
+    const isLiked = el.classList.contains('liked');
+    const action = isLiked ? 'removefromwishlist' : 'add_to_wishlist';
+
+    fetch('index.php?page=' + action + '&id=' + id)
+        .then(() => {
+            el.classList.toggle('liked');
+            const i = el.querySelector('i');
+            if (isLiked) {
+                i.classList.remove('fas'); i.classList.add('far');
+                el.title = 'Thêm vào yêu thích';
+            } else {
+                i.classList.add('fas'); i.classList.remove('far');
+                el.title = 'Xóa khỏi yêu thích';
+            }
+        });
+}
+                </script>
