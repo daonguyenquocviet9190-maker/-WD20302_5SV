@@ -20,13 +20,13 @@
                 <?php foreach ($orders as $o): ?>
                 <tr>
                     <td><?= $o['id_dh'] ?></td>
-                    <td><?= $o['customer_name'] ?></td>
+                    <td><?= $o['fullname'] ?></td>
                     <td><?= $o['phone'] ?></td>
-                    <td><?= number_format($o['Tong_Tien'], 0, ',', '.') ?> VNĐ</td>
+                    <td><?= number_format($o['subtotal'], 0, ',', '.') ?> VNĐ</td>
                     <td><?= $o['ngay_dg'] ?></td>
                     <td>
-                        <span class="order-status status-<?= str_replace(' ', '-', strtolower($o['Trang_Thai'])) ?>">
-                            <?= $o['Trang_Thai'] ?>
+                        <span class="order-status status-<?= str_replace(' ', '-', strtolower($o['status'])) ?>">
+                            <?= $o['status'] ?>
                         </span>
                     </td>
                     <td class="actions">

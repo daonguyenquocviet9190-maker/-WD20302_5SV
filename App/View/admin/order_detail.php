@@ -193,7 +193,7 @@ h3 {
 }
 
 </style>
-<div class="main-content order-detail">
+<div class="main-content order-detail" style="margin-top: 70px; margin-left: 250px;">
     <div class="content-header">
         <h2>Chi tiết Đơn hàng #<?= $order_id ?></h2>
         <a href="admin.php?page=order" class="btn btn-secondary">← Quay lại danh sách</a>
