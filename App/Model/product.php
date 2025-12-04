@@ -55,6 +55,37 @@ public function get_deal_111k() {
             LIMIT 3";
     return $this->db->get_all($sql);
 }
+// Trong app/Model/product.php
+
+public function get_sp_bongda() {
+    $sql = "SELECT * FROM sanpham WHERE hoatdong = 'bongda' ORDER BY id_SP DESC";
+    return $this->db->get_all($sql);
+}
+
+public function get_sp_caulong() {
+    $sql = "SELECT * FROM sanpham WHERE hoatdong = 'caulong' ORDER BY id_SP DESC";
+    return $this->db->get_all($sql);
+}
+
+public function get_sp_chaybo() {
+    $sql = "SELECT * FROM sanpham WHERE hoatdong = 'chaybo' ORDER BY id_SP DESC";
+    return $this->db->get_all($sql);
+}
+
+public function get_sp_boiloi() {
+    $sql = "SELECT * FROM sanpham WHERE hoatdong = 'boiloi' ORDER BY id_SP DESC";
+    return $this->db->get_all($sql);
+}
+
+public function get_sp_gym() {
+    $sql = "SELECT * FROM sanpham WHERE hoatdong = 'gym' ORDER BY id_SP DESC";
+    return $this->db->get_all($sql);
+}
+
+public function get_sp_macngay() {
+    $sql = "SELECT * FROM sanpham WHERE hoatdong = 'macngay' ORDER BY id_SP DESC";
+    return $this->db->get_all($sql);
+}
 
     // Thêm sản phẩm
     public function add_sp($name, $price, $stock, $cat_id, $img){

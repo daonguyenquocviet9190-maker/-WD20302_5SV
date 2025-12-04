@@ -93,18 +93,36 @@ if ($sort !== 'default') {
                 </div>
             </div>
         </div>
-         <!-- Hoạt động (nếu cần sau này) -->
-        <div class="filter-group-new">
-            <div class="filter-header-new">Hoạt động <i class="fas fa-chevron-down"></i></div>
-            <div class="filter-content-new">
-                <label><input type="checkbox"> Bóng Đá</label>
-                <label><input type="checkbox"> Cầu lông/Tennis</label>
-                <label><input type="checkbox"> Chạy Bộ</label>
-                <label><input type="checkbox"> Bơi lội</label>
-                <label><input type="checkbox"> Gym/ Yoga/ Pilates</label>
-                <label><input type="checkbox"> Mặc thường ngày</label>
-            </div>
-        </div>
+      <!-- Hoạt động -->
+<div class="filter-group-new">
+    <div class="filter-header-new">Hoạt động <i class="fas fa-chevron-down"></i></div>
+    <div class="filter-content-new">
+        <label style="display:block; margin:8px 0; cursor:pointer;">
+            <input type="checkbox" onclick="if(this.checked){location.href='index.php?page=hd_bongda'}else{this.checked=true}">
+            Bóng Đá
+        </label>
+        <label style="display:block; margin:8px 0; cursor:pointer;">
+            <input type="checkbox" onclick="if(this.checked){location.href='index.php?page=hd_caulong'}else{this.checked=true}">
+            Cầu lông/Tennis
+        </label>
+        <label style="display:block; margin:8px 0; cursor:pointer;">
+            <input type="checkbox" onclick="if(this.checked){location.href='index.php?page=hd_chaybo'}else{this.checked=true}">
+            Chạy Bộ
+        </label>
+        <label style="display:block; margin:8px 0; cursor:pointer;">
+            <input type="checkbox" onclick="if(this.checked){location.href='index.php?page=hd_boiloi'}else{this.checked=true}">
+            Bơi lội
+        </label>
+        <label style="display:block; margin:8px 0; cursor:pointer;">
+            <input type="checkbox" onclick="if(this.checked){location.href='index.php?page=hd_gym'}else{this.checked=true}">
+            Gym/ Yoga/ Pilates
+        </label>
+        <label style="display:block; margin:8px 0; cursor:pointer;">
+            <input type="checkbox" onclick="if(this.checked){location.href='index.php?page=hd_macngay'}else{this.checked=true}">
+            Mặc thường ngày
+        </label>
+    </div>
+</div>
     </aside>
 
     <!-- MAIN CONTENT -->

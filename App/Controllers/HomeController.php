@@ -176,8 +176,10 @@ public function giohang()
   {
     include 'App/View/shop/order_info.php';
   }
+  
     public function single_deal()
   {
+    
     $all_products = $this->sanpham->getall_sp();
 
     // Lấy tham số price từ URL
@@ -320,7 +322,41 @@ public function wishlist() {
     $this->sanpham = new Product(); // cần khởi tạo để lấy sản phẩm
     include 'App/View/shop/wishlist.php';
 }
+public function hd_bongda() {
+    $sp_bongda = $this->sanpham->get_sp_bongda();
+    // $dssp = $sp; // để view product.php dùng chung
+    include 'App/View/shop/hd_bongda.php';
+}
 
+public function hd_caulong() {
+    $sp_caulong = $this->sanpham->get_sp_caulong();
+    // $dssp = $sp;
+    include 'App/View/shop/hd_caulong.php';
+}
+
+public function hd_chaybo() {
+    $sp_chaybo = $this->sanpham->get_sp_chaybo();
+    // $dssp = $sp;
+    include 'App/View/shop/hd_chaybo.php';
+}
+
+public function hd_boiloi() {
+    $sp_boiloi= $this->sanpham->get_sp_boiloi();
+    // $dssp = $sp;
+    include 'App/View/shop/hd_boiloi.php';
+}
+
+public function hd_gym() {
+    $sp_gym = $this->sanpham->get_sp_gym();
+    // $dssp = $sp;
+    include 'App/View/shop/hd_gym.php';
+}
+
+public function hd_macngay() {
+    $sp_macngay = $this->sanpham->get_sp_macngay();
+    // $dssp = $sp;
+    include 'App/View/shop/hd_macngay.php';
+}
 
 public function order_history()
 {
