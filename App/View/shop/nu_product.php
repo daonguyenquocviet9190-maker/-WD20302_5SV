@@ -36,14 +36,20 @@ if ($sort !== 'default') {
     <aside class="filter-sidebar-new">
         <h2>Lọc sản phẩm</h2>
 
-        <!-- Giới tính -->
-        <div class="filter-group-new">
-            <div class="filter-header-new">Giới tính <i class="fas fa-chevron-down"></i></div>
-            <div class="filter-content-new">
-                <label><input type="checkbox" name="gender" value="nu"> Nữ</label>
-                <label><input type="checkbox" name="gender" value="nam"> Nam</label>
-            </div>
-        </div>
+      <!-- Giới tính – Click là chuyển trang ngay -->
+<div class="filter-group-new">
+    <div class="filter-header-new">Giới tính <i class="fas fa-chevron-down"></i></div>
+    <div class="filter-content-new">
+        <label style="display:block; margin:8px 0; cursor:pointer;">
+            <input type="checkbox" onclick="if(this.checked){location.href='index.php?page=nu_product'}else{this.checked=true}">
+            Nữ
+        </label>
+        <label style="display:block; margin:8px 0; cursor:pointer;">
+            <input type="checkbox" onclick="if(this.checked){location.href='index.php?page=nam_product'}else{this.checked=true}">
+            Nam
+        </label>
+    </div>
+</div>
 
         <!-- Size -->
         <div class="filter-group-new">
