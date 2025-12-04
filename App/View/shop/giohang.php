@@ -201,7 +201,7 @@ $shipping = 30000;
         <!-- Thông báo giỏ trống (ẩn ban đầu) -->
         <div class="empty-cart" style="display:<?php echo empty($cart) ? 'block' : 'none'; ?>;">
             <p>Giỏ hàng trống!</p>
-            <p><a href="index.php">Mua sắm ngay nào!</a></p>
+            <p><a href="?page=product">Mua sắm ngay nào!</a></p>
         </div>
     </div>
 
