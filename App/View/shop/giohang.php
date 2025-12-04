@@ -14,7 +14,6 @@ $shipping = 30000;
 
         /* === PHẦN ĐẦU TRANG - BƯỚC Ở GIỮA + LỊCH SỬ BÊN PHẢI === */
         .page-header {
-            background:#fff;
             padding:15px 20px;
             margin-bottom:50px;
 
@@ -65,7 +64,6 @@ $shipping = 30000;
             background:white;
             border-radius:16px;
             padding:25px;
-            box-shadow:0 8px 25px rgba(0,0,0,0.08);
         }
         .product {
             position:relative;               /* quan trọng để nút X định vị đúng */
@@ -73,7 +71,7 @@ $shipping = 30000;
             align-items:center;
             gap:25px;
             padding:25px 0;
-            border-bottom:1px solid #eee;
+            border-bottom:10px solid #f8f8f8ff;
         }
         .product:last-child { border-bottom:none; }
 
@@ -88,29 +86,30 @@ $shipping = 30000;
 
         /* DẤU X Ở GÓC TRÊN BÊN PHẢI CỦA SẢN PHẨM */
         .btn-remove {
-            position:absolute;
-            top:15px;
-            right:15px;
-            width:40px;
-            height:40px;
-            background:#ff4c3b;
-            color:white;
-            border:none;
-            border-radius:50%;
-            font-size:20px;
-            font-weight:bold;
-            cursor:pointer;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            box-shadow:0 4px 15px rgba(255,76,59,0.4);
-            transition:all .3s;
-        }
-        .btn-remove:hover {
-            background:#e6392a;
-            transform:scale(1.15);
-        }
+    position: absolute;
+    top: 1px;           /* Đưa lên cao hơn (trước là 15px) */
+    right: -1px;         /* Đưa sát góc phải hơn */
+    width: 32px;        /* Nhỏ hơn (trước là 40px) */
+    height: 32px;       /* Nhỏ hơn */
+    background: #ff4c3b;
+    color: white;
+    border: none;
+    border-radius: 50%; /* Vẫn tròn hoàn toàn */
+    font-size: 18px;    /* Chữ X nhỏ lại một chút cho vừa nút */
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 12px rgba(255,76,59,0.45);
+    transition: all .3s;
+    z-index: 10;        /* Đảm bảo luôn nằm trên cùng */
+}
 
+.btn-remove:hover {
+    background: #e6392a;
+    transform: scale(1.15);
+}
         .product-info h3 { font-size:18px; margin-bottom:10px; }
         .product-info p { margin:6px 0; color:#555; font-size:15px; }
         .product-info p strong { color:#d60000; }
@@ -132,7 +131,7 @@ $shipping = 30000;
             background:white;
             border-radius:16px;
             padding:30px;
-            box-shadow:0 8px 25px rgba(0,0,0,0.08);
+            box-shadow:0 8px 25px rgba(255, 255, 255, 0.08);
             height:fit-content;
             position:sticky;
             top:20px;
@@ -141,7 +140,7 @@ $shipping = 30000;
         .summary-box p { display:flex; justify-content:space-between; margin:15px 0; }
         .summary-box hr { border:none; border-top:2px dashed #ddd; margin:25px 0; }
         .btn-checkout {
-            display:block; background:#d60000; color:white; padding:6px;
+            display:block; background:#d60000; color:white; padding:1px;
             text-align:center; border-radius:12px; font-weight:bold; font-size:17px;
             text-decoration:none; margin-top:20px; transition:.3s;
         }
@@ -156,11 +155,6 @@ $shipping = 30000;
         }
         .empty-cart a { color:#d60000; text-decoration:underline; }
 
-        /* Mobile */
-        @media (max-width:992px) {
-            .cart-container { flex-direction:column; }
-            .summary-box { width:100%; }
-        }
     </style>
 </head>
 <body>
