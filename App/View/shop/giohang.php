@@ -141,18 +141,25 @@ $shipping = 30000;
         .summary-box p { display:flex; justify-content:space-between; margin:15px 0; }
         .summary-box hr { border:none; border-top:2px dashed #ddd; margin:25px 0; }
         .btn-checkout {
-            display:block; background:#d60000; color:white; padding:2px;
+            display:block; background:#d60000; color:white; padding:6px;
             text-align:center; border-radius:12px; font-weight:bold; font-size:17px;
             text-decoration:none; margin-top:20px; transition:.3s;
         }
         .btn-checkout:hover { background:#c40000; }
 
+        /* Giỏ trống */
+        .empty-cart {
+            text-align:center;
+            padding:80px 20px;
+            color:#999;
+            font-size:20px;
+        }
+        .empty-cart a { color:#d60000; text-decoration:underline; }
+
         /* Mobile */
         @media (max-width:992px) {
             .cart-container { flex-direction:column; }
             .summary-box { width:100%; }
-            .header-content { flex-direction:column; text-align:center; gap:15px; }
-            .order-history-link { position:static; transform:none; }
         }
     </style>
 </head>
@@ -174,29 +181,37 @@ $shipping = 30000;
 
 <div class="cart-container">
     <div class="product-box">
-        <?php foreach($cart as $id => $product): ?>
-            <?php $subtotal += $product['price'] * $product['quantity']; ?>
-            <div class="product" data-id="<?= htmlspecialchars($id) ?>" data-price="<?= $product['price'] ?>">
-                <img src="App/public/img/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+        <div class="products-list"> <!-- Bao sản phẩm để dễ kiểm tra rỗng -->
+            <?php foreach($cart as $id => $product): ?>
+                <?php $subtotal += $product['price'] * $product['quantity']; ?>
+                <div class="product" data-id="<?= htmlspecialchars($id) ?>" data-price="<?= $product['price'] ?>">
+                    <img src="App/public/img/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
 
-                <!-- DẤU X Ở GÓC TRÊN PHẢI -->
-                <button class="btn-remove" title="Xóa sản phẩm">×</button>
+                    <!-- DẤU X Ở GÓC TRÊN PHẢI -->
+                    <button class="btn-remove" title="Xóa sản phẩm">×</button>
 
-                <div class="product-info">
-                    <h3><?= htmlspecialchars($product['name']) ?></h3>
-                    <p>Size: <strong><?= $product['size'] ?></strong></p>
-                    <p>Giá: <strong><?= number_format($product['price']) ?> ₫</strong></p>
-                    <div class="qty-box">
-                        <button class="qty-minus">-</button>
-                        <input type="number" class="qty-input" value="<?= $product['quantity'] ?>" min="1">
-                        <button class="qty-plus">+</button>
+                    <div class="product-info">
+                        <h3><?= htmlspecialchars($product['name']) ?></h3>
+                        <p>Size: <strong><?= $product['size'] ?></strong></p>
+                        <p>Giá: <strong><?= number_format($product['price']) ?> ₫</strong></p>
+                        <div class="qty-box">
+                            <button class="qty-minus">-</button>
+                            <input type="number" class="qty-input" value="<?= $product['quantity'] ?>" min="1">
+                            <button class="qty-plus">+</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Thông báo giỏ trống (ẩn ban đầu) -->
+        <div class="empty-cart" style="display:<?php echo empty($cart) ? 'block' : 'none'; ?>;">
+            <p>Giỏ hàng trống!</p>
+            <p><a href="index.php">Mua sắm ngay nào!</a></p>
+        </div>
     </div>
 
-    <div class="summary-box">
+    <div class="summary-box" style="display:<?php echo empty($cart) ? 'none' : 'block'; ?>;">
         <h3>Tổng cộng giỏ hàng</h3>
         <p>Tạm tính: <b id="subtotal"><?= number_format($subtotal) ?> ₫</b></p>
         <p>Vận chuyển: <b><?= number_format($shipping) ?> ₫</b></p>
@@ -234,7 +249,12 @@ function removeFromCartOnServer(id) {
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
         body: `id=${id}`
     }).then(() => {
-        if (document.querySelectorAll('.product').length === 0) location.reload();
+        // KHÔNG RELOAD NỮA - chỉ kiểm tra giỏ rỗng và show thông báo
+        const products = document.querySelectorAll('.product');
+        if (products.length === 0) {
+            document.querySelector('.empty-cart').style.display = 'block';
+            document.querySelector('.summary-box').style.display = 'none';
+        }
     });
 }
 
