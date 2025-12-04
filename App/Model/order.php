@@ -29,7 +29,7 @@ class Order {
     // Xóa đơn hàng và chi tiết (Sử dụng action() đã được sửa để nhận tham số)
     public function remove_order($id) {
         // Xóa chi tiết đơn hàng trước (quan trọng cho ràng buộc khóa ngoại)
-        $sql_detail = "DELETE FROM chi_tiet_don_hang WHERE id_dh = ?";
+        $sql_detail = "DELETE FROM chitiet_don_hang WHERE id_dh = ?";
         $this->db->action($sql_detail, [$id]); 
 
         // Xóa đơn hàng
