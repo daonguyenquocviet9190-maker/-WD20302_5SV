@@ -1,6 +1,6 @@
 <?php
-// Lấy danh sách sản phẩm phụ kiện (giả sử $sp_phukien đã được gán từ controller)
-$dssp = $sp_nu ?? [];
+// Lấy tất cả sản phẩm
+$dssp = $this->sanpham->getall_sp();
 
 // Lấy giá trị sắp xếp từ URL
 $sort = $_GET['sort'] ?? 'default';
@@ -32,7 +32,7 @@ if ($sort !== 'default') {
 
 <div class="shop-wrapper">
 
-    <!-- SIDEBAR LỌC MỚI - ĐẸP NHƯ HÌNH BẠN GỬI -->
+    <!-- SIDEBAR LỌC MỚI - GIỮ NGUYÊN NHƯ CŨ -->
     <aside class="filter-sidebar-new">
         <h2>Lọc sản phẩm</h2>
 
@@ -81,7 +81,7 @@ if ($sort !== 'default') {
                     <div class="color-btn" style="background:#007bff;"></div>
                     <div class="color-btn" style="background:#9c27b0;"></div>
                     <div class="color-btn" style="background:#9e9e9e;"></div>
-                    <div class="color-btn active" style="background:#ffeb3b;"></div>
+                    <div class="color-btn" style="background:#ffeb3b;"></div>
                     <div class="color-btn" style="background:#2196f3;"></div>
                     <div class="color-btn" style="background:#e91e63;"></div>
                     <div class="color-btn" style="background:#795548;"></div>
@@ -93,7 +93,7 @@ if ($sort !== 'default') {
                 </div>
             </div>
         </div>
-    <!-- Hoạt động -->
+      <!-- Hoạt động -->
 <div class="filter-group-new">
     <div class="filter-header-new">Hoạt động <i class="fas fa-chevron-down"></i></div>
     <div class="filter-content-new">
@@ -124,7 +124,8 @@ if ($sort !== 'default') {
     </div>
 </div>
     </aside>
-   <!-- MAIN CONTENT -->
+
+    <!-- MAIN CONTENT -->
     <main class="main-content">
         <div class="top-bar">
             <div class="result-count">
@@ -141,9 +142,8 @@ if ($sort !== 'default') {
             </select>
         </div>
 
-
        <div class="product-grid">
-    <?php foreach ($dssp as $sp): 
+    <?php foreach ($sp_macngay as $sp): 
         // === FIX LỖI NULL & ÉP KIỂU AN TOÀN ===
         $original_price = (float)($sp['Price'] ?? 0);                    // Giá gốc
         $sale_price     = (float)($sp['sale_price'] ?? 0);              // Giá giảm (NULL → 0)
@@ -196,14 +196,14 @@ if ($sort !== 'default') {
 </div>
 
 <script>
-// Click đúng tiêu đề mới mở (không dùng Bootstrap collapse)
+// Click đúng tiêu đề mới mở (giữ nguyên như cũ)
 document.querySelectorAll('.filter-header-new').forEach(header => {
     header.addEventListener('click', function() {
         this.parentElement.classList.toggle('active');
     });
 });
 
-// Chọn size (chỉ 1 cái active)
+// Chọn size (chỉ 1 cái active) - giữ nguyên
 document.querySelectorAll('.size-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         this.closest('.size-options').querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
@@ -211,13 +211,14 @@ document.querySelectorAll('.size-btn').forEach(btn => {
     });
 });
 
-// Chọn màu (chỉ 1 cái active)
+// Chọn màu (chỉ 1 cái active) - giữ nguyên
 document.querySelectorAll('.color-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         this.closest('.color-options').querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
     });
 });
+
 // Hàm update sort khi chọn dropdown
 function updateSort(value) {
     const url = new URL(window.location);
