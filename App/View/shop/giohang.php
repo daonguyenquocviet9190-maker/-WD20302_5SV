@@ -14,7 +14,6 @@ $shipping = 30000;
 
         /* === PHẦN ĐẦU TRANG - BƯỚC Ở GIỮA + LỊCH SỬ BÊN PHẢI === */
         .page-header {
-            background:#fff;
             padding:15px 20px;
             margin-bottom:50px;
 
@@ -65,7 +64,6 @@ $shipping = 30000;
             background:white;
             border-radius:16px;
             padding:25px;
-            box-shadow:0 8px 25px rgba(0,0,0,0.08);
         }
         .product {
             position:relative;               /* quan trọng để nút X định vị đúng */
@@ -73,7 +71,7 @@ $shipping = 30000;
             align-items:center;
             gap:25px;
             padding:25px 0;
-            border-bottom:1px solid #eee;
+            border-bottom:10px solid #f8f8f8ff;
         }
         .product:last-child { border-bottom:none; }
 
@@ -88,29 +86,30 @@ $shipping = 30000;
 
         /* DẤU X Ở GÓC TRÊN BÊN PHẢI CỦA SẢN PHẨM */
         .btn-remove {
-            position:absolute;
-            top:15px;
-            right:15px;
-            width:40px;
-            height:40px;
-            background:#ff4c3b;
-            color:white;
-            border:none;
-            border-radius:50%;
-            font-size:20px;
-            font-weight:bold;
-            cursor:pointer;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            box-shadow:0 4px 15px rgba(255,76,59,0.4);
-            transition:all .3s;
-        }
-        .btn-remove:hover {
-            background:#e6392a;
-            transform:scale(1.15);
-        }
+    position: absolute;
+    top: 1px;           /* Đưa lên cao hơn (trước là 15px) */
+    right: -1px;         /* Đưa sát góc phải hơn */
+    width: 32px;        /* Nhỏ hơn (trước là 40px) */
+    height: 32px;       /* Nhỏ hơn */
+    background: #ff4c3b;
+    color: white;
+    border: none;
+    border-radius: 50%; /* Vẫn tròn hoàn toàn */
+    font-size: 18px;    /* Chữ X nhỏ lại một chút cho vừa nút */
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 12px rgba(255,76,59,0.45);
+    transition: all .3s;
+    z-index: 10;        /* Đảm bảo luôn nằm trên cùng */
+}
 
+.btn-remove:hover {
+    background: #e6392a;
+    transform: scale(1.15);
+}
         .product-info h3 { font-size:18px; margin-bottom:10px; }
         .product-info p { margin:6px 0; color:#555; font-size:15px; }
         .product-info p strong { color:#d60000; }
@@ -132,7 +131,7 @@ $shipping = 30000;
             background:white;
             border-radius:16px;
             padding:30px;
-            box-shadow:0 8px 25px rgba(0,0,0,0.08);
+            box-shadow:0 8px 25px rgba(255, 255, 255, 0.08);
             height:fit-content;
             position:sticky;
             top:20px;
@@ -141,19 +140,21 @@ $shipping = 30000;
         .summary-box p { display:flex; justify-content:space-between; margin:15px 0; }
         .summary-box hr { border:none; border-top:2px dashed #ddd; margin:25px 0; }
         .btn-checkout {
-            display:block; background:#d60000; color:white; padding:2px;
+            display:block; background:#d60000; color:white; padding:1px;
             text-align:center; border-radius:12px; font-weight:bold; font-size:17px;
             text-decoration:none; margin-top:20px; transition:.3s;
         }
         .btn-checkout:hover { background:#c40000; }
 
-        /* Mobile */
-        @media (max-width:992px) {
-            .cart-container { flex-direction:column; }
-            .summary-box { width:100%; }
-            .header-content { flex-direction:column; text-align:center; gap:15px; }
-            .order-history-link { position:static; transform:none; }
+        /* Giỏ trống */
+        .empty-cart {
+            text-align:center;
+            padding:80px 20px;
+            color:#999;
+            font-size:20px;
         }
+        .empty-cart a { color:#d60000; text-decoration:underline; }
+
     </style>
 </head>
 <body>
@@ -174,29 +175,37 @@ $shipping = 30000;
 
 <div class="cart-container">
     <div class="product-box">
-        <?php foreach($cart as $id => $product): ?>
-            <?php $subtotal += $product['price'] * $product['quantity']; ?>
-            <div class="product" data-id="<?= htmlspecialchars($id) ?>" data-price="<?= $product['price'] ?>">
-                <img src="App/public/img/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+        <div class="products-list"> <!-- Bao sản phẩm để dễ kiểm tra rỗng -->
+            <?php foreach($cart as $id => $product): ?>
+                <?php $subtotal += $product['price'] * $product['quantity']; ?>
+                <div class="product" data-id="<?= htmlspecialchars($id) ?>" data-price="<?= $product['price'] ?>">
+                    <img src="App/public/img/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
 
-                <!-- DẤU X Ở GÓC TRÊN PHẢI -->
-                <button class="btn-remove" title="Xóa sản phẩm">×</button>
+                    <!-- DẤU X Ở GÓC TRÊN PHẢI -->
+                    <button class="btn-remove" title="Xóa sản phẩm">×</button>
 
-                <div class="product-info">
-                    <h3><?= htmlspecialchars($product['name']) ?></h3>
-                    <p>Size: <strong><?= $product['size'] ?></strong></p>
-                    <p>Giá: <strong><?= number_format($product['price']) ?> ₫</strong></p>
-                    <div class="qty-box">
-                        <button class="qty-minus">-</button>
-                        <input type="number" class="qty-input" value="<?= $product['quantity'] ?>" min="1">
-                        <button class="qty-plus">+</button>
+                    <div class="product-info">
+                        <h3><?= htmlspecialchars($product['name']) ?></h3>
+                        <p>Size: <strong><?= $product['size'] ?></strong></p>
+                        <p>Giá: <strong><?= number_format($product['price']) ?> ₫</strong></p>
+                        <div class="qty-box">
+                            <button class="qty-minus">-</button>
+                            <input type="number" class="qty-input" value="<?= $product['quantity'] ?>" min="1">
+                            <button class="qty-plus">+</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Thông báo giỏ trống (ẩn ban đầu) -->
+        <div class="empty-cart" style="display:<?php echo empty($cart) ? 'block' : 'none'; ?>;">
+            <p>Giỏ hàng trống!</p>
+            <p><a href="?page=product">Mua sắm ngay nào!</a></p>
+        </div>
     </div>
 
-    <div class="summary-box">
+    <div class="summary-box" style="display:<?php echo empty($cart) ? 'none' : 'block'; ?>;">
         <h3>Tổng cộng giỏ hàng</h3>
         <p>Tạm tính: <b id="subtotal"><?= number_format($subtotal) ?> ₫</b></p>
         <p>Vận chuyển: <b><?= number_format($shipping) ?> ₫</b></p>
@@ -234,7 +243,12 @@ function removeFromCartOnServer(id) {
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
         body: `id=${id}`
     }).then(() => {
-        if (document.querySelectorAll('.product').length === 0) location.reload();
+        // KHÔNG RELOAD NỮA - chỉ kiểm tra giỏ rỗng và show thông báo
+        const products = document.querySelectorAll('.product');
+        if (products.length === 0) {
+            document.querySelector('.empty-cart').style.display = 'block';
+            document.querySelector('.summary-box').style.display = 'none';
+        }
     });
 }
 
