@@ -23,7 +23,7 @@
                     <td><?= $o['fullname'] ?></td>
                     <td><?= $o['phone'] ?></td>
                     <td><?= number_format($o['subtotal'], 0, ',', '.') ?> VNĐ</td>
-                    <td><?= $o['ngay_dg'] ?></td>
+                    <td><?= date("H:i:s - d/m/Y", strtotime($o['ngay_mua'])) ?> </td>
                     <td>
                         <span class="order-status status-<?= str_replace(' ', '-', strtolower($o['status'])) ?>">
                             <?= $o['status'] ?>

@@ -228,7 +228,6 @@ hr {
                     <option value="momo">Thanh toán qua Momo</option>
                 </select>
             </div>
-
             <button type="submit" name="submit" class="btn">Đặt hàng</button>
         </form>
     </div>
