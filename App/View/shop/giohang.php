@@ -166,7 +166,6 @@ $shipping = 30000;
             <span class="active">1</span> Giỏ hàng >
             <span class="">2</span> Thanh toán >
             <span class="">3</span> Hoàn tất đơn hàng
-        </div>
         <?php if(isset($_SESSION['username'])): ?>
             <a href="index.php?page=order_history" class="order-history-link">Lịch sử mua hàng</a>
         <?php endif; ?>
