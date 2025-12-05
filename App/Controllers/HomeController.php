@@ -321,34 +321,37 @@ public function wishlist() {
     include 'App/View/shop/wishlist.php';
 }
 
-
 public function order_history()
 {
-    session_start();
+    // BƯỚC NÀY ĐÃ BỊ LOẠI BỎ: session_start();
+    
+    // !!! QUAN TRỌNG: 
+    // Nếu bạn bỏ qua bước Đăng nhập, bạn cần phải có ID người dùng (user ID)
+    // để truy vấn đơn hàng. Tôi sẽ đặt ID người dùng TẠM THỜI là 1 để tránh lỗi SQL.
+    // TRONG ỨNG DỤNG THỰC TẾ: BẮT BUỘC PHẢI LẤY ID TỪ SESSION.
+    
+    // Giả định ID người dùng (Cần phải thay thế bằng logic thực tế)
+    $user_id = 1; 
 
-    if (!isset($_SESSION['username'])) {
-        header("Location: index.php?page=login");
-        exit;
-    }
+    /* // Logic gốc bị loại bỏ:
+    // if (!isset($_SESSION['Username'])) { header("Location: index.php?page=login"); exit; }
+    // $user = $this->user->get_user_by_username($_SESSION['Username']);
+    // if (!$user) { ... }
+    // $user_id = $user['id_User'];
+    */
 
-    $user = $this->user->get_user_by_username($_SESSION['username']);
-    if (!$user) {
-        header("Location: index.php?page=login");
-        exit;
-    }
-
-    // SỬA DÒNG NÀY: dùng 'id_User' thay vì 'ID'
-    $user_id = $user['id_User'];  // ← ĐÚNG RỒI!
-
-    require_once 'app/Model/database.php';
+    // Khởi tạo kết nối DB
+    require_once 'App/Model/database.php';
     $db = new Database("localhost", "5svcode", "root", "");
     $pdo = $db->connect();
 
+    // 1. Lấy danh sách Đơn hàng của User
     $sql = "SELECT * FROM donhang WHERE id_User = ? ORDER BY ngay_mua DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$user_id]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // 2. Lấy Chi tiết cho từng Đơn hàng
     foreach ($orders as &$order) {
         $sql_detail = "SELECT ct.*, sp.Name, sp.img 
                        FROM chitiet_donhang ct 
@@ -359,7 +362,8 @@ public function order_history()
         $order['items'] = $stmt_detail->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    include 'app/View/shop/order_history.php';
+    // 3. Tải View
+    include 'App/View/shop/order_history.php';
 }
 
 }
