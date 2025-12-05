@@ -253,11 +253,38 @@ public function giohang()
             "quantity" => $qty
         ];
     }
+//PHẦN MỚI: Kiểm tra nút nào được bấm bằng cách nhìn class của submit button
+    $clicked_button = '';
+    if (isset($_POST['submit'])) {
+        parse_str($_SERVER['QUERY_STRING'], $query);
+        // Laravel-style trick: lấy tên button từ key trong $_POST
+        foreach ($_POST as $key => $value) {
+            if ($key === 'btn-add' || strpos($key, 'btn-buy') !== false) {
+                $clicked_button = $key;
+                break;
+            }
+        }
+    }
 
-    // Redirect về giỏ hàng
-    header("Location: index.php?page=giohang");
+    // Cách đơn giản & hiệu quả nhất (khuyên dùng)
+    $is_buy_now = strpos($_SERVER['HTTP_REFERER'] ?? '', '') !== false || 
+                  (isset($_POST) && in_array('btn-buy', array_keys($_POST)) === false); 
+    // Thay bằng cách siêu đơn giản dưới đây
+
+    // CÁCH TỐI ƯU NHẤT – CHỈ THÊM ẨN FIELD BẰNG JS
+    // Bỏ hết trên, dùng cách này (x`
+
+    // ← Thay toàn bộ đoạn kiểm tra phức tạp bằng 1 dòng này:
+    $buy_now = isset($_POST['action']) && $_POST['action'] === 'buy_now';
+
+    if ($buy_now) {
+        header("Location: index.php?page=order");
+    } else {
+        header("Location: index.php?page=giohang");
+    }
     exit;
 }
+
 public function add_to_wishlist() {
     session_start();
     
@@ -355,12 +382,57 @@ public function hd_macngay() {
 public function order_history()
 {
     define('APP_PATH', true);
-    include 'app/View/shop/order_history.php';
+    // BƯỚC NÀY ĐÃ BỊ LOẠI BỎ: session_start();
+    
+    // !!! QUAN TRỌNG: 
+    // Nếu bạn bỏ qua bước Đăng nhập, bạn cần phải có ID người dùng (user ID)
+    // để truy vấn đơn hàng. Tôi sẽ đặt ID người dùng TẠM THỜI là 1 để tránh lỗi SQL.
+    // TRONG ỨNG DỤNG THỰC TẾ: BẮT BUỘC PHẢI LẤY ID TỪ SESSION.
+    
+    // Giả định ID người dùng (Cần phải thay thế bằng logic thực tế)
+    $user_id = 1; 
+
+    /* // Logic gốc bị loại bỏ:
+    // if (!isset($_SESSION['Username'])) { header("Location: index.php?page=login"); exit; }
+    // $user = $this->user->get_user_by_username($_SESSION['Username']);
+    // if (!$user) { ... }
+    // $user_id = $user['id_User'];
+    */
+
+    // Khởi tạo kết nối DB
+    require_once 'App/Model/database.php';
+    $db = new Database("localhost", "5svcode", "root", "");
+    $pdo = $db->connect();
+
+    // 1. Lấy danh sách Đơn hàng của User
+    $sql = "SELECT * FROM donhang WHERE id_User = ? ORDER BY ngay_mua DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$user_id]);
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 2. Lấy Chi tiết cho từng Đơn hàng
+    foreach ($orders as &$order) {
+        $sql_detail = "SELECT ct.*, sp.Name, sp.img 
+                       FROM chitiet_donhang ct 
+                       JOIN sanpham sp ON ct.id_SP = sp.id_SP 
+                       WHERE ct.id_dh = ?";
+        $stmt_detail = $pdo->prepare($sql_detail);
+        $stmt_detail->execute([$order['id_dh']]);
+        $order['items'] = $stmt_detail->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // 3. Tải View
+    include 'App/View/shop/order_history.php';
 }
 
 public function logout()
 {
     include 'app/View/shop/logout.php';
+}
+
+public function profile()
+{
+    include 'app/View/shop/profile.php';
 }
 
 }

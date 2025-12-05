@@ -53,218 +53,191 @@ foreach ($list_orders as $order) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Lịch sử đơn hàng</title>
+    <title>Lịch sử đơn hàng - 5SV Sport</title>
 
     <style>
         body {
-            background: #f1f2f6;
-            font-family: "Segoe UI", sans-serif;
+            background: #f5f5f7;
+            font-family: Arial, sans-serif;
         }
 
-        .order-history {
-            width: 80%;
+        .order-history-page {
+            max-width: 920px;
             margin: 40px auto;
+            padding: 5px;
         }
 
-        .order-title {
-            text-align: center;
+        .page-title {
             font-size: 30px;
             font-weight: 700;
-            margin-bottom: 40px;
+            text-align: center;
+            margin-bottom: 35px;
             color: #222;
         }
 
-        /* THẺ ĐƠN HÀNG */
         .order-card {
             background: #fff;
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 25px;
-            margin-bottom: 40px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.07);
-            border: 1px solid #e5e5e5;
-            transition: .25s ease;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: 0.25s;
         }
 
         .order-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
 
         /* HEADER */
         .order-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 18px;
         }
 
         .order-header h3 {
-            font-size: 20px;
-            color: #0b63c5;
-            margin-bottom: 6px;
+            font-size: 22px;
+            color: #e60023;
+            margin-bottom: 3px;
         }
 
         .order-header .date {
+            color: #777;
             font-size: 14px;
-            color: #666;
         }
 
-        /* STATUS */
         .status {
-            padding: 8px 16px;
+            padding: 7px 16px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            text-transform: capitalize;
         }
 
         .status-cho-xu-ly {
-            background: #fff3cd;
-            color: #856404;
+            background: #ffe9c7;
+            color: #cc7700;
         }
 
-        .status-dang-giao {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-
-        .status-hoan-thanh {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        /* ITEMS */
         .order-items {
-            margin-top: 15px;
             border-top: 1px solid #eee;
-            padding-top: 20px;
+            margin-top: 10px;
+            padding-top: 15px;
         }
 
         .order-item {
             display: flex;
-            margin-bottom: 18px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid #eee;
             gap: 15px;
-        }
-
-        .order-item:last-child {
-            border-bottom: none;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
         }
 
         .order-item img {
             width: 90px;
             height: 90px;
-            object-fit: cover;
             border-radius: 10px;
-            border: 1px solid #ddd;
+            object-fit: cover;
+            border: 1px solid #eee;
         }
 
         .item-info .name {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .item-info .sub {
-            color: #555;
             font-size: 14px;
-            margin-bottom: 4px;
+            color: #777;
+            margin-bottom: 3px;
         }
 
         .item-info .price {
-            font-size: 16px;
-            color: #e0001b;
             font-weight: 700;
+            font-size: 15px;
+            color: #d10000;
         }
 
         /* FOOTER */
         .order-footer {
-            text-align: right;
+            margin-top: 15px;
+            padding-top: 12px;
             border-top: 1px solid #eee;
-            padding-top: 18px;
-            margin-top: 20px;
+            text-align: right;
         }
 
-        .order-footer .total {
-            font-size: 20px;
+        .total-text {
+            font-size: 19px;
             font-weight: 700;
-            margin-bottom: 4px;
         }
 
-        .order-footer .total span {
-            color: #e0001b;
+        .total-text span {
+            color: #d10000;
         }
 
-        .order-footer .ship {
-            color: #666;
+        .ship-text {
             font-size: 14px;
+            margin-top: 4px;
+            color: #777;
         }
     </style>
 </head>
 
 <body>
 
-<div class="order-history">
+    <div class="order-history-page">
+        <h2 class="page-title">Lịch sử đơn hàng</h2>
 
-    <h2 class="order-title">Lịch sử đơn hàng</h2>
+        <?php if (empty($orders)): ?>
+            <p style="text-align:center; font-size:17px; color:#666;">Bạn chưa có đơn hàng nào.</p>
 
-    <?php if (empty($orders)): ?>
-        <p style="text-align:center; color:#666; font-size:17px;">Bạn chưa có đơn hàng nào</p>
+        <?php else: foreach ($orders as $order): ?>
+                <div class="order-card">
 
-    <?php else: ?>
+                    <div class="order-header">
+                        <div>
+                            <h3>Đơn hàng #<?= $order['id_dh'] ?></h3>
+                            <p class="date">Ngày đặt: <?= date('d/m/Y H:i', strtotime($order['ngay_mua'])) ?></p>
+                        </div>
 
-        <?php foreach ($orders as $order): ?>
-
-            <div class="order-card">
-
-                <!-- HEADER -->
-                <div class="order-header">
-                    <div>
-                        <h3>Đơn hàng #<?= $order['id_dh'] ?></h3>
-                        <p class="date">Ngày đặt: <?= $order['ngay_mua'] ?></p>
+                        <span class="status status-cho-xu-ly">
+                            <?= $order['status'] ?>
+                        </span>
                     </div>
 
-                    <?php $statusClass = "status-" . str_replace(" ", "-", strtolower($order['status'])); ?>
-                    <span class="status <?= $statusClass ?>">
-                        <?= $order['status'] ?>
-                    </span>
-                </div>
+                    <div class="order-items">
+                        <?php foreach ($order['items'] as $item): ?>
+                            <div class="order-item">
+                                <img src="App/public/img/<?= $item['img'] ?>" alt="sp">
 
-                <!-- ORDER ITEMS -->
-                <div class="order-items">
+                                <div class="item-info">
+                                    <p class="name"><?= $item['Name'] ?></p>
 
-                    <?php foreach ($order['items'] as $item): ?>
-                        <div class="order-item">
-                            <img src="App/public/img/<?= $item['img'] ?>" alt="">
+                                    <p class="sub">
+                                        Size: <?= $item['size'] ?> |
+                                        SL: <?= $item['soluong'] ?>
+                                    </p>
 
-                            <div class="item-info">
-                                <p class="name"><?= $item['Name'] ?></p>
-                                <p class="sub">Size: <?= $item['size'] ?> — SL: <?= $item['soluong'] ?></p>
-                                <p class="price"><?= number_format($item['giamua'], 0, ',', '.') ?>đ</p>
+                                    <p class="price"><?= number_format($item['giamua']) ?>đ</p>
+                                </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="order-footer">
+                        <p class="total-text">
+                            Tổng thanh toán:
+                            <span><?= number_format($order['total']) ?>đ</span>
+                        </p>
+                        <p class="ship-text">
+                            Đã gồm phí vận chuyển: <?= number_format($order['shipping']) ?>đ
+                        </p>
+                    </div>
 
                 </div>
-
-                <!-- FOOTER -->
-                <div class="order-footer">
-                    <p class="total">
-                        Tổng cộng: <span><?= number_format($order['total'], 0, ',', '.') ?>đ</span>
-                    </p>
-                    <p class="ship">
-                        Phí vận chuyển: <?= number_format($order['shipping'], 0, ',', '.') ?>đ
-                    </p>
-                </div>
-
-            </div>
-
-        <?php endforeach; ?>
-
-    <?php endif; ?>
-
-</div>
+        <?php endforeach; endif; ?>
+    </div>
 
 </body>
 </html>
-

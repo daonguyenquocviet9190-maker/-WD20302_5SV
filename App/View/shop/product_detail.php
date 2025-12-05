@@ -63,7 +63,7 @@
 
     <div class="btn-group">
         <button type="submit" class="btn-add">Thêm vào giỏ hàng</button>
-        <button type="button" class="btn-buy">Mua ngay</button>
+        <button type="submit" class="btn-buy">Mua ngay</button>
     </div>
 
 </form>
