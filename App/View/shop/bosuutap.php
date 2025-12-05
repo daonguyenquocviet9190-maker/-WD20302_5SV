@@ -90,7 +90,7 @@
             thoáng khí để mỗi khoảnh khắc bạn giao đấu trên sân thêm trọn vẹn, thoải mái tận hưởng và kết nối. 
             Không cần là vận động viên, chỉ cần là người yêu nhịp chuyển động. 
             Không cần ghi điểm cao, chỉ cần rời sân với những người bạn mới.</p>
-      <a href="#" class="btn">KHÁM PHÁ NGAY</a>
+      <a href="index.php?page=hd_caulong" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
@@ -99,7 +99,7 @@
       <h1>5SV x Clarks | ALLDAY BLISS</h1>
       <p>Sự kết hợp lấy cảm hứng từ nhịp chuyển động không ngừng của cuộc sống, đem đến sự thoải mái tuyệt đối trong từng bước chân,
          cùng khả năng linh hoạt thích ứng với mọi hoàn cảnh.</p>
-      <a href="#" class="btn">KHÁM PHÁ NGAY</a>
+      <a href="index.php?page=giay_product" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
@@ -108,7 +108,7 @@
       <h1>Football Collection | BE THE ALL – STAR</h1>
       <p>Trải nghiệm ra sân như cầu thủ chuyên nghiệp với bộ sưu tập TeamWear mới nhất tại 5SV.
          Linh hoạt trong mọi cú sút bởi chất liệu tái chế cao cấp, co giãn thoải mái, thiết kế tối ưu hiệu suất thi đấu.</p>
-      <a href="#" class="btn">KHÁM PHÁ NGAY</a>
+      <a href="index.php?page=hd_bongda" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
@@ -120,7 +120,7 @@
           kéo dài tuổi thọ cho sản phẩm. Bên cạnh đó là khả năng chống tia UV hiệu quả,
            cùng chỉ số UPF 50+ giúp bảo vệ da dưới ánh mặt trời đến 99%. Tự tin "bật tung" năng lượng chill hè hết ý,
             an tâm tham gia mọi hoạt động thể thao dưới nước từ bơi lội, Snorkeling đến chèo SUP, Jetski, Parasailing,...</p>
-      <a href="#" class="btn">KHÁM PHÁ NGAY</a>
+      <a href="index.php?page=hd_boiloi" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
@@ -134,7 +134,7 @@
            an toàn cho môi trường và mang tính bền vững, lan tỏa xu hướng thời trang xanh tích cực. Bên cạnh đó,
             sản phẩm tích hợp cùng tính năng DRI - AIR siêu khô thoáng, giúp bạn luôn trong trạng thái mát
              mẻ và dễ chịu dù hoạt động ở cường độ mạnh.</p>
-      <a href="#" class="btn">KHÁM PHÁ NGAY</a>
+      <a href="index.php?page=hd_gym" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
@@ -147,7 +147,7 @@
            Đặc biệt, tính năng DRI - AIR siêu khô thoáng kết hợp ANTI - UV chống nắng hiệu quả giúp bạn luôn thoải
             mái vận động suốt ngày dài. Thiết kế basic, dễ phối đồ, linh hoạt cho cả những buổi đi chơi,
              mặc thường ngày hay tham gia thể thao đều cực kỳ phù hợp.</p>
-      <a href="#" class="btn">KHÁM PHÁ NGAY</a>
+      <a href="index.php?page=hd_macngay" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
@@ -157,7 +157,7 @@
       <p>Đồng hành trên mọi hành trình bứt phá giới hạn bản thân, với các tính năng ưu việt từ ANTI - UV chống nắng hiệu quả,
          DRI - AIR khô thoáng tuyệt đối đến chất liệu VẢI TÁI CHẾ thân thiện môi trường,
           kết hợp cùng các chi tiết bổ trợ quá trình vận động thêm thuận tiện và thoải mái.</p>
-      <a href="#" class="btn">KHÁM PHÁ NGAY</a>
+      <a href="index.php?page=hd_chaybo" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
   <div class="banner" id="banner1">
@@ -167,7 +167,7 @@
       <p>Làm chủ mọi chuyển động, thỏa sức tận hưởng và tự tin bứt phá cùng chất liệu mềm nhẹ - co giãn tối ưu, 
         kết hợp cùng công nghệ DRI - AIR siêu khô thoáng, thấm hút mồ hôi vượt trội mang đến cảm giác dễ chịu cả ngày dài hoạt động.
          Từ quần shorts, áo thun, tank top, áo dài tay,... những món đồ chắc chắn không thể thiếu của mọi anh trai năng động.</p>
-      <a href="#" class="btn">KHÁM PHÁ NGAY</a>
+      <a href="index.php?page=hd_gym" class="btn">KHÁM PHÁ NGAY</a>
     </div>
   </div>
 </body>
