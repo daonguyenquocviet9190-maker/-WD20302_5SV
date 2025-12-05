@@ -259,11 +259,38 @@ public function giohang()
             "quantity" => $qty
         ];
     }
+//PHẦN MỚI: Kiểm tra nút nào được bấm bằng cách nhìn class của submit button
+    $clicked_button = '';
+    if (isset($_POST['submit'])) {
+        parse_str($_SERVER['QUERY_STRING'], $query);
+        // Laravel-style trick: lấy tên button từ key trong $_POST
+        foreach ($_POST as $key => $value) {
+            if ($key === 'btn-add' || strpos($key, 'btn-buy') !== false) {
+                $clicked_button = $key;
+                break;
+            }
+        }
+    }
 
-    // Redirect về giỏ hàng
-    header("Location: index.php?page=giohang");
+    // Cách đơn giản & hiệu quả nhất (khuyên dùng)
+    $is_buy_now = strpos($_SERVER['HTTP_REFERER'] ?? '', '') !== false || 
+                  (isset($_POST) && in_array('btn-buy', array_keys($_POST)) === false); 
+    // Thay bằng cách siêu đơn giản dưới đây
+
+    // CÁCH TỐI ƯU NHẤT – CHỈ THÊM ẨN FIELD BẰNG JS
+    // Bỏ hết trên, dùng cách này (x`
+
+    // ← Thay toàn bộ đoạn kiểm tra phức tạp bằng 1 dòng này:
+    $buy_now = isset($_POST['action']) && $_POST['action'] === 'buy_now';
+
+    if ($buy_now) {
+        header("Location: index.php?page=order");
+    } else {
+        header("Location: index.php?page=giohang");
+    }
     exit;
 }
+
 public function add_to_wishlist() {
     session_start();
     
