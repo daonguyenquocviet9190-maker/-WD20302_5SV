@@ -34,14 +34,15 @@ $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
     gap: 8px;
     padding: 8px 12px;
     border-radius: 8px;
-    background: rgba(255,255,255,0.05);
+    background: white;
     transition: all 0.3s ease;
     font-size: 14px;
-    color: #fff;
+    color: #0f0e0eff;
 }
 
 .user-trigger:hover {
-    background: rgba(255,255,255,0.15);
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .user-trigger .arrow {
