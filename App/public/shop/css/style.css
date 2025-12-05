@@ -52,6 +52,48 @@ body {
 .nav a:hover {
     color: red;
 }
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-trigger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-menu {
+    display: none; /* mặc định ẩn */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    min-width: 180px;
+    z-index: 1000;
+}
+
+.user-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.user-menu a:hover {
+    background: #f5f5f5;
+}
+
+/* Khi hover vào trigger thì show menu */
+.user-dropdown:hover .user-menu {
+    display: block;
+}
+
 
 /* DROPDOWN */
 .dropdown {
@@ -1487,3 +1529,4 @@ body {
         font-size: 14px;
     }
 }
+

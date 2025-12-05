@@ -79,18 +79,13 @@ class HomeController
     }
     include 'app/View/shop/product_detail.php';
   }
-  public function cart()
-  {
-    $dssp = $this->sanpham->getall_sp();
-    include 'app/View/shop/cart.php';
-  }
   public function contact()
   {
     include 'app/View/shop/contact.php';
   }
   public function login()
   {
-    session_start();
+    // session_start();
     ob_start(); // gọi header
     if (isset($_POST['login']) && $_POST['login']) {
       $username = $_POST['username'];
@@ -114,8 +109,7 @@ class HomeController
     include 'app/View/shop/login.php';
   }
 public function giohang()
-{
-    session_start(); // đảm bảo session hoạt động
+{ // đảm bảo session hoạt động
 
     if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
         echo "Giỏ hàng trống!";
@@ -360,42 +354,13 @@ public function hd_macngay() {
 
 public function order_history()
 {
-    session_start();
-
-    if (!isset($_SESSION['username'])) {
-        header("Location: index.php?page=login");
-        exit;
-    }
-
-    $user = $this->user->get_user_by_username($_SESSION['username']);
-    if (!$user) {
-        header("Location: index.php?page=login");
-        exit;
-    }
-
-    // SỬA DÒNG NÀY: dùng 'id_User' thay vì 'ID'
-    $user_id = $user['id_User'];  // ← ĐÚNG RỒI!
-
-    require_once 'app/Model/database.php';
-    $db = new Database("localhost", "5svcode", "root", "");
-    $pdo = $db->connect();
-
-    $sql = "SELECT * FROM donhang WHERE id_User = ? ORDER BY ngay_mua DESC";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$user_id]);
-    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($orders as &$order) {
-        $sql_detail = "SELECT ct.*, sp.Name, sp.img 
-                       FROM chitiet_donhang ct 
-                       JOIN sanpham sp ON ct.id_SP = sp.id_SP 
-                       WHERE ct.id_dh = ?";
-        $stmt_detail = $pdo->prepare($sql_detail);
-        $stmt_detail->execute([$order['id_dh']]);
-        $order['items'] = $stmt_detail->fetchAll(PDO::FETCH_ASSOC);
-    }
-
+    define('APP_PATH', true);
     include 'app/View/shop/order_history.php';
+}
+
+public function logout()
+{
+    include 'app/View/shop/logout.php';
 }
 
 }
