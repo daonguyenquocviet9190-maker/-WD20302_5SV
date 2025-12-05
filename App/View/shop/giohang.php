@@ -159,7 +159,6 @@ $shipping = 30000;
 </head>
 <body>
 
-<!-- PHẦN ĐẦU TRANG -->
 <div class="page-header">
     <div class="header-content">
         <div class="step">
@@ -169,6 +168,12 @@ $shipping = 30000;
         <?php if(isset($_SESSION['username'])): ?>
             <a href="index.php?page=order_history" class="order-history-link">Lịch sử mua hàng</a>
         <?php endif; ?>
+
+        </div>
+
+        <a href="index.php?page=order_history" class="order-history-link">Lịch sử mua hàng</a>
+
+
     </div>
 </div>
 
