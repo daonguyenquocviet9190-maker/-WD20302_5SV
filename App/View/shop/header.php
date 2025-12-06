@@ -93,6 +93,69 @@ $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
     width: 18px;
     text-align: center;
 }
+/* --- 1. Container chính của Tìm kiếm Gần đây --- */
+.search-popup-recent {
+    padding: 15px 20px;
+    /* Đường phân cách giữa thanh input và phần lịch sử */
+    border-top: 1px solid #e0e0e0;
+}
+
+/* --- 2. Tiêu đề (VD: "Tìm kiếm gần đây:") --- */
+.search-popup-recent h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #555;
+    font-weight: 600; /* Hơi đậm hơn */
+}
+
+/* --- 3. Danh sách các từ khóa (`ul.recent-list`) --- */
+.recent-list {
+    list-style: none; /* Loại bỏ dấu chấm mặc định */
+    padding: 0;
+    margin: 0;
+    display: flex; /* Sắp xếp các mục theo hàng ngang */
+    flex-wrap: wrap; /* Cho phép từ khóa xuống hàng nếu quá dài */
+    gap: 8px; /* Khoảng cách giữa các "thẻ" từ khóa */
+}
+
+/* --- 4. Định dạng từng từ khóa (`li a`) --- */
+.recent-list li a {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #f7f7f7; /* Nền xám nhạt */
+    border: 1px solid #e0e0e0; /* Đường viền nhẹ */
+    border-radius: 18px; /* Bo tròn góc để trông như thẻ (tag) */
+    font-size: 13px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s ease; /* Hiệu ứng mượt mà khi di chuột */
+    line-height: 1; /* Căn chỉnh văn bản tốt hơn */
+}
+
+.recent-list li a:hover {
+    background-color: #e6e6e6; /* Đổi màu nền khi di chuột */
+    border-color: #cccccc;
+    color: #000;
+}
+
+/* --- 5. Nút "Xóa lịch sử" --- */
+.search-popup-recent .clear-recent {
+    float: right; /* Đẩy nút sang bên phải */
+    margin-top: -30px; /* Di chuyển lên gần tiêu đề */
+    padding: 0;
+    background: none;
+    border: none;
+    color: #a0a0a0;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none; /* Không gạch chân mặc định */
+    transition: color 0.2s;
+}
+
+.search-popup-recent .clear-recent:hover {
+    color: #000;
+    text-decoration: underline; /* Gạch chân khi di chuột */
+}
 
     </style>
 </head>
@@ -239,7 +302,7 @@ $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
                 <div class="user-dropdown">
     <div class="user-trigger">
         <i class="fa-regular fa-user"></i>
-        <span class="user-name"><?= $user ? 'Xin chào bé,' . " ". htmlspecialchars($user) : '' ?></span>
+        <span class="user-name"><?= $user ? 'Xin chào,' . " ". htmlspecialchars($user) : '' ?></span>
         <i class="fa-solid fa-chevron-down arrow"></i>
     </div>
 
@@ -265,16 +328,31 @@ $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
     </header>
 
     <!-- Search popup -->
-    <div class="search-overlay-bg" id="searchOverlayBg"></div>
-    <div class="search-popup" id="searchPopup">
-        <div class="search-popup-header">
-            <h3>Tìm kiếm sản phẩm</h3>
-            <span class="close-search-popup" id="closeSearchPopup">×</span>
-        </div>
-        <div class="search-popup-input">
-            <input type="text" placeholder="Nhập tên sản phẩm, mã SP, từ khóa..." autofocus>
-            <button type="submit"><i class="fas fa-search"></i></button>
-        </div>
+<div class="search-overlay-bg" id="searchOverlayBg"></div>
+<div class="search-popup" id="searchPopup">
+    <div class="search-popup-header">
+        <h3>Tìm kiếm sản phẩm</h3>
+        <span class="close-search-popup" id="closeSearchPopup">×</span>
+    </div>
+    <div class="search-popup-input">
+        <input type="text" placeholder="Nhập tên sản phẩm, mã SP, từ khóa..." autofocus>
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="search-popup-recent">
+        <h4>Gợi ý tìm kiếm :</h4>
+        <ul class="recent-list">
+            <li><a href="index.php?page=nu_product">Áo nữ</a></li>
+            <li><a href="index.php?page=giay_product">Giày thể thao</a></li>
+            <li><a href="index.php?page=nam_product">Đồ nam</a></li>
+            <li><a href="index.php?page=product_detail&id=118">Bóng rổ DELTA</a></li>
+            <li><a href="index.php?page=single_deal&price=11">Sản phẩm sale 11k</a></li>
+            <li><a href="index.php?page=product_detail&id=132">Nước rửa vợt</a></li>
+            <li><a href="index.php?page=hd_bongda">Đồ bóng đá</a></li>
+            <li><a href="index.php?page=hd_boiloi">Đồ bơi</a></li>
+
+        </ul>
+
+    </div>
     </div>
 
  <script>

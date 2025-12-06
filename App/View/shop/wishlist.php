@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 // Khởi tạo model Product
 if (!isset($this->sanpham)) {
@@ -215,6 +215,17 @@ if (isset($_SESSION['wishlist']) && !empty($_SESSION['wishlist'])) {
             .page-title { font-size: 24px; margin-bottom: 20px;}
             .page-title span { font-size: 18px; }
         }
+        /* Đảm bảo nút này không bao giờ bị gạch chân */
+.btn-remove-wish {
+    /* ... các thuộc tính khác ... */
+    text-decoration: none !important; /* Quan trọng: loại bỏ gạch chân trên thẻ a */
+}
+
+/* Quan trọng: Loại bỏ gạch chân ngay cả khi di chuột */
+.btn-remove-wish:hover {
+    /* ... các thuộc tính khác ... */
+    text-decoration: none; 
+}
     </style>
 </head>
 <body>
