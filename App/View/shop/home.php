@@ -230,7 +230,7 @@
     <div class="sparkles"></div>
 </div>
 
-<script>
+<!-- <script>
     // Hiệu ứng hạt điện nhẹ, đẹp, không lag
     const sparkles = document.querySelector('.sparkles');
     setInterval(() => {
@@ -251,7 +251,7 @@
     }, 150);
 
     // Dùng keyframes có sẵn trong CSS → mượt hơn
-</script>
+</script> -->
 
 <style>
     @keyframes sparkUp {

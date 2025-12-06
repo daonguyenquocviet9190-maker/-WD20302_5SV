@@ -191,7 +191,6 @@ body {
 .dropdown-menu.mega a:hover {
     color: #d60000;
 }
-/* Sửa CSS cho hình giày nằm ngang + nhỏ lại (dán vào cuối style.css) */
 .dropdown-menu.large .image {
     display: flex !important;          /* Làm 4 hình giày nằm ngang */
     flex-direction: row !important;    /* Xếp theo hàng ngang */

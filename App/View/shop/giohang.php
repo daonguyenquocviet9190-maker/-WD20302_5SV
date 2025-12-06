@@ -66,7 +66,6 @@ body { font-family:Arial,sans-serif; background:#f9f9f9; }
             <span class="">2</span> Thanh toán >
             <span class="">3</span> Hoàn tất đơn hàng
         </div>
-        <a href="index.php?page=order_history" class="order-history-link">Lịch sử đơn hàng</a>
         <?php if(isset($_SESSION['username'])): ?>
             <a href="index.php?page=order_history" class="order-history-link">Lịch sử mua hàng</a>
         <?php endif; ?>
