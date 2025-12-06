@@ -187,7 +187,7 @@ foreach ($list_orders as $order) {
 <body>
 
     <div class="order-history-page">
-        <h2 class="page-title">Lịch sử đơn hàng</h2>
+        <h2 class="page-title">Lịch sử mua hàng</h2>
 
         <?php if (empty($orders)): ?>
             <p style="text-align:center; font-size:17px; color:#666;">Bạn chưa có đơn hàng nào.</p>
