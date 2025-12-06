@@ -31,7 +31,7 @@
                     </td>
                     <td class="actions">
                         <a href="?page=order&action=detail&id=<?= $o['id_dh'] ?>" title="Chi tiết"><i class="fas fa-eye"></i></a>
-                        <a href="?page=order&action=delete&id=<?= $o['id_dh'] ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"><i class="fas fa-trash-alt"></i></a>
+                        <!-- <a href="?page=order&action=delete&id= //$o['id_dh'] ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"><i class="fas fa-trash-alt"></i></a> -->
                     </td>
                 </tr>
                 <?php endforeach; ?>

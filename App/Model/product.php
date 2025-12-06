@@ -16,6 +16,19 @@ class Product {
     $sql = "SELECT * FROM sanpham ORDER BY id_SP ASC LIMIT 11";
     return $this->db->get_all($sql);
 }
+public function getall_size() {
+    $sizes = [];
+    $sql = "SHOW COLUMNS FROM sanpham LIKE 'size'";
+    $row = $this->db->get_one($sql); // dùng Database->get_one()
+    
+    // Chuyển ENUM thành mảng
+    preg_match("/^enum\('(.*)'\)$/", $row['Type'], $matches);
+    if (!empty($matches[1])) {
+        $sizes = explode("','", $matches[1]);
+    }
+    return $sizes; // trả về mảng size
+}
+
 public function get_deal_111k() {
     $sql = "SELECT * FROM sanpham WHERE sale_price = 111000 ORDER BY id_SP ASC";
     return $this->db->get_all($sql);
