@@ -671,3 +671,133 @@ h3 {
         padding-left: 10px;
     }
 }
+/* --- CSS Cho Khu Vực Chính (Áp dụng cho mọi trang quản trị) --- */
+.main-content {
+    flex-grow: 1; /* Cho phép nó chiếm không gian còn lại */
+    padding: 20px;
+    background-color: white; /* Nền trắng cho nội dung */
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Bóng nhẹ */
+}
+
+/* --- Content Header (Tiêu đề và Nút) --- */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0; /* Đường kẻ dưới tiêu đề */
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.content-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* --- Nút Thêm (Add Button) --- */
+.btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: #dc3545; /* Màu đỏ nổi bật */
+    color: white;
+    border: 1px solid #dc3545;
+}
+
+.btn-primary:hover {
+    background-color: #c82333;
+}
+
+/* --- Table Styling (Bảng Dữ Liệu) --- */
+.table-container {
+    overflow-x: auto; /* Quan trọng cho di động/màn hình nhỏ */
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Đảm bảo bảng không quá nhỏ */
+}
+
+.data-table thead tr {
+    background-color: #007bff; /* Màu xanh tiêu đề bảng */
+    color: white;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.data-table th, .data-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6; /* Đường kẻ ngang giữa các hàng */
+    vertical-align: middle;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Tô màu hàng chẵn */
+}
+
+.data-table tbody tr:hover {
+    background-color: #e9ecef; /* Hiệu ứng khi di chuột qua */
+}
+
+/* --- Trạng Thái (Status Badge) --- */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    color: white;
+    text-align: center;
+}
+
+/* Ví dụ màu sắc cho các trạng thái */
+.status-active {
+    background-color: #28a745; /* Xanh lá */
+}
+
+.status-inactive {
+    background-color: #dc3545; /* Đỏ */
+}
+
+.status-pending {
+    background-color: #ffc107; /* Vàng */
+    color: #333;
+}
+
+/* --- Cột Hành Động --- */
+.actions {
+    text-align: center;
+}
+
+.action-link {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+/* Link Xem Đơn Hàng */
+.view-order-link {
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.view-order-link:hover {
+    background-color: #007bff;
+    color: white;
+}
