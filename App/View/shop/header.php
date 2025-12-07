@@ -1,5 +1,11 @@
+<?php
+session_start();
+
+// Lấy username từ session nếu đã login
+$user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -11,21 +17,150 @@
     <link rel="stylesheet" href="App/public/shop/css/product_detail.css">
     <link rel="stylesheet" href="App/public/shop/css/cart.css">
     <link rel="stylesheet" href="App/public/shop/css/order.css">
-    <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
+    <style>
+ /* USER DROPDOWN */
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 9999;
+}
 
+.user-trigger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    color: #0f0e0eff;
+}
+
+.user-trigger:hover {
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.user-trigger .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.user-dropdown.active .arrow {
+    transform: rotate(180deg);
+}
+
+/* MENU */
+.user-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.user-dropdown.active .user-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+
+.user-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.user-menu a:hover {
+    background: #e31e24;
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.user-menu i {
+    width: 18px;
+    text-align: center;
+}
+/* --- 1. Container chính của Tìm kiếm Gần đây --- */
+.search-popup-recent {
+    padding: 15px 20px;
+    /* Đường phân cách giữa thanh input và phần lịch sử */
+    border-top: 1px solid #e0e0e0;
+}
+
+/* --- 2. Tiêu đề (VD: "Tìm kiếm gần đây:") --- */
+.search-popup-recent h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #555;
+    font-weight: 600; /* Hơi đậm hơn */
+}
+
+/* --- 3. Danh sách các từ khóa (`ul.recent-list`) --- */
+.recent-list {
+    list-style: none; /* Loại bỏ dấu chấm mặc định */
+    padding: 0;
+    margin: 0;
+    display: flex; /* Sắp xếp các mục theo hàng ngang */
+    flex-wrap: wrap; /* Cho phép từ khóa xuống hàng nếu quá dài */
+    gap: 8px; /* Khoảng cách giữa các "thẻ" từ khóa */
+}
+
+/* --- 4. Định dạng từng từ khóa (`li a`) --- */
+.recent-list li a {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #f7f7f7; /* Nền xám nhạt */
+    border: 1px solid #e0e0e0; /* Đường viền nhẹ */
+    border-radius: 18px; /* Bo tròn góc để trông như thẻ (tag) */
+    font-size: 13px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s ease; /* Hiệu ứng mượt mà khi di chuột */
+    line-height: 1; /* Căn chỉnh văn bản tốt hơn */
+}
+
+.recent-list li a:hover {
+    background-color: #e6e6e6; /* Đổi màu nền khi di chuột */
+    border-color: #cccccc;
+    color: #000;
+}
+
+/* --- 5. Nút "Xóa lịch sử" --- */
+.search-popup-recent .clear-recent {
+    float: right; /* Đẩy nút sang bên phải */
+    margin-top: -30px; /* Di chuyển lên gần tiêu đề */
+    padding: 0;
+    background: none;
+    border: none;
+    color: #a0a0a0;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none; /* Không gạch chân mặc định */
+    transition: color 0.2s;
+}
+
+.search-popup-recent .clear-recent:hover {
+    color: #000;
+    text-decoration: underline; /* Gạch chân khi di chuột */
+}
+
+    </style>
+</head>
 <body>
 
-    <?php
-    // Banner tiêu đề theo page
-// if(isset($_GET['page'])) {
-//     echo "<div class='page-banner'>".$_GET['page']."</div>";
-// }
-    ?>
-
-    <!-- HEADER -->
     <header class="header">
 
         <div class="header-container">
@@ -41,8 +176,8 @@
             <nav class="nav">
                 <ul>
                     <li class="dropdown">
-                        <a href="?page=product">Tất cả<i class=""></i></a>
-                    <li class="dropdown"></li>
+                        <a href="?page=product">Tất cả</a>
+                    </li>
                     <li class="dropdown">
                         <a href="?page=nu_product">Nữ <i class="fa-solid fa-caret-down"></i></a>
                         <div class="dropdown-menu large">
@@ -65,7 +200,6 @@
                                 <a href="#">Quần legging</a>
                                 <a href="#">Váy / Đầm</a>
                             </div>
-
                             <div class="col">
                                 <h4>Hoạt động</h4>
                                 <a href="#">Mặc thường ngày</a>
@@ -75,7 +209,6 @@
                                 <a href="#">Gym/ Yoga/ Pilates</a>
                                 <a href="#">Bơi lội</a>
                             </div>
-
                             <div class="col">
                                 <h4>Nổi bật</h4>
                                 <a href="#">Dri Air</a>
@@ -83,7 +216,6 @@
                                 <a href="#">Eco Move</a>
                                 <a href="#">U.S. Cotton</a>
                             </div>
-
                             <div class="col">
                                 <h4>Giày</h4>
                                 <a href="#">Tất cả giày nữ</a>
@@ -116,7 +248,6 @@
                             </div>
                         </div>
                     </li>
-
                     <li class="dropdown">
                         <a href="?page=giay_product">Giày Thể Thao <i class="fa-solid fa-caret-down"></i></a>
                         <div class="dropdown-menu large">
@@ -158,79 +289,111 @@
                                 <a href="?page=single_deal&price=111">Đồng giá 111k</a>
                                 <a href="?page=single_deal&price=211">Đồng giá 211k</a>
                             </div>
+                        </div>
                     </li>
-                    <li><a href="?page=bosuutap">Bộ Sưu Tập <i class="fa-solid fa-caret-down"></i></a></li>
+                    <li><a href="?page=bosuutap">Bộ Sưu Tập</a></li>
                 </ul>
             </nav>
 
-        
-        <!-- Icons -->
-        <div class="icons">
-            <a href="?page=wishlist"><i class="fas fa-heart"></i></a>
-            <a href="index.php?page=register"><i class="fas fa-user"></i></a>
-            <a href="javascript:void(0)" id="openSearchPopup"><i class="fas fa-search"></i></a>
-            <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
-        </div>
+            <!-- Icons -->
+            <div class="icons">
 
+                <!-- User -->
+                <div class="user-dropdown">
+    <div class="user-trigger">
+        <i class="fa-regular fa-user"></i>
+        <span class="user-name"><?= $user ? 'Xin chào,' . " ". htmlspecialchars($user) : '' ?></span>
+        <i class="fa-solid fa-chevron-down arrow"></i>
     </div>
 
-    <div class="free-ship">MIỄN PHÍ VẬN CHUYỂN HOÁ ĐƠN TỪ 500K</div>
+    <div class="user-menu">
+        <?php if($user): ?>
+            <a href="index.php?page=profile"><i class="fa-solid fa-id-card"></i> Hồ sơ</a>
+            <a href="index.php?page=order_history"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng</a>
+            <a href="index.php?page=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+        <?php else: ?>
+            <a href="index.php?page=register"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập / Đăng ký</a>
+        <?php endif; ?>
+    </div>
+</div>
+                <a href="?page=wishlist"><i class="fas fa-heart"></i></a>
+                <a href="javascript:void(0)" id="openSearchPopup"><i class="fas fa-search"></i></a>
+                <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
+            </div>
 
-</header>
-<!-- Nền mờ -->
+        </div>
+
+        <div class="free-ship">MIỄN PHÍ VẬN CHUYỂN HOÁ ĐƠN TỪ 500K</div>
+
+    </header>
+
+    <!-- Search popup -->
 <div class="search-overlay-bg" id="searchOverlayBg"></div>
-
-<!-- Popup tìm kiếm nổi -->
 <div class="search-popup" id="searchPopup">
     <div class="search-popup-header">
         <h3>Tìm kiếm sản phẩm</h3>
         <span class="close-search-popup" id="closeSearchPopup">×</span>
     </div>
-
     <div class="search-popup-input">
         <input type="text" placeholder="Nhập tên sản phẩm, mã SP, từ khóa..." autofocus>
         <button type="submit"><i class="fas fa-search"></i></button>
     </div>
+    <div class="search-popup-recent">
+        <h4>Gợi ý tìm kiếm :</h4>
+        <ul class="recent-list">
+            <li><a href="index.php?page=nu_product">Áo nữ</a></li>
+            <li><a href="index.php?page=giay_product">Giày thể thao</a></li>
+            <li><a href="index.php?page=nam_product">Đồ nam</a></li>
+            <li><a href="index.php?page=product_detail&id=118">Bóng rổ DELTA</a></li>
+            <li><a href="index.php?page=single_deal&price=11">Sản phẩm sale 11k</a></li>
+            <li><a href="index.php?page=product_detail&id=132">Nước rửa vợt</a></li>
+            <li><a href="index.php?page=hd_bongda">Đồ bóng đá</a></li>
+            <li><a href="index.php?page=hd_boiloi">Đồ bơi</a></li>
 
-    <div class="search-popup-suggestions">
-        <p style="color:#666; font-size:14px; margin:0 0 10px;">Từ khóa gợi ý:</p>
-        <div class="quick-tags-popup">
-            <a href="index.php?page=nam_product">Áo thun nam</a>
-            <a href="index.php?page=nu_product">Quần short nữ</a>
-            <a href="">Áo khoác</a>
-            <a href="index.php?page=giay_product">Giày thể thao</a>
-            <a href="#">Đồ bơi</a>
-            <a href="#">Hoodie</a>
-            <a href="#">Legging</a>
-            <a href="#">Áo polo</a>
-            <a href="#">Quần jogger</a>
-        </div>
+        </ul>
+
     </div>
-</div>  
-<script>
-// Mở popup tìm kiếm
-document.getElementById('openSearchPopup').addEventListener('click', function() {
-    document.getElementById('searchOverlayBg').classList.add('active');
-    document.getElementById('searchPopup').classList.add('active');
-    document.querySelector('#searchPopup input').focus();
+    </div>
+
+ <script>
+// CLICK TOGGLE MENU
+const userDropdown = document.querySelector('.user-dropdown');
+const userTrigger = userDropdown.querySelector('.user-trigger');
+
+userTrigger.addEventListener('click', function(e){
+    e.stopPropagation();
+    userDropdown.classList.toggle('active'); // click mở/đóng
 });
 
-// Đóng popup
-function closeSearchPopup() {
-    document.getElementById('searchOverlayBg').classList.remove('active');
-    document.getElementById('searchPopup').classList.remove('active');
-}
+// Để menu **giữ nguyên trạng thái**, không tự ẩn khi click ra ngoài
+// Nếu muốn click ngoài đóng, thêm đoạn này:
+// document.addEventListener('click', (e) => {
+//     if(!userDropdown.contains(e.target)) {
+//         userDropdown.classList.remove('active');
+//     }
+// });
 
-document.getElementById('closeSearchPopup').addEventListener('click', closeSearchPopup);
-document.getElementById('searchOverlayBg').addEventListener('click', closeSearchPopup);
-
-// Đóng bằng phím ESC
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeSearchPopup();
-    }
-});
 </script>
+
+    <script>
+        // Mở popup tìm kiếm
+        document.getElementById('openSearchPopup').addEventListener('click', function () {
+            document.getElementById('searchOverlayBg').classList.add('active');
+            document.getElementById('searchPopup').classList.add('active');
+            document.querySelector('#searchPopup input').focus();
+        });
+
+        // Đóng popup
+        function closeSearchPopup() {
+            document.getElementById('searchOverlayBg').classList.remove('active');
+            document.getElementById('searchPopup').classList.remove('active');
+        }
+        document.getElementById('closeSearchPopup').addEventListener('click', closeSearchPopup);
+        document.getElementById('searchOverlayBg').addEventListener('click', closeSearchPopup);
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeSearchPopup();
+        });
+    </script>
 </body>
-        </div>
-    </header>
+
+</html>

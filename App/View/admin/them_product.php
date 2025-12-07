@@ -29,6 +29,16 @@
            value="<?= !empty($sp_edit) ? $sp_edit['stock'] : '' ?>" required>
 </div>
 
+<select name="size" required>
+    <option value="">-- Chọn size --</option>
+    <?php foreach ($sizes as $s): ?>
+        <option value="<?= $s ?>" <?= (!empty($sp_edit) && $sp_edit['size']==$s) ? "selected" : "" ?>>
+            <?= $s ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+
+
 
         <div class="form-group">
             <label>LOẠI SẢN PHẨM</label>

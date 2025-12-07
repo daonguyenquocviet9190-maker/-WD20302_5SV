@@ -1,55 +1,63 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+} // Bắt buộc để lưu session
 include_once 'App/Model/user.php';
 $userObj = new User();
 
-// XỬ LÝ ĐĂNG KÝ
+// Nếu đã login → chuyển về home
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php?page=home");
+    exit;
+}
+
+// Mảng lỗi đăng ký / login
+$register_errors = [];
+$login_error = '';
+$register_success = '';
+
+// ===== XỬ LÝ ĐĂNG KÝ =====
 if (isset($_POST['register'])) {
     $username   = trim($_POST['username']);
     $email      = trim($_POST['email']);
     $password   = $_POST['password'];
     $repassword = $_POST['repassword'];
 
-    $errors = [];
-
     if (empty($username) || empty($email) || empty($password) || empty($repassword)) {
-        $errors[] = "Vui lòng điền đầy đủ thông tin.";
+        $register_errors[] = "Vui lòng điền đầy đủ thông tin.";
     }
     if ($password !== $repassword) {
-        $errors[] = "Mật khẩu nhập lại không khớp.";
+        $register_errors[] = "Mật khẩu nhập lại không khớp.";
     }
     if (strlen($password) < 6) {
-        $errors[] = "Mật khẩu phải ít nhất 6 ký tự.";
+        $register_errors[] = "Mật khẩu phải ít nhất 6 ký tự.";
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Email không hợp lệ.";
+        $register_errors[] = "Email không hợp lệ.";
     }
 
-    if (empty($errors)) {
+    // Kiểm tra username/email đã tồn tại
+    if (empty($register_errors)) {
         $check = $userObj->db->getConnection()->prepare("SELECT id_User FROM user WHERE Username = ? OR Email = ?");
         $check->execute([$username, $email]);
         if ($check->rowCount() > 0) {
-            $errors[] = "Tên đăng nhập hoặc email đã được sử dụng.";
+            $register_errors[] = "Tên đăng nhập hoặc email đã được sử dụng.";
         }
     }
 
-    if (empty($errors)) {
+    // Nếu không có lỗi → insert user
+    if (empty($register_errors)) {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO user (Username, Password, Email, Role) VALUES (?, ?, ?, 'customer')";
-        $stmt = $userObj->db->getConnection()->prepare($sql);
+        $stmt = $userObj->db->getConnection()->prepare("INSERT INTO user (Username, Password, Email, Role) VALUES (?, ?, ?, 'customer')");
         if ($stmt->execute([$username, $hashed, $email])) {
-            echo "<script>alert('Đăng ký thành công! Hãy đăng nhập ngay.'); showTab('login');</script>";
+            $register_success = "Đăng ký thành công! Hãy đăng nhập ngay.";
         } else {
-            $errors[] = "Có lỗi xảy ra, vui lòng thử lại.";
+            $register_errors[] = "Có lỗi xảy ra, vui lòng thử lại.";
         }
-    }
-
-    if (!empty($errors)) {
-        echo '<div class="error-msg">' . implode('<br>', $errors) . '</div>';
     }
 }
 
-// XỬ LÝ ĐĂNG NHẬP
+// ===== XỬ LÝ ĐĂNG NHẬP =====
 if (isset($_POST['login'])) {
     $user_or_email = trim($_POST['user_or_email']);
     $password = $_POST['password'];
@@ -71,65 +79,20 @@ if (isset($_POST['login'])) {
             $login_error = "Tên đăng nhập/email hoặc mật khẩu không đúng.";
         }
     }
-    if (!empty($login_error)) {
-        echo '<div class="error-msg">' . $login_error . '</div>';
-    }
 }
 ?>
-
-
-    <style>
-        /* CSS bổ sung để giống 100% ảnh bạn gửi */
-        .error-msg {
-            background: #fdf2f2;
-            color: #e74c3c;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            margin: 15px 0;
-            font-size: 14px;
-        }
-        .auth-tabs .tab-btn.active {
-            color: #e31e24 !important;
-            border-bottom: 4px solid #e31e24 !important;
-        }
-        .btn-google img {
-            width: 20px;
-            height: 20px;
-        }
-    </style>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng ký / Đăng nhập - 5SV Sport Fashion</title>
-    <link rel="stylesheet" href="App/public/shop/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng ký / Đăng nhập - 5SV Sport Fashion</title>
+<link rel="stylesheet" href="App/public/shop/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-    .form-wrapper { gap: 19px !important; }
-    .form-group { margin: 0 !important; }
-    .form-group label { margin-bottom: 7px !important; font-size: 14.5px !important; }
-    .form-group input { padding: 15px 18px !important; font-size: 15.5px !important; }
-    .btn-submit { margin-top: 14px !important; padding: 17px !important; font-size: 17.5px !important; }
-    .auth-form { padding: 60px 50px !important; }
-
-    /* LOGO GOOGLE ĐẸP HOÀN HẢO */
-    .btn-google {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 10px !important;
-        padding: 15px 18px !important;
-        margin: 20px 0 8px 0 !important;
-        font-size: 15.5px !important;
-    }
-    .btn-google img {
-        width: 18px !important;
-        height: 18px !important;
-        flex-shrink: 0;
-        transform: translateY(-1px);
-    }
+    .error-msg { background:#fdf2f2; color:#e74c3c; padding:12px; border-radius:8px; text-align:center; margin:10px 0; font-size:14px; }
+    .success-msg { background:#e6ffed; color:#2a7a2a; padding:12px; border-radius:8px; text-align:center; margin:10px 0; font-size:14px; }
+    .auth-tabs .tab-btn.active { color: #e31e24 !important; border-bottom: 4px solid #e31e24 !important; }
 </style>
 </head>
 <body>
@@ -144,58 +107,55 @@ if (isset($_POST['login'])) {
         <!-- Form bên phải -->
         <div class="auth-form">
             <div class="auth-tabs">
-                <div class="tab-btn active" onclick="showTab('register')">Đăng ký</div>
-                <div class="tab-btn" onclick="showTab('login')">Đăng nhập</div>
+                <div class="tab-btn <?= !empty($register_success) ? '' : 'active' ?>" onclick="showTab('register')">Đăng ký</div>
+                <div class="tab-btn <?= !empty($register_success) ? 'active' : '' ?>" onclick="showTab('login')">Đăng nhập</div>
             </div>
 
+            <!-- Thông báo đăng ký thành công -->
+            <?php if(!empty($register_success)): ?>
+                <div class="success-msg"><?= $register_success ?></div>
+            <?php endif; ?>
+
             <!-- Form Đăng ký -->
-            <div id="register-form" class="form-wrapper">
+            <div id="register-form" class="form-wrapper" style="display:<?= empty($register_success) ? 'block' : 'none' ?>;">
+                <?php if(!empty($register_errors)): ?>
+                    <div class="error-msg"><?= implode('<br>', $register_errors) ?></div>
+                <?php endif; ?>
                 <form method="POST">
                     <div class="form-group">
                         <label>Tên đăng nhập</label>
-                        <input type="text" name="username" placeholder="Viết liền không dấu" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
+                        <input type="text" name="username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
                     </div>
                     <div class="form-group">
                         <label>Địa chỉ E-mail</label>
-                        <input type="email" name="email" placeholder="example@gmail.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
+                        <input type="email" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
                     </div>
                     <div class="form-group">
                         <label>Mật khẩu</label>
-                        <input type="password" name="password" placeholder="Ít nhất 6 ký tự" required>
+                        <input type="password" name="password" required>
                     </div>
                     <div class="form-group">
                         <label>Nhập lại mật khẩu</label>
-                        <input type="password" name="repassword" placeholder="Nhập lại mật khẩu" required>
+                        <input type="password" name="repassword" required>
                     </div>
-
-                    <button type="button" class="btn-google">
-                        <img src="https://www.google.com/favicon.ico" alt="Google"> Continue with Google
-                    </button>
-
                     <button type="submit" name="register" class="btn-submit">Đăng ký</button>
                 </form>
             </div>
 
             <!-- Form Đăng nhập -->
-            <div id="login-form" class="form-wrapper" style="display:none;">
+            <div id="login-form" class="form-wrapper" style="display:<?= !empty($register_success) ? 'block' : 'none' ?>;">
+                <?php if(!empty($login_error)): ?>
+                    <div class="error-msg"><?= $login_error ?></div>
+                <?php endif; ?>
                 <form method="POST">
                     <div class="form-group">
                         <label>Tên đăng nhập hoặc E-mail</label>
-                        <input type="text" name="user_or_email" placeholder="Nhập tên đăng nhập hoặc email" required>
+                        <input type="text" name="user_or_email" required>
                     </div>
                     <div class="form-group">
                         <label>Mật khẩu</label>
-                        <input type="password" name="password" placeholder="Nhập mật khẩu" required>
+                        <input type="password" name="password" required>
                     </div>
-
-                    <button type="button" class="btn-google">
-                        <img src="https://www.google.com/favicon.ico" alt="Google"> Continue with Google
-                    </button>
-
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:15px;">
-                        <a href="#" style="color:#e31e24; font-size:14px;">Forgot your password?</a>
-                    </div>
-
                     <button type="submit" name="login" class="btn-submit">Đăng nhập</button>
                 </form>
             </div>
@@ -219,6 +179,8 @@ function showTab(tab) {
     }
 }
 
-// Tự động chuyển tab khi đăng ký thành công
-<?php if (isset($_POST['register']) && empty($errors)) echo "showTab('login');"; ?>
+// Tự động chuyển tab login nếu đăng ký thành công
+<?php if (!empty($register_success)) echo "showTab('login');"; ?>
 </script>
+</body>
+</html>

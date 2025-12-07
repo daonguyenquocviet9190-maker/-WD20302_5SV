@@ -12,6 +12,10 @@ class User {
         $sql = "SELECT * FROM user";
         return $this->db->get_all($sql);
     }
+    public function get_user_by_username($username) {
+        $sql = "SELECT * FROM user WHERE Username = ?";
+        return $this->db->get_one($sql, [$username]); // Dùng get_one + prepared
+    }
     public function add_user($username, $password, $email, $phone = null, $role = 'customer'){
         // Mã hóa password (nên dùng password_hash cho bảo mật)
         $hashed_pass = password_hash($password, PASSWORD_DEFAULT);

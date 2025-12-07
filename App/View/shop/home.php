@@ -159,7 +159,7 @@
 <!-- ===== BANNER 2 CỘT ===== -->
 <div class="big-banner">
     <div class="banner-item">
-        <img src="App/public/img/sss.png" alt="">
+       <a href="index.php?page=hd_boiloi"> <img src="App/public/img/sss.png" alt=""></a>
         <!-- <div class="banner-overlay">
             <span class="badge">NEW DROP</span>
             <h2>SWIMWEAR<br><small>Collection</small></h2>
@@ -168,7 +168,7 @@
     </div>
 
     <div class="banner-item">
-        <img src="App/public/img/ssss.png" alt="">
+        <a href="index.php?page=hd_bongda"> <img src="App/public/img/ssss.png" alt=""></a>
         <!-- <div class="banner-overlay">
             <span class="badge">NEW DROP</span>
             <h2>FOOTBALL<br><small>Collection</small></h2>
@@ -179,19 +179,19 @@
 
 <div class="small-categories">
     <div class="cate-box">
-        <img src="App/public/img/ca.png">
+    <a href="index.php?page=hd_macngay"><img src="App/public/img/ca.png"></a>
     </div>
 
     <div class="cate-box">
-        <img src="App/public/img/ca1.png">
+       <a href="index.php?page=hd_gym"> <img src="App/public/img/ca1.png"></a>
     </div>
 
     <div class="cate-box">
-        <img src="App/public/img/ca2.png">
+        <a href="index.php?page=hd_chaybo"> <img src="App/public/img/ca2.png"></a>
     </div>
 
     <div class="cate-box">
-        <img src="App/public/img/ca3.png">
+        <a href="index.php?page=hd_caulong"> <img src="App/public/img/ca3.png"></a>
     </div>
 </div>
 <script>
@@ -213,3 +213,51 @@
         });
 }
                 </script>
+             <div class="page-banner">
+    <div class="logo1">
+        <img src="App/public/img/logo5sv.png" alt="5SV Sport">
+    </div>
+
+    <h1>MỞ KHÓA ĐẶC QUYỀN</h1>
+    <p>
+        Gia nhập <strong>DELTAHOLIC</strong> để nhận hàng loạt quyền lợi hấp dẫn<br>
+        dành riêng cho hàng thành viên.
+    </p>
+
+    <a href="index.php?page=register" class="btn-register">Đăng Ký Ngay</a>
+
+    <!-- Hiệu ứng hạt điện (gọn + mượt hơn) -->
+    <div class="sparkles"></div>
+</div>
+
+<!-- <script>
+    // Hiệu ứng hạt điện nhẹ, đẹp, không lag
+    const sparkles = document.querySelector('.sparkles');
+    setInterval(() => {
+        const s = document.createElement('div');
+        s.style.cssText = `
+            position: fixed;
+            width: 4px; height: 4px;
+            background: #00ffff;
+            border-radius: 50%;
+            pointer-events: none;
+            left: ${Math.random() * 100}vw;
+            top: 100vh;
+            box-shadow: 0 0 10px #00ffff;
+            animation: sparkUp ${Math.random() * 3 + 2}s linear forwards;
+        `;
+        sparkles.appendChild(s);
+        setTimeout(() => s.remove(), 2000);
+    }, 150);
+
+    // Dùng keyframes có sẵn trong CSS → mượt hơn
+</script> -->
+
+<style>
+    @keyframes sparkUp {
+        to {
+            transform: translateY(-120vh) scale(0);
+            opacity: 0;
+        }
+    }
+</style>

@@ -20,18 +20,18 @@
                 <?php foreach ($orders as $o): ?>
                 <tr>
                     <td><?= $o['id_dh'] ?></td>
-                    <td><?= $o['customer_name'] ?></td>
+                    <td><?= $o['fullname'] ?></td>
                     <td><?= $o['phone'] ?></td>
-                    <td><?= number_format($o['Tong_Tien'], 0, ',', '.') ?> VNĐ</td>
-                    <td><?= $o['ngay_dg'] ?></td>
+                    <td><?= number_format($o['subtotal'], 0, ',', '.') ?> VNĐ</td>
+                    <td><?= date("H:i:s - d/m/Y", strtotime($o['ngay_mua'])) ?> </td>
                     <td>
-                        <span class="order-status status-<?= str_replace(' ', '-', strtolower($o['Trang_Thai'])) ?>">
-                            <?= $o['Trang_Thai'] ?>
+                        <span class="order-status status-<?= str_replace(' ', '-', strtolower($o['status'])) ?>">
+                            <?= $o['status'] ?>
                         </span>
                     </td>
                     <td class="actions">
                         <a href="?page=order&action=detail&id=<?= $o['id_dh'] ?>" title="Chi tiết"><i class="fas fa-eye"></i></a>
-                        <a href="?page=order&action=delete&id=<?= $o['id_dh'] ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"><i class="fas fa-trash-alt"></i></a>
+                        <!-- <a href="?page=order&action=delete&id= //$o['id_dh'] ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"><i class="fas fa-trash-alt"></i></a> -->
                     </td>
                 </tr>
                 <?php endforeach; ?>

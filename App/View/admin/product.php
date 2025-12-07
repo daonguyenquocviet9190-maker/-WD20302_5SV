@@ -11,6 +11,7 @@
                 <th style="width: 30%;">TÊN</th>
                 <th style="width: 10%;">GIÁ</th>
                 <th style="width: 10%;">SỐ LƯỢNG</th>
+                <th style="width: 10%;">SIZE</th> <!-- Cột size -->
                 <th style="width: 15%;">LOẠI</th>
                 <th style="width: 100px;">HÀNH ĐỘNG</th>
             </tr>
@@ -29,16 +30,22 @@
 
                         <td><?= number_format($p['Price'], 0, ',', '.') ?>đ</td>
                         <td><?= $p['stock'] ?></td>
+
+                        <!-- Hiển thị SIZE -->
+                        <td><?= $p['size'] ?></td>
+
+                        <!-- Hiển thị tên danh mục -->
                         <td>
                             <?php
-                            // Hiển thị tên danh mục
                             foreach ($dsdm as $dm) {
                                 if ($dm['id_DM'] == $p['id_DM']) {
                                     echo $dm['Name'];
+                                    break; // tìm thấy thì dừng
                                 }
                             }
                             ?>
                         </td>
+
                         <td class="actions">
                             <!-- Sửa -->
                             <a href="admin.php?page=product&action=edit&id=<?= $p['id_SP'] ?>" class="btn-edit" title="Sửa">
@@ -46,17 +53,19 @@
                             </a>
 
                             <!-- Xóa -->
-                            <!-- <a href="admin.php?page=product&action=delete&id=<?= $p['id_SP'] ?>"
+                            <!--
+                            <a href="admin.php?page=product&action=delete&id=<?= $p['id_SP'] ?>"
                                 onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');" class="btn-delete" title="Xóa">
-                                <i class="fas fa-trash-alt"></i> -->
+                                <i class="fas fa-trash-alt"></i>
                             </a>
+                            -->
                         </td>
                     </tr>
                 <?php endforeach; ?>
 
             <?php else: ?>
                 <tr>
-                    <td colspan="6" style="text-align:center;">Không có sản phẩm nào.</td>
+                    <td colspan="7" style="text-align:center;">Không có sản phẩm nào.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

@@ -22,6 +22,7 @@ require 'App/Model/order.php';
   }
   public function product()
 {
+    $sizes = $this->sanpham->getall_size();
     $dsdm = $this->danhmuc->getall_dm(); 
     $sp_edit = null;
     /* ================== 1. XÓA SẢN PHẨM ================== */
@@ -113,28 +114,28 @@ require 'App/Model/order.php';
 }
 
        public function user(){
-        if (isset($_POST['add_user']) && ($_POST['add_user'])) {
-       if($_POST['n_user'] != null) {
-      $name = $_POST['n_user'];
-      $pass = $_POST['pass'];
-      if(isset($_GET['idedit']) && $_GET['idedit'] != null){
-       $this->user->update_user($_GET['idedit'],$name, $pass);
-       header('location:admin.php?page=user');
-      } else {
-      $this->user->add_user($name, $pass);
-       header('location:admin.php?page=user');
-      }
-  }
-    }
-    // $dsuser = $this->user->getall_user();
-if(isset($_GET['idedit'])){
-      $user_edit = $this->user->get_user_byID($_GET['idedit']);
-      // print_r($user_edit);
-    }
-    if (isset($_GET['id'])) {
-      $this->user->remove_user($_GET['id']);
-      header('location:admin.php?page=user');
-    }
+//         if (isset($_POST['add_user']) && ($_POST['add_user'])) {
+//        if($_POST['n_user'] != null) {
+//       $name = $_POST['n_user'];
+//       $pass = $_POST['pass'];
+//       if(isset($_GET['idedit']) && $_GET['idedit'] != null){
+//        $this->user->update_user($_GET['idedit'],$name, $pass);
+//        header('location:admin.php?page=user');
+//       } else {
+//       $this->user->add_user($name, $pass);
+//        header('location:admin.php?page=user');
+//       }
+//   }
+//     }
+//     // $dsuser = $this->user->getall_user();
+// if(isset($_GET['idedit'])){
+//       $user_edit = $this->user->get_user_byID($_GET['idedit']);
+//       // print_r($user_edit);
+//     }
+//     if (isset($_GET['id'])) {
+//       $this->user->remove_user($_GET['id']);
+//       header('location:admin.php?page=user');
+//     }
     $user = $this->user->getall_user();
         include 'App/View/admin/user.php';
     }
