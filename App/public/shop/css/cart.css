@@ -146,7 +146,7 @@
     text-align: center;
     /* margin-left: 20px; */
     border: 1px solid #ff4c3b;
-      padding: 12px 57px;
+      padding: 5px 57px;
       border-radius: 10px;
       width: 100%;
       /* max-width: max-content; */
@@ -157,6 +157,26 @@
     background: #e13b2d;
 }
 
+.btn-ttms {
+    text-decoration: none;
+    color: black;
+    /* background-color: #ff4c3b; */
+    border: 1px solid #ff4c3b;
+    font-weight: bold;
+    line-height: 50px;
+    text-align: center;
+    /* margin-left: 20px; */
+    border: 1px solid #ff4c3b;
+      padding: 5px 57px;
+      border-radius: 10px;
+      width: 100%;
+      /* max-width: max-content; */
+      transition: 0.3s; 
+}
+.btn-ttms:hover {
+    background: #ff4c3b;
+    color: white;    
+}
 /* ======= RESPONSIVE ======= */
 @media(max-width: 900px) {
     .cart-container {

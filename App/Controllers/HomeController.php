@@ -111,21 +111,6 @@ class HomeController
 public function giohang()
 { // đảm bảo session hoạt động
 
-    if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-        echo "Giỏ hàng trống!";
-        return;
-    }
-
-    $cart = $_SESSION['cart'];
-    $total = 0;
-
-    foreach($cart as $item){
-        $total += $item['price'] * $item['quantity'];
-    }
-
-    $shipping = 30000;
-    $grandTotal = $total + $shipping;
-
     $deal111k = $this->sanpham->get_deal_111k();
     include 'App/View/shop/giohang.php';
 }
@@ -285,6 +270,8 @@ public function giohang()
     exit;
 }
 
+
+
 public function add_to_wishlist() {
     session_start();
     
@@ -434,6 +421,42 @@ public function profile()
 {
     include 'app/View/shop/profile.php';
 }
+
+public function giohang_remove()
+{
+    session_start();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = intval($_POST['id'] ?? -1);
+
+        if ($id >= 0 && isset($_SESSION['cart'][$id])) {
+            unset($_SESSION['cart'][$id]);
+            $_SESSION['cart'] = array_values($_SESSION['cart']);
+        }
+    }
+
+    echo json_encode(["success" => true]);
+    exit;
+}
+
+public function giohang_update()
+{
+    session_start();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id  = intval($_POST['id'] ?? -1);
+        $qty = intval($_POST['quantity'] ?? 1);
+
+        if ($id >= 0 && isset($_SESSION['cart'][$id])) {
+            $_SESSION['cart'][$id]['quantity'] = max(1, $qty);
+        }
+    }
+
+    echo json_encode(["success" => true]);
+    exit;
+}
+
+
 
 }
 ?>
