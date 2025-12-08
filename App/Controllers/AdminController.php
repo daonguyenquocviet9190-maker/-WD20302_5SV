@@ -25,53 +25,55 @@ require 'App/Model/order.php';
     $sizes = $this->sanpham->getall_size();
     $dsdm = $this->danhmuc->getall_dm(); 
     $sp_edit = null;
-    /* ================== 1. XÓA SẢN PHẨM ================== */
+
     if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
         $this->sanpham->remove_sp($_GET['id']);
         header("Location: admin.php?page=product");
         exit;
     }
-    /* ================== 2. LƯU THÊM / SỬA ================== */
+
     if (isset($_POST['save_product'])) {
         $name = $_POST['ten_san_pham'];
         $price = $_POST['gia'];
         $quantity = $_POST['so_luong'];
         $cat_id = $_POST['category'];
+         $size = $_POST['size'];
+
         // Xử lý ảnh
         $img = "";
         if (!empty($_FILES['img']['name'])) {
             $img = time() . "_" . $_FILES['img']['name'];
             move_uploaded_file($_FILES['img']['tmp_name'], "App/public/img/" . $img);
         } else {
-            $img = $_POST['old_img']; // sửa mà không đổi ảnh
+            $img = $_POST['old_img'] ?? "";
         }
+
         // UPDATE
         if (!empty($_POST['idedit'])) {
-            $this->sanpham->update_sp($_POST['idedit'], $name, $price, $quantity, $cat_id, $img);
+            $this->sanpham->update_sp($_POST['idedit'], $name, $price, $quantity, $cat_id, $size, $img);
         }
         // INSERT
         else {
-            $this->sanpham->add_sp($name, $price, $quantity, $cat_id, $img);
+            $this->sanpham->add_sp($name, $price, $quantity, $cat_id, $size, $img);
         }
+
         header("Location: admin.php?page=product");
         exit;
     }
-    /* ================== 3. NHẤN SỬA → HIỂN THỊ FORM ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
         $sp_edit = $this->sanpham->get_sp_byID($_GET['id']);
-        $dm = $this->danhmuc->getall_dm();
         include "App/View/admin/them_product.php";
         return;
     }
-        /* ================== 4. NHẤN THÊM → HIỂN THỊ FORM ================== */
+
     if (isset($_GET['action']) && $_GET['action'] == 'add') {
         include "App/View/admin/them_product.php";
         return;
     }
-    /* ================== 5. MẶC ĐỊNH → DANH SÁCH ================== */
     $dssp = $this->sanpham->getall_sp();
     include "App/View/admin/product.php";
 }
+
  public function category(){
     $dm_edit = null;
 

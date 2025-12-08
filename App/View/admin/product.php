@@ -32,7 +32,8 @@
                         <td><?= $p['stock'] ?></td>
 
                         <!-- Hiển thị SIZE -->
-                        <td><?= $p['size'] ?></td>
+                       <td><?= htmlspecialchars($p['size']) ?></td> <!-- Lấy trực tiếp từ sanpham -->
+
 
                         <!-- Hiển thị tên danh mục -->
                         <td>
