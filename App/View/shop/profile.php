@@ -73,7 +73,7 @@ body{background:#eef1f6;margin:0;padding:0}
 .popup-text{color:#475569;margin-bottom:18px}
 .popup-icon{font-size:42px;margin-bottom:10px}
 .popup-actions{text-align:right;margin-top:20px}
-.btn-cancel{background:#e5e7eb;color:#111;margin-right:6px;}
+.btn-cancel{background:#e5e7eb;color:#111;margin-right:6px; margin-bottom: 10px;}
 .btn-save{background:#6a11cb;color:#fff}
 .popup-box input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #d4d7dd;font-size:15px}
 #otpCountdown{font-weight:600;margin-top:5px;margin-bottom:5px;}
@@ -88,7 +88,7 @@ body{background:#eef1f6;margin:0;padding:0}
     <div class="profile-name"><?= htmlspecialchars($user['Username']) ?></div>
     <div class="profile-email"><?= htmlspecialchars($user['Email']) ?></div>
     <div class="profile-menu">
-        <a href="#">👤 Thông tin cá nhân</a>
+        <a href="index.php?page=profile">👤 Thông tin cá nhân</a>
         <a href="index.php?page=order_history">📦 Đơn hàng</a>
         <a href="#">🔒 Đổi mật khẩu</a>
         <a href="index.php?page=logout">🚪 Đăng xuất</a>
