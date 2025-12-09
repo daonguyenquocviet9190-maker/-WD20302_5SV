@@ -334,10 +334,14 @@ $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
         <h3>Tìm kiếm sản phẩm</h3>
         <span class="close-search-popup" id="closeSearchPopup">×</span>
     </div>
+<form action="index.php" method="GET" class="search-popup-form" id="searchForm">
+    <input type="hidden" name="page" value="search">
     <div class="search-popup-input">
-        <input type="text" placeholder="Nhập tên sản phẩm, mã SP, từ khóa..." autofocus>
+        <input type="text" name="keyword" placeholder="Nhập tên sản phẩm, mã SP, từ khóa..." autofocus required id="searchInput">
         <button type="submit"><i class="fas fa-search"></i></button>
     </div>
+</form>
+</form>
     <div class="search-popup-recent">
         <h4>Gợi ý tìm kiếm :</h4>
         <ul class="recent-list">
@@ -394,6 +398,31 @@ userTrigger.addEventListener('click', function(e){
             if (e.key === 'Escape') closeSearchPopup();
         });
     </script>
+    <script>
+    // Lấy form và input
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+
+    searchForm.addEventListener('submit', function (e) {
+        // Lấy từ khóa và loại bỏ khoảng trắng dư thừa, chuyển về chữ thường để so sánh
+        const keyword = searchInput.value.trim().toLowerCase();
+
+        // Kiểm tra điều kiện
+        if (keyword === 'áo nam') {
+            e.preventDefault(); // Chặn việc gửi form mặc định
+            window.location.href = 'index.php?page=nam_product'; // Điều hướng đến trang Áo Nam
+            closeSearchPopup(); // Đóng popup tìm kiếm
+        }
+                if (keyword === 'áo nữ') {
+            e.preventDefault(); 
+            window.location.href = 'index.php?page=nu_product'; 
+            closeSearchPopup();
+        } 
+        
+        // Nếu không phải "Áo nam", form sẽ được gửi đi như bình thường 
+        // (index.php?page=search&keyword=...) vì e.preventDefault() không được gọi.
+    });
+</script>
 </body>
 
 </html>
