@@ -102,10 +102,6 @@ class HomeController
     }
     include 'app/View/shop/product_detail.php';
   }
-  public function contact()
-  {
-    include 'app/View/shop/contact.php';
-  }
   public function login()
   {
     // session_start();
@@ -479,7 +475,9 @@ public function giohang_update()
     exit;
 }
 
-
+public function contact(){
+  include 'app/View/shop/contact.php';
+}
 
 }
 ?>

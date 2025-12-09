@@ -292,6 +292,7 @@ $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
                         </div>
                     </li>
                     <li><a href="?page=bosuutap">Bộ Sưu Tập</a></li>
+                    <li><a href="?page=contact">Liên hệ</a></li>
                 </ul>
             </nav>
 

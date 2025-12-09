@@ -206,6 +206,8 @@ function format_currency($n) {
         margin-top: 20px;
     }
 }
+
+
 </style>
 
 <div class="main-content order-detail" style="margin-top: 70px; margin-left: 250px;">
