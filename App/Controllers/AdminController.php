@@ -26,18 +26,21 @@ require 'App/Model/order.php';
     $dsdm = $this->danhmuc->getall_dm(); 
     $sp_edit = null;
 
+    // Xóa sản phẩm
     if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
         $this->sanpham->remove_sp($_GET['id']);
         header("Location: admin.php?page=product");
         exit;
     }
 
+    // Thêm / Sửa sản phẩm
     if (isset($_POST['save_product'])) {
         $name = $_POST['ten_san_pham'];
         $price = $_POST['gia'];
+        $sale_price = $_POST['gia_giam'] ?? $price; // nếu không nhập giá giảm, mặc định = giá gốc
         $quantity = $_POST['so_luong'];
         $cat_id = $_POST['category'];
-         $size = $_POST['size'];
+        $size = $_POST['size'];
 
         // Xử lý ảnh
         $img = "";
@@ -50,29 +53,35 @@ require 'App/Model/order.php';
 
         // UPDATE
         if (!empty($_POST['idedit'])) {
-            $this->sanpham->update_sp($_POST['idedit'], $name, $price, $quantity, $cat_id, $size, $img);
+            $this->sanpham->update_sp($_POST['idedit'], $name, $price, $sale_price, $quantity, $cat_id, $size, $img);
         }
         // INSERT
         else {
-            $this->sanpham->add_sp($name, $price, $quantity, $cat_id, $size, $img);
+            $this->sanpham->add_sp($name, $price, $sale_price, $quantity, $cat_id, $size, $img);
         }
 
         header("Location: admin.php?page=product");
         exit;
     }
+
+    // Edit form
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
         $sp_edit = $this->sanpham->get_sp_byID($_GET['id']);
         include "App/View/admin/them_product.php";
         return;
     }
 
+    // Add form
     if (isset($_GET['action']) && $_GET['action'] == 'add') {
         include "App/View/admin/them_product.php";
         return;
     }
+
+    // Danh sách sản phẩm
     $dssp = $this->sanpham->getall_sp();
     include "App/View/admin/product.php";
 }
+
 
  public function category(){
     $dm_edit = null;

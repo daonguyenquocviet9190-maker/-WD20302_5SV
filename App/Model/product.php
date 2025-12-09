@@ -103,13 +103,15 @@ public function get_sp_macngay() {
 
     // Thêm sản phẩm
   // Thêm sản phẩm
-public function add_sp($name, $price, $stock, $cat_id, $size, $img){
-    $sql = "INSERT INTO sanpham (Name, Price, stock, id_DM, size, img)
-            VALUES (:name, :price, :stock, :id_dm, :size, :img)";
+// Thêm sản phẩm
+public function add_sp($name, $price, $sale_price, $stock, $cat_id, $size, $img){
+    $sql = "INSERT INTO sanpham (Name, Price, sale_price, stock, id_DM, size, img)
+            VALUES (:name, :price, :sale_price, :stock, :id_dm, :size, :img)";
     $stmt = $this->db->connect()->prepare($sql);
     return $stmt->execute([
         'name' => $name,
         'price' => $price,
+        'sale_price' => $sale_price,
         'stock' => $stock,
         'id_dm' => $cat_id,
         'size' => $size,
@@ -118,10 +120,11 @@ public function add_sp($name, $price, $stock, $cat_id, $size, $img){
 }
 
 // Sửa sản phẩm
-public function update_sp($id, $name, $price, $stock, $cat_id, $size, $img){
+public function update_sp($id, $name, $price, $sale_price, $stock, $cat_id, $size, $img){
     $sql = "UPDATE sanpham
             SET Name = :name,
                 Price = :price,
+                sale_price = :sale_price,
                 stock = :stock,
                 id_DM = :id_dm,
                 size = :size,
@@ -132,12 +135,14 @@ public function update_sp($id, $name, $price, $stock, $cat_id, $size, $img){
         'id' => $id,
         'name' => $name,
         'price' => $price,
+        'sale_price' => $sale_price,
         'stock' => $stock,
         'id_dm' => $cat_id,
         'size' => $size,
         'img' => $img
     ]);
 }
+
 
 // Xóa sản phẩm
 public function remove_sp($id){

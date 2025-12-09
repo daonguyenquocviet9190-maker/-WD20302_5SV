@@ -56,6 +56,156 @@ function format_currency($n) {
 
 <style>
 /* CSS của bạn để vào đây nếu muốn */
+/* =============================
+   CHUNG CHO ORDER DETAIL
+============================= */
+.main-content.order-detail {
+    margin-top: 70px;
+    margin-left: 250px;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* HEADER */
+.main-content.order-detail .content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.main-content.order-detail .content-header h2 {
+    font-size: 28px;
+    color: #333;
+}
+
+.main-content.order-detail .content-header .btn {
+    background-color: #007bff; /* xanh dương */
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.main-content.order-detail .content-header .btn:hover {
+    background-color: #0056b3;
+}
+
+/* THÔNG TIN KHÁCH HÀNG + ĐƠN HÀNG */
+.info-blocks {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.info-blocks .col-md-6 {
+    flex: 1 1 45%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.info-blocks h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #007bff;
+    /* border-bottom: 2px solid #007bff; xanh dương */
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.table-info {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-info th, .table-info td {
+    text-align: left;
+    padding: 8px 5px;
+    vertical-align: top;
+}
+
+.table-info th {
+    width: 40%;
+    color: #555;
+    font-weight: 600;
+}
+
+.table-info td {
+    color: #333;
+}
+
+/* STATUS */
+.order-status {
+    padding: 4px 10px;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 600;
+    text-transform: capitalize;
+    font-size: 0.9em;
+}
+
+.order-status.status-pending { background-color: #ffc107; }
+.order-status.status-completed { background-color: #007bff; } /* xanh dương */
+.order-status.status-cancelled { background-color: #dc3545; }
+
+/* =============================
+   BẢNG SẢN PHẨM
+============================= */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.data-table th, .data-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+    background-color: #007bff; /* xanh dương */
+    color: #fff;
+    font-weight: 600;
+}
+
+.data-table tbody tr:hover {
+    background-color: #e6f0ff; /* xanh nhạt khi hover */
+}
+
+.data-table img {
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.data-table tfoot td {
+    font-weight: bold;
+    /* border-top: 2px solid #007bff; xanh dương */
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 992px) {
+    .info-blocks {
+        flex-direction: column;
+    }
+
+    .info-blocks .col-md-6 {
+        flex: 1 1 100%;
+    }
+
+    .main-content.order-detail {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+}
 </style>
 
 <div class="main-content order-detail" style="margin-top: 70px; margin-left: 250px;">

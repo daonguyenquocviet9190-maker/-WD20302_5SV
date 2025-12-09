@@ -8,10 +8,11 @@
         <thead>
             <tr>
                 <th style="width: 80px;">ẢNH</th>
-                <th style="width: 30%;">TÊN</th>
+                <th style="width: 25%;">TÊN</th>
                 <th style="width: 10%;">GIÁ</th>
+                <th style="width: 10%;">GIÁ GIẢM</th> <!-- Cột giá giảm -->
                 <th style="width: 10%;">SỐ LƯỢNG</th>
-                <th style="width: 10%;">SIZE</th> <!-- Cột size -->
+                <th style="width: 10%;">SIZE</th>
                 <th style="width: 15%;">LOẠI</th>
                 <th style="width: 100px;">HÀNH ĐỘNG</th>
             </tr>
@@ -29,11 +30,14 @@
                         <td><?= $p['Name'] ?></td>
 
                         <td><?= number_format($p['Price'], 0, ',', '.') ?>đ</td>
+                        <td>
+                            <?= $p['sale_price'] > 0 ? number_format($p['sale_price'], 0, ',', '.') . "đ" : "-" ?>
+                        </td>
+
                         <td><?= $p['stock'] ?></td>
 
                         <!-- Hiển thị SIZE -->
-                       <td><?= htmlspecialchars($p['size']) ?></td> <!-- Lấy trực tiếp từ sanpham -->
-
+                        <td><?= htmlspecialchars($p['size']) ?></td>
 
                         <!-- Hiển thị tên danh mục -->
                         <td>
@@ -41,7 +45,7 @@
                             foreach ($dsdm as $dm) {
                                 if ($dm['id_DM'] == $p['id_DM']) {
                                     echo $dm['Name'];
-                                    break; // tìm thấy thì dừng
+                                    break;
                                 }
                             }
                             ?>
@@ -53,7 +57,7 @@
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            <!-- Xóa -->
+                            <!-- Xóa (nếu muốn) -->
                             <!--
                             <a href="admin.php?page=product&action=delete&id=<?= $p['id_SP'] ?>"
                                 onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');" class="btn-delete" title="Xóa">
@@ -63,10 +67,9 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
-
             <?php else: ?>
                 <tr>
-                    <td colspan="7" style="text-align:center;">Không có sản phẩm nào.</td>
+                    <td colspan="8" style="text-align:center;">Không có sản phẩm nào.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
