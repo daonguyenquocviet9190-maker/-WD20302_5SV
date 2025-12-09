@@ -64,6 +64,23 @@ class HomeController
 
       // Lấy sản phẩm chính
       $ct_sp = $this->sanpham->get_sp_byID($id);
+              // === XỬ LÝ GỬI ĐÁNH GIÁ ===
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'gui_danhgia') {
+            $diem = (int)($_POST['diem'] ?? 0);
+            $noidung = trim($_POST['noidung'] ?? '');
+            $ten = $da_dangnhap ? $_SESSION['username'] : trim($_POST['ten'] ?? '');
+
+            if ($diem >= 1 && $diem <= 5 && !empty($noidung) && !empty($ten)) {
+                $this->sanpham->them_danhgia($id, $ten, $diem, $noidung);
+
+                if (!$da_dangnhap && isset($_POST['luu_info'])) {
+                    setcookie('review_ten', $ten, time() + 365*24*3600, "/");
+                    setcookie('review_email', trim($_POST['email'] ?? ''), time() + 365*24*3600, "/");
+                }
+            }
+            header("Location: index.php?page=product_detail&id=$id");
+            exit;
+        }
 
       // Kiểm tra sản phẩm tồn tại
       if (!$ct_sp) {

@@ -28,6 +28,7 @@ if ($sort !== 'default') {
         return 0;
     });
 }
+
 ?>
 
 <div class="shop-wrapper">
@@ -51,27 +52,31 @@ if ($sort !== 'default') {
     </div>
 </div>
 
-        <!-- Size -->
-        <div class="filter-group-new">
-            <div class="filter-header-new">Size <i class="fas fa-chevron-down"></i></div>
-            <div class="filter-content-new">
-                <div class="size-options">
-                    <div class="size-btn">S</div>
-                    <div class="size-btn">M</div>
-                    <div class="size-btn">L</div>
-                    <div class="size-btn">XL</div>
-                    <div class="size-btn">XXL</div>
-                    <div class="size-btn">3XL</div>
-                    <div class="size-btn">2</div>
-                    <div class="size-btn">6</div>
-                    <div class="size-btn">10</div>
-                    <div class="size-btn">32</div>
-                    <div class="size-btn">37</div>
-                    <div class="size-btn">40</div>
-                    <div class="size-btn">45</div>
-                </div>
-            </div>
+       <!-- SIZE FILTER - Đã thêm name="size" và value -->
+<div class="filter-group-new">
+    <div class="filter-header-new">Size <i class="fas fa-chevron-down"></i></div>
+    <div class="filter-content-new">
+        <div class="size-options">
+            <div class="size-btn <?= (($_GET['size'] ?? '') == 'S') ? 'active' : '' ?>" 
+                 onclick="filterBySize('S')">S</div>
+            <div class="size-btn <?= (($_GET['size'] ?? '') == 'M') ? 'active' : '' ?>" 
+                 onclick="filterBySize('M')">M</div>
+            <div class="size-btn <?= (($_GET['size'] ?? '') == 'L') ? 'active' : '' ?>" 
+                 onclick="filterSize('L')">L</div>
+            <div class="size-btn <?= (($_GET['size'] ?? '') == 'XL') ? 'active' : '' ?>" 
+                 onclick="filterSize('XL')">XL</div>
+            <div class="size-btn <?= (($_GET['size'] ?? '') == 'XXL') ? 'active' : '' ?>" 
+                 onclick="filterSize('XXL')">XXL</div>
+            <div class="size-btn <?= (($_GET['size'] ?? '') == '3XL') ? 'active' : '' ?>" 
+                 onclick="filterSize('3XL')">3XL</div>
+            <!-- Thêm các size khác tương tự -->
+            <div class="size-btn <?= ($_GET['size'] ?? '') == '37' ? 'active' : '' ?>" onclick="filterSize('37')">37</div>
+            <div class="size-btn <?= ($_GET['size'] ?? '') == '40' ? 'active' : '' ?>" onclick="filterSize('40')">40</div>
+            <div class="size-btn <?= ($_GET['size'] ?? '') == '45' ? 'active' : '' ?>" onclick="filterSize('45')">45</div>
         </div>
+    </div>
+</div>
+
 
         <!-- Màu sắc -->
         <div class="filter-group-new">
@@ -229,4 +234,5 @@ function updateSort(value) {
     }
     window.location.href = url.toString();
 }
+
 </script>
