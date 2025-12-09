@@ -134,5 +134,17 @@ public function get_sp_macngay() {
         $sql = "SELECT * FROM sanpham LIMIT {$lim} OFFSET {$offset}";
         return $this->db->get_all($sql);
     }
+        // === THÊM ĐÁNH GIÁ MỚI ===
+    public function them_danhgia($id_SP, $ten_nguoidg, $diem, $noidung) {
+        $sql = "INSERT INTO danhgia (id_SP, ten_nguoidg, diem, noidung) VALUES (?, ?, ?, ?)";
+        return $this->db->get_all($sql, [$id_SP, $ten_nguoidg, $diem, $noidung]);
+    }
+
+    // === LẤY TẤT CẢ ĐÁNH GIÁ CỦA SẢN PHẨM ===
+    public function get_danhgia($id_SP) {
+        $sql = "SELECT * FROM danhgia WHERE id_SP = ? ORDER BY ngay_danhgia DESC";
+        return $this->db->get_all($sql, [$id_SP]);
+    }
+
 }
 ?>
