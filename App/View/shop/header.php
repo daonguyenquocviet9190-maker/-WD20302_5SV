@@ -413,14 +413,21 @@ userTrigger.addEventListener('click', function(e){
             window.location.href = 'index.php?page=nam_product'; // Điều hướng đến trang Áo Nam
             closeSearchPopup(); // Đóng popup tìm kiếm
         }
-                if (keyword === 'áo nữ') {
+        if (keyword === 'áo nữ') {
             e.preventDefault(); 
             window.location.href = 'index.php?page=nu_product'; 
             closeSearchPopup();
         } 
-        
-        // Nếu không phải "Áo nam", form sẽ được gửi đi như bình thường 
-        // (index.php?page=search&keyword=...) vì e.preventDefault() không được gọi.
+        if (keyword === 'giày') {
+            e.preventDefault(); 
+            window.location.href = 'index.php?page=giay_product'; 
+            closeSearchPopup();
+        }
+        if (keyword === 'phụ kiện') {
+            e.preventDefault(); 
+            window.location.href = 'index.php?page=phukien'; 
+            closeSearchPopup();
+        }          
     });
 </script>
 </body>
