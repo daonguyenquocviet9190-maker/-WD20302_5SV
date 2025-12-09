@@ -398,7 +398,7 @@ userTrigger.addEventListener('click', function(e){
             if (e.key === 'Escape') closeSearchPopup();
         });
     </script>
-    <script>
+<script>
     // Lấy form và input
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
@@ -406,29 +406,32 @@ userTrigger.addEventListener('click', function(e){
     searchForm.addEventListener('submit', function (e) {
         // Lấy từ khóa và loại bỏ khoảng trắng dư thừa, chuyển về chữ thường để so sánh
         const keyword = searchInput.value.trim().toLowerCase();
+        let redirectUrl = null;
 
-        // Kiểm tra điều kiện
+        // --- Bắt đầu kiểm tra các từ khóa điều hướng nhanh ---
         if (keyword === 'áo nam') {
-            e.preventDefault(); // Chặn việc gửi form mặc định
-            window.location.href = 'index.php?page=nam_product'; // Điều hướng đến trang Áo Nam
-            closeSearchPopup(); // Đóng popup tìm kiếm
+            redirectUrl = 'index.php?page=nam_product';
+        } else if (keyword === 'áo nữ') {
+            redirectUrl = 'index.php?page=nu_product';
+        } else if (keyword === 'giày' || keyword === 'giày thể thao') { // Thêm 1 từ khóa phụ cho Giày
+            redirectUrl = 'index.php?page=giay_product';
+        } else if (keyword === 'phụ kiện' || keyword === 'dụng cụ' || keyword === 'phụ kiện & dụng cụ') { // Thêm các từ khóa liên quan
+            redirectUrl = 'index.php?page=phukien';
         }
-        if (keyword === 'áo nữ') {
-            e.preventDefault(); 
-            window.location.href = 'index.php?page=nu_product'; 
-            closeSearchPopup();
-        } 
-        if (keyword === 'giày') {
-            e.preventDefault(); 
-            window.location.href = 'index.php?page=giay_product'; 
-            closeSearchPopup();
+        // --- Kết thúc kiểm tra ---
+
+        if (redirectUrl) {
+            e.preventDefault(); // CHỈ CHẶN GỬI FORM NẾU CÓ ĐIỀU HƯỚNG
+            window.location.href = redirectUrl; // Điều hướng
+            closeSearchPopup(); // Đóng popup
+            // Ngăn không cho code tiếp tục chạy và gửi form (mặc dù đã preventDefault)
+            return; 
         }
-        if (keyword === 'phụ kiện') {
-            e.preventDefault(); 
-            window.location.href = 'index.php?page=phukien'; 
-            closeSearchPopup();
-        }          
+
+        // Nếu không khớp với bất kỳ từ khóa nào ở trên, form sẽ gửi bình thường 
+        // đến index.php?page=search&keyword=...
     });
+</script>
 </script>
 </body>
 
