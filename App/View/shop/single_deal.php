@@ -55,25 +55,7 @@ if ($sort !== 'default') {
             </div>
         </div>
 
-        <div class="filter-group-new">
-            <div class="filter-header-new">Màu sắc <i class="fas fa-chevron-down"></i></div>
-            <div class="filter-content-new">
-                <div class="color-options">
-                    <div class="color-btn" style="background:#007bff;"></div>
-                    <div class="color-btn" style="background:#9c27b0;"></div>
-                    <div class="color-btn" style="background:#9e9e9e;"></div>
-                    <div class="color-btn" style="background:#ffeb3b;"></div>
-                    <div class="color-btn" style="background:#2196f3;"></div>
-                    <div class="color-btn" style="background:#e91e63;"></div>
-                    <div class="color-btn" style="background:#795548;"></div>
-                    <div class="color-btn" style="background:#000;"></div>
-                    <div class="color-btn" style="background:#ff9800;"></div>
-                    <div class="color-btn" style="background:#4caf50;"></div>
-                    <div class="color-btn" style="background:#f44336;"></div>
-                    <div class="color-btn" style="background:#fff;border:1px solid #ddd;"></div>
-                </div>
-            </div>
-        </div>
+       
         
     <!-- Hoạt động -->
 <div class="filter-group-new">
