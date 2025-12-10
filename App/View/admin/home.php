@@ -1,74 +1,59 @@
 <div class="admin-container">
 
-    <!-- Ô tìm kiếm -->
     <div class="search-bar">
-        <input type="text" placeholder="Tìm kiếm sản phẩm, đơn hàng">
+        <!-- <input type="text" placeholder="Tìm kiếm sản phẩm, đơn hàng"> -->
     </div>
 
-    <!-- 4 ô thống kê -->
     <div class="stats-box">
-        <div class="stat-item">
-            <p class="title">Doanh thu (Hôm nay)</p>
-            <<h2>₫ <?= number_format($revenue_today ?? 0) ?></h2>
-            <span class="increase">+8.4% so với hôm qua</span>
+    
+    <div class="stat-item revenue-stat">
+        <div class="stat-header">
+            <i class="fas fa-chart-line icon-bg-red"></i> <p class="title">Doanh thu (Hôm nay)</p>
         </div>
-
-        <div class="stat-item">
-            <p class="title">Đơn hàng</p>
-            <h2><?= $order_count ?? 0 ?></h2>
-            <span class="sub">5 đơn mới</span>
-        </div>
-
-        <div class="stat-item">
-            <p class="title">Khách hàng mới</p>
-            <h2><?= $new_customers ?? 0 ?></h2>
-            <span class="sub">Trong 7 ngày</span>
-        </div>
-
-        <div class="stat-item">
-            <p class="title">Tỷ lệ hoàn trả</p>
-            <h2><?= ($return_rate ?? 0) ?>%</h2>
-            <span class="sub">Ổn định</span>
-        </div>
+        
+        <h2 class="main-value">₫ <?= number_format($revenue_today ?? 0) ?></h2>
+        
+        <?php 
+            $change_rate = 8.4; // Ví dụ: Lấy từ biến $revenue_change_rate
+            $change_class = ($change_rate >= 0) ? 'increase' : 'decrease';
+            $sign = ($change_rate >= 0) ? '+' : '';
+        ?>
+        <span class="<?= $change_class ?>"><?= $sign . number_format($change_rate, 1) ?>% so với hôm qua</span>
     </div>
+
+    <div class="stat-item order-stat">
+        <div class="stat-header">
+            <i class="fas fa-shopping-cart icon-bg-blue"></i> <p class="title">Đơn hàng</p>
+        </div>
+        
+        <h2 class="main-value"><?= number_format($order_count ?? 0) ?></h2>
+        
+        <span class="sub highlight-sub"><?= $new_orders ?? 5 ?> đơn mới đang chờ</span>
+    </div>
+
+    <div class="stat-item customer-stat">
+        <div class="stat-header">
+            <i class="fas fa-user-plus icon-bg-green"></i> <p class="title">Khách hàng mới</p>
+        </div>
+        
+        <h2 class="main-value"><?= number_format($new_customers ?? 0) ?></h2>
+        
+        <span class="sub">Trong $7$ ngày qua</span>
+    </div>
+
+    <div class="stat-item return-stat">
+        <div class="stat-header">
+            <i class="fas fa-redo-alt icon-bg-orange"></i> <p class="title">Tỷ lệ hoàn trả</p>
+        </div>
+        
+        <h2 class="main-value return-value"><?= ($return_rate ?? 0) ?>%</h2>
+        
+        <span class="sub">Ổn định</span>
+    </div>
+</div>
+
     
 
-<style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            color: #333;
-        }
-        .report-section {
-            margin-bottom: 25px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        h3 {
-            margin: 0;
-            color: #007bff;
-        }
-        /* Cấu hình Flexbox để 3 biểu đồ nằm cạnh nhau */
-        .charts-group {
-            display: flex; 
-            justify-content: space-around;
-            flex-wrap: wrap; 
-            gap: 10px; 
-        }
-        .chart-container {
-            width: 30%; /* Chia đều không gian cho 3 biểu đồ */
-            min-width: 250px; 
-            margin: 10px 0;
-            box-sizing: border-box;
-        }
-    </style>
 
     <div class="report-section">
         <div class="report-header">
@@ -90,106 +75,125 @@
                 <canvas id="khachHangChart"></canvas>
             </div>
 
-        </div>
-        
+        </div> 
     </div>
+    
 
     <script>
-        const labels = ['T.Hai', 'T.Ba', 'T.Tư', 'T.Năm', 'T.Sáu', 'T.Bảy', 'C.Nhật'];
+    const labels = ['T.Hai', 'T.Ba', 'T.Tư', 'T.Năm', 'T.Sáu', 'T.Bảy', 'C.Nhật'];
 
-        // --- 1. BIỂU ĐỒ DOANH THU (LINE CHART) ---
-        const doanhThuData = {
-            labels: labels,
-            datasets: [{
-                label: 'Doanh thu (VNĐ)',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [1200000, 1900000, 1500000, 2400000, 3000000, 2800000, 3500000],
-                tension: 0.4
-            }]
-        };
-
-        const doanhThuConfig = {
-            type: 'line',
-            data: doanhThuData,
-            options: { plugins: { title: { display: true, text: 'Xu hướng Doanh thu' } } }
-        };
-
-        new Chart(document.getElementById('doanhThuChart'), doanhThuConfig);
+    Chart.defaults.font = {
+        family: 'Arial, sans-serif',
+        style: 'normal',
+        weight: 'normal',
+        size: 11 
+    };
 
 
-        // --- 2. BIỂU ĐỒ ĐƠN HÀNG (BAR CHART) ---
-        const donHangData = {
-            labels: labels,
-            datasets: [{
-                label: 'Số lượng Đơn hàng',
-                backgroundColor: 'rgb(54, 162, 235)',
-                borderColor: 'rgb(54, 162, 235)',
-                data: [15, 22, 18, 25, 30, 28, 35],
-            }]
-        };
+    // --- 1. BIỂU ĐỒ DOANH THU (LINE CHART) ---
+    const doanhThuData = {
+        labels: labels,
+        datasets: [{
+            label: 'Doanh thu (VNĐ)',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [1200000, 1900000, 1500000, 2400000, 3000000, 2800000, 3500000],
+            tension: 0.4
+        }]
+    };
 
-        const donHangConfig = {
-            type: 'bar',
-            data: donHangData,
-            options: { plugins: { title: { display: true, text: 'Đơn hàng mới trong ngày' } } }
-        };
+    const doanhThuConfig = {
+        type: 'line',
+        data: doanhThuData,
+        options: { 
+            plugins: { 
+                title: { display: true, text: 'Xu hướng Doanh thu' } 
+            },
+            scales: { // THÊM CẤU HÌNH CHO TRỤC X VÀ Y
+                x: {
+                    ticks: {
+                        font: { style: 'normal', weight: 'normal' } // Buộc nhãn trục X là thường
+                    }
+                },
+                y: {
+                    ticks: {
+                        font: { style: 'normal', weight: 'normal' } // Buộc nhãn trục Y là thường
+                    }
+                }
+            }
+        }
+    };
 
-        new Chart(document.getElementById('donHangChart'), donHangConfig);
+    new Chart(document.getElementById('doanhThuChart'), doanhThuConfig);
 
 
-        // --- 3. BIỂU ĐỒ KHÁCH HÀNG MỚI (LINE CHART) ---
-        const khachHangData = {
-            labels: labels,
-            datasets: [{
-                label: 'Khách hàng mới',
-                backgroundColor: 'rgb(75, 192, 192)',
-                borderColor: 'rgb(75, 192, 192)',
-                data: [3, 5, 4, 7, 8, 6, 9],
-                tension: 0.4
-            }]
-        };
+    // --- 2. BIỂU ĐỒ ĐƠN HÀNG (BAR CHART) ---
+    const donHangData = {
+        labels: labels,
+        datasets: [{
+            label: 'Số lượng Đơn hàng',
+            backgroundColor: 'rgb(54, 162, 235)',
+            borderColor: 'rgb(54, 162, 235)',
+            data: [15, 22, 18, 25, 30, 28, 35],
+        }]
+    };
 
-        const khachHangConfig = {
-            type: 'line',
-            data: khachHangData,
-            options: { plugins: { title: { display: true, text: 'Xu hướng Khách hàng mới' } } }
-        };
+    const donHangConfig = {
+        type: 'bar',
+        data: donHangData,
+        options: { 
+            plugins: { 
+                title: { display: true, text: 'Đơn hàng mới trong ngày' } 
+            },
+            scales: { // THÊM CẤU HÌNH CHO TRỤC X
+                x: {
+                    ticks: {
+                        font: { style: 'normal', weight: 'normal' } // Buộc nhãn trục X là thường
+                    }
+                }
+            }
+        }
+    };
 
-        new Chart(document.getElementById('khachHangChart'), khachHangConfig);
-    </script>
+    new Chart(document.getElementById('donHangChart'), donHangConfig);
 
-    <!-- Đơn hàng gần đây -->
-    <div class="recent-orders">
-        <div class="recent-header">
-            <h3>Đơn hàng gần đây</h3>
-            <!-- <a href="App/view/admin/xemtatca.php">Xem tất cả →</a> -->
-        </div>
 
-        <table>
-            <tr>
-                <th>MÃ</th>
-                <th>KHÁCH HÀNG</th>
-                <th>TRẠNG THÁI</th>
-            </tr>
+    // --- 3. BIỂU ĐỒ KHÁCH HÀNG MỚI (LINE CHART) ---
+    const khachHangData = {
+        labels: labels,
+        datasets: [{
+            label: 'Khách hàng mới',
+            backgroundColor: 'rgb(75, 192, 192)',
+            borderColor: 'rgb(75, 192, 192)',
+            data: [3, 5, 4, 7, 8, 6, 9],
+            tension: 0.4
+        }]
+    };
 
-            <?php foreach ($recent_orders ?? [] as $o): ?>
-            
-            <tr>
-                <td><?= $o[0] ?></td>
-                <td><?= $o[1] ?></td>
-                <td><?= $o[2] ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-    </div>
+    const khachHangConfig = {
+        type: 'line',
+        data: khachHangData,
+        options: { 
+            plugins: { 
+                title: { display: true, text: 'Xu hướng Khách hàng mới' } 
+            },
+            scales: { // THÊM CẤU HÌNH CHO TRỤC X
+                x: {
+                    ticks: {
+                        font: { style: 'normal', weight: 'normal' } // Buộc nhãn trục X là thường
+                    }
+                }
+            }
+        }
+    };
 
-    <!-- Quản lý sản phẩm -->
+    new Chart(document.getElementById('khachHangChart'), khachHangConfig);
+</script>
+
     <div class="products-section">
         <div class="products-header">
             <h3>Quản lý sản phẩm</h3>
-            <button class="add-btn">+ Thêm sản phẩm</button>
-        </div>
+            </div>
 
         <div class="product-list">
             <?php foreach ($dssp as $p): ?>
@@ -200,6 +204,44 @@
             </div>
             <?php endforeach; ?>
         </div>
-    </div>
+        
+        <?php 
+            // Đảm bảo các biến phân trang có giá trị, nếu Controller chưa truyền sang (tránh lỗi)
+            $current_page = $current_page ?? 1;
+            $total_pages = $total_pages ?? 1;
+        ?>
+        <div class="pagination">
+            <?php if ($total_pages > 1): ?>
+                
+                <?php if ($current_page > 1): ?>
+                    <a href="?page=home&p=<?= $current_page - 1 ?>" class="page-link">← Trước</a>
+                <?php endif; ?>
+
+                <?php 
+                    // Logic hiển thị tối đa 5 nút xung quanh trang hiện tại
+                    $start_loop = max(1, $current_page - 2);
+                    $end_loop = min($total_pages, $current_page + 2);
+
+                    if ($current_page < 3) $end_loop = min($total_pages, 5);
+                    if ($current_page > $total_pages - 2) $start_loop = max(1, $total_pages - 4);
+                ?>
+
+                <?php for ($i = $start_loop; $i <= $end_loop; $i++): ?>
+                    <a href="?page=home&p=<?= $i ?>" 
+                       class="page-link <?= ($i == $current_page ? 'active' : '') ?>">
+                       <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+                
+                <?php if ($current_page < $total_pages): ?>
+                    <a href="?page=home&p=<?= $current_page + 1 ?>" class="page-link">Sau →</a>
+                <?php endif; ?>
+
+            <?php endif; ?>
+        </div>
+        </div>
+
+        
 
 </div>
+

@@ -27,7 +27,7 @@
                     <td><?= $c['Phone'] ?></td>
                     <td><?= $c['Role'] ?></td>
                     <td>
-                        <span class="status-badge status-<?= $c['status'] ?>">
+                        <span style="border-radius: 20px;  background-color: #ffc107; color: #333;" class="status-badge status-<?= $c['status'] ?>">
                             <?= ucfirst($c['status']) ?>
                         </span>
                     </td>

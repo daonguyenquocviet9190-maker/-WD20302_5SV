@@ -15,11 +15,80 @@ require 'App/Model/order.php';
     $this->user = new User();
     $this->order = new Order();
   }
+    
+    // ==========================================================
+    // 🚀 HÀM home() ĐÃ ĐƯỢC CẬP NHẬT CHO PHÂN TRANG (LIMIT 10)
+    // ==========================================================
     public function home(){
-      $dssp = $this->sanpham->getall_sp();  
-    // $dsuser = $this->user->getall_user();
-    include 'App/View/admin/home.php';
-  }
+        // --- 1. Thiết lập các biến Phân trang ---
+        $limit = 10; // 10 sản phẩm mỗi trang theo yêu cầu
+        
+        // ⚠️ BƯỚC QUAN TRỌNG: Lấy tổng số lượng sản phẩm từ Model
+        // Bạn phải đảm bảo hàm get_total_sp_count() có trong Product Model
+        $total_products = $this->sanpham->get_total_sp_count() ?? 100; // Giả định 100 nếu Model chưa có hàm COUNT
+
+        $total_pages = ceil($total_products / $limit); 
+        
+        // Lấy số trang hiện tại từ URL (query parameter 'p')
+        $current_page = isset($_GET['p']) ? (int)$_GET['p'] : 1; 
+        
+        // Kiểm tra tính hợp lệ của trang hiện tại
+        if ($current_page < 1) $current_page = 1;
+        if ($total_pages > 0 && $current_page > $total_pages) $current_page = $total_pages;
+
+        // Tính OFFSET (Vị trí bắt đầu lấy dữ liệu)
+        $offset = ($current_page - 1) * $limit;
+
+        // --- 2. Lấy danh sách sản phẩm theo trang (sử dụng LIMIT và OFFSET) ---
+        // ⚠️ Bạn phải đảm bảo hàm getall_sp_paged($limit, $offset) có trong Product Model
+        // Nếu không có, bạn hãy tạm thời dùng $this->sanpham->getall_sp() 
+        // và xử lý cắt mảng trong home.php (như tôi đã làm ở bước 2).
+        $dssp = $this->sanpham->getall_sp_paged($limit, $offset) ?? $this->sanpham->getall_sp();
+
+        // Truyền các biến phân trang sang View
+        $total_products = $total_products;
+        $current_page = $current_page;
+        $total_pages = $total_pages;
+
+        // ==========================================================
+        // ✅ THÊM LOGIC ĐẾM ĐƠN HÀNG VÀ KHÁCH HÀNG MỚI TẠI ĐÂY
+        // ==========================================================
+        
+        // 1. Đếm tổng số đơn hàng
+        // ⚠️ Bạn phải đảm bảo hàm get_order_count() có trong Order Model (SELECT COUNT(*))
+        $order_count = $this->order->get_order_count() ?? 0;
+        
+        // 2. Đếm đơn hàng mới (đang chờ xử lý)
+        // ⚠️ Bạn phải đảm bảo hàm get_new_order_count() có trong Order Model
+        $new_orders = $this->order->get_new_order_count() ?? 0;
+        
+        // 3. Đếm khách hàng mới (giả sử 7 ngày qua)
+        // ⚠️ Bạn phải đảm bảo hàm get_new_customer_count() có trong User Model
+        $new_customers = $this->user->get_new_customer_count() ?? 0;
+        
+        // 4. Các chỉ số khác (ví dụ: Doanh thu, Tỷ lệ hoàn trả)
+        // Cần thêm các biến này vào Controller nếu muốn lấy từ DB, ở đây tôi giả định giá trị cố định
+        $revenue_today = 5000000; // Ví dụ
+        $return_rate = 2.5; // Ví dụ
+        
+        // ==========================================================
+        
+        // --- 3. Truyền các biến sang View ---
+        $total_products = $total_products;
+        $current_page = $current_page;
+        $total_pages = $total_pages;
+
+        // ✅ Truyền biến thống kê sang View
+        $revenue_today = $revenue_today;
+        $order_count = $order_count;
+        $new_orders = $new_orders;
+        $new_customers = $new_customers;
+        $return_rate = $return_rate;
+        
+        include 'App/View/admin/home.php';
+    }
+    // ==========================================================
+    
   public function product()
 {
     $sizes = $this->sanpham->getall_size();

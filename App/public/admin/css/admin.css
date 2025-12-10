@@ -326,14 +326,28 @@ nav a:hover {
     gap: 20px;
 }
 
+/* 7. BIỂU ĐỒ VÀ BÁO CÁO (TỪ HOME.PHP) */
+
+/* ... (các đoạn mã CSS khác) ... */
+
 .chart-container {
-    width: 30%; /* 3 biểu đồ trên một hàng */
+    width: 30%; 
     padding: 15px;
     border: 1px solid #eee;
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
+    /* --- THÊM: Kỹ thuật tăng tốc phần cứng cho canvas, giúp render chữ mượt và chuẩn hơn */
+    display: flex; /* Đảm bảo canvas được chứa tốt hơn */
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.chart-container canvas {
+    /* Buộc GPU xử lý, đôi khi khắc phục lỗi rendering font khi zoom */
+    transform: translateZ(0); 
 }
 /* Responsive cho Chart */
 @media (max-width: 1200px) {
@@ -507,13 +521,13 @@ nav a:hover {
     background-color: #ffc107; /* Vàng */
     color: #333;
 }
-.status-đang-vận-chuyển {
+.status-Đang-giao {
     background-color: #17a2b8; /* Xanh da trời */
 }
-.status-đã-giao {
+.status-Đã-hoàn-thành {
     background-color: #28a745; /* Xanh lá */
 }
-.status-đã-hủy {
+.status-Đã-hủy {
     background-color: #dc3545; /* Đỏ */
 }
 
@@ -525,4 +539,120 @@ nav a:hover {
 .data-table tfoot tr:last-child td {
     color: #dc3545;
     font-size: 1.1em;
+}
+/* phân trang */
+.pagination {
+    clear: both; /* Đảm bảo phân trang không bị trôi lên product-list */
+    display: flex;
+    justify-content: center; /* Căn giữa các nút */
+    margin-top: 25px;
+    padding: 10px 0;
+}
+
+.page-link {
+    text-decoration: none;
+    padding: 8px 15px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    transition: background-color 0.3s, border-color 0.3s;
+    font-size: 14px;
+}
+
+.page-link:hover {
+    background-color: #f0f0f0;
+}
+
+.page-link.active {
+    background-color: #007bff; /* Màu xanh nổi bật */
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+/* CONTAINER CHO CÁC CHỈ SỐ */
+.stats-box {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa các ô */
+    margin-bottom: 30px;
+}
+
+/* THIẾT KẾ CHUNG CHO MỖI Ô */
+.stat-item {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ nhàng */
+    border-left: 5px solid; /* Tạo đường viền màu nổi bật ở bên trái */
+}
+
+/* Màu đường viền trái (có thể tùy chỉnh) */
+.revenue-stat { border-left-color: #ff6384; } 
+.order-stat { border-left-color: #36a2eb; }
+.customer-stat { border-left-color: #4bc0c0; }
+.return-stat { border-left-color: #ff9f40; }
+
+/* PHẦN TIÊU ĐỀ (TITLE VÀ ICON) */
+.stat-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stat-header .title {
+    font-size: 14px;
+    color: #6c757d; /* Màu xám nhạt cho tiêu đề */
+    font-weight: 500;
+    margin: 0;
+    margin-left: 10px; /* Khoảng cách giữa icon và tiêu đề */
+}
+
+/* ICON */
+.stat-header i {
+    color: #ffffff;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* Màu nền Icon */
+.icon-bg-red { background-color: #ff6384; }
+.icon-bg-blue { background-color: #36a2eb; }
+.icon-bg-green { background-color: #4bc0c0; }
+.icon-bg-orange { background-color: #ff9f40; }
+
+
+/* GIÁ TRỊ CHÍNH (SỐ LỚN) */
+.main-value {
+    font-size: 32px;
+    font-weight: 700; /* Đậm hơn */
+    color: #343a40;
+    margin: 0 0 8px 0;
+}
+
+/* PHẦN PHỤ (CHI TIẾT THÊM) */
+.sub {
+    font-size: 13px;
+    color: #888;
+    display: block;
+}
+
+/* PHẦN TRĂM THAY ĐỔI (INCREASE/DECREASE) */
+.increase {
+    color: #28a745; /* Màu xanh lá cho tăng trưởng */
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.decrease {
+    color: #dc3545; /* Màu đỏ cho sụt giảm */
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* HIGHLIGHT ĐƠN MỚI */
+.highlight-sub {
+    color: #ff6384; /* Màu nổi bật cho hành động cần thiết */
+    font-weight: 600;
 }

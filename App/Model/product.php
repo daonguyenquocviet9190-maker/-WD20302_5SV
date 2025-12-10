@@ -168,10 +168,19 @@ public function remove_sp($id){
     }
 
     // === LẤY TẤT CẢ ĐÁNH GIÁ CỦA SẢN PHẨM ===
-    public function get_danhgia($id_SP) {
-        $sql = "SELECT * FROM danhgia WHERE id_SP = ? ORDER BY ngay_danhgia DESC";
-        return $this->db->get_all($sql, [$id_SP]);
+    public function get_total_sp_count() {
+        $sql = "SELECT COUNT(*) as total FROM sanpham";
+        $result = $this->db->get_one($sql);
+        return $result ? (int)$result['total'] : 0;
     }
-
+       // === LẤY NHIỀU SẢN PHẨM LIÊN QUAN (12 SẢN PHẨM CÙNG DANH MỤC) ===
+    public function get_sp_lq_full($current_id, $id_dm) {
+        $sql = "SELECT * FROM sanpham 
+                WHERE id_DM = ? 
+                  AND id_SP != ? 
+                ORDER BY RAND() 
+                LIMIT 12";
+        return $this->db->get_all($sql, [$id_dm, $current_id]);
+    }
 }
 ?>

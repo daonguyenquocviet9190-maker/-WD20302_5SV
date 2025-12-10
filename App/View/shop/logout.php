@@ -1,13 +1,22 @@
 <?php
 session_start();
 
-// Xóa tất cả dữ liệu trong session
-$_SESSION = [];
+require_once 'App/Model/database.php'; 
+require_once 'App/Model/user.php';
 
-// Hủy session
+$db = new Database("localhost", "5svcode", "root", "");
+$pdo = $db->connect();
+
+// Nếu user đang đăng nhập → cập nhật trạng thái OFFLINE
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("UPDATE user SET status = 'offline' WHERE id_User = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+}
+
+// Xóa session
+$_SESSION = [];
 session_destroy();
 
-
-// Chuyển hướng về trang đăng nhập hoặc trang chủ
+// Chuyển hướng
 header("Location: index.php?page=home");
 exit;
