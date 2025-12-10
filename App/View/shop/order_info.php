@@ -44,7 +44,7 @@ $items = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
 <title>Đơn hàng thành công</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-    body { font-family: Poppins, Arial; background: #f2f3f7; padding: 25px; }
+    body { font-family: Poppins, Arial; background: #f2f3f7; }
     .wrapper { max-width: 1150px; margin: 30px auto; display: flex; gap: 25px; }
 
     /* Cột trái */

@@ -521,13 +521,13 @@ nav a:hover {
     background-color: #ffc107; /* Vàng */
     color: #333;
 }
-.status-đang-vận-chuyển {
+.status-Đang-giao {
     background-color: #17a2b8; /* Xanh da trời */
 }
-.status-đã-giao {
+.status-Đã-hoàn-thành {
     background-color: #28a745; /* Xanh lá */
 }
-.status-đã-hủy {
+.status-Đã-hủy {
     background-color: #dc3545; /* Đỏ */
 }
 
