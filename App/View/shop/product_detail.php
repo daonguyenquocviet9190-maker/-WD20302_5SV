@@ -1,6 +1,4 @@
-
-
-   <?php if(!isset($ct_sp)) { echo "Lỗi: Không tìm thấy sản phẩm"; exit; } ?>
+  <?php if(!isset($ct_sp)) { echo "Lỗi: Không tìm thấy sản phẩm"; exit; } ?>
 <div class="detail-container">
     <div class="detail-wrapper">
 
