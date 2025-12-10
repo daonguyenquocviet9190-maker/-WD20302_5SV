@@ -3,6 +3,10 @@ session_start();
 
 // Lấy username từ session nếu đã login
 $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+
+// 🔥 THAY ĐỔI: Lấy từ khóa tìm kiếm từ tham số 'search' trên URL.
+// Nếu không tồn tại (chưa tìm kiếm), gán giá trị rỗng.
+$search_term = $_GET['search'] ?? ''; 
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -338,7 +342,13 @@ $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 <form action="index.php" method="GET" class="search-popup-form" id="searchForm">
     <input type="hidden" name="page" value="search">
     <div class="search-popup-input">
-        <input type="text" name="keyword" placeholder="Nhập tên sản phẩm, mã SP, từ khóa..." autofocus required id="searchInput">
+        <input type="text" 
+               name="search" 
+               placeholder="Nhập tên sản phẩm, mã SP, từ khóa..." 
+               value="<?= htmlspecialchars($search_term) ?>"
+               autofocus 
+               required 
+               id="searchInput">
         <button type="submit"><i class="fas fa-search"></i></button>
     </div>
 </form>

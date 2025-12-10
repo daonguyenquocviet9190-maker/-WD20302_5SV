@@ -37,6 +37,24 @@ class HomeController
     //  $dssp_phantrang = $this->sanpham->phantrang($lim,$offset);
     include 'app/View/shop/home.php';
   }
+  // 📂 app/Controller/ShopController.php (hoặc Controller xử lý Shop)
+
+public function search()
+{
+    // 1. Lấy từ khóa tìm kiếm từ URL (tham số 'search')
+    $search_term = $_GET['search'] ?? '';
+
+    $dssp_timkiem = []; // Khởi tạo mảng kết quả
+
+    if (!empty($search_term)) {
+        // 2. Gọi Model để thực hiện truy vấn DB
+        $dssp_timkiem = $this->sanpham->search_sp_by_name($search_term);
+    }
+
+    // 3. Tải View hiển thị kết quả
+    // Truyền $search_term để View có thể hiển thị lại từ khóa và $dssp_timkiem là kết quả
+    include 'app/View/shop/search_results.php'; 
+}
   public function product()
   {
     $dsdm = $this->danhmuc->getall_dm(); // tạo biến và lưu mảng vào biến đó

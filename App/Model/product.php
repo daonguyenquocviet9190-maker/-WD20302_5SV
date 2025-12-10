@@ -100,7 +100,24 @@ public function get_sp_macngay() {
     $sql = "SELECT * FROM sanpham WHERE hoatdong = 'macngay' ORDER BY id_SP DESC";
     return $this->db->get_all($sql);
 }
+// 📂 app/Model/Sanpham.php (hoặc tên Model của bạn)
 
+/**
+ * 🔥 PHƯƠNG THỨC ĐÃ SỬA LỖI
+ * Tìm kiếm sản phẩm theo tên (cột Name)
+ */
+public function search_sp_by_name($keyword) {
+    // 1. Sử dụng dấu hỏi (?) làm placeholder cho tham số
+    $sql = "SELECT * FROM sanpham WHERE Name LIKE ?";
+    
+    // 2. Chuẩn bị tham số tìm kiếm: Bao quanh bằng dấu % để tìm kiếm gần đúng
+    // Ví dụ: nếu $keyword="áo", $search_param="%áo%"
+    $search_param = "%" . $keyword . "%"; 
+    
+    // 3. Gửi câu lệnh SQL và mảng tham số [search_param] đến Database object
+    // Phương thức get_all của bạn sẽ tự động prepare và execute an toàn.
+    return $this->db->get_all($sql, [$search_param]);
+}
     // Thêm sản phẩm
   // Thêm sản phẩm
 // Thêm sản phẩm
