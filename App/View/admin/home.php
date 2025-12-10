@@ -1,90 +1,90 @@
 <?php
 // =========================================================
-// PHẦN KẾT NỐI VÀ TRUY VẤN DATABASE (CẦN ĐẶT Ở ĐẦU FILE)
+// PHẦN LOGIC XỬ LÝ: KẾT NỐI DB, TÌM KIẾM VÀ PHÂN TRANG
 // =========================================================
 
-// ⚠️ QUAN TRỌNG: Bạn cần thay thế đường dẫn này nếu file Database của bạn ở chỗ khác.
-// Giả định file database.php chứa class Database
+// ⚠️ BẬT HIỂN THỊ LỖI (Nên tắt khi triển khai chính thức)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// 1. REQUIRE DATABASE CLASS
+// ⚠️ Thay đổi đường dẫn này nếu file Database.php của bạn nằm ở vị trí khác.
 require_once 'App/Model/database.php'; 
 
-// --- 1. KHỞI TẠO KẾT NỐI DB ---
-// Tên DB đã được bạn cung cấp là '5svcode'
+// 2. KHỞI TẠO KẾT NỐI DB
 $db_host = 'localhost'; 
 $db_user = 'root';      
 $db_pass = '';          
 $db_name = '5svcode';   
 
-// Tạo đối tượng Database
 $db = new Database($db_host, $db_name, $db_user, $db_pass);
-// Thiết lập kết nối
 $db->connect(); 
 
 
-// --- 2. LOGIC TÌM KIẾM VÀ TRUY VẤN SẢN PHẨM ---
-
+// 3. THIẾT LẬP CÁC BIẾN CHUNG
+$limit = 10; // Số sản phẩm mỗi trang
 $search_term = $_GET['search'] ?? null;
-$dssp = []; // Danh sách sản phẩm cuối cùng (để hiển thị)
-$params = []; // Mảng tham số cho Prepared Statement
+$where_clause = "";
+$params = []; 
+$dssp = []; 
+$total_products = 0;
+$total_pages = 1;
+$current_page = 1;
 
-// SQL cơ bản
-$sql = "SELECT * FROM sanpham";
-$where_clause = ""; 
 
+// 4. LOGIC: TÌM KIẾM, ĐẾM VÀ PHÂN TRANG
 if (!empty($search_term)) {
-    
-    // Chuẩn hóa và làm sạch từ khóa tìm kiếm
+    // A. Xử lý khi CÓ tìm kiếm
     $search_key = trim($search_term);
     
-    // Thêm điều kiện tìm kiếm: 
-    // LOWER(Name) LIKE :search_key
-    // Điều kiện này giúp tìm kiếm không phân biệt chữ hoa/thường (LOWER) 
-    // và tìm kiếm tương đối (LIKE) trên cột Name
+    // 1. Tạo điều kiện WHERE cho SQL (sử dụng named placeholder)
     $where_clause = " WHERE LOWER(Name) LIKE :search_key";
-    
-    // Gán tham số cho Prepared Statement (Đảm bảo an toàn)
     $params[':search_key'] = '%' . strtolower($search_key) . '%';
     
-    // Khi có tìm kiếm, reset phân trang
-    $current_page = 1;
-    $total_pages = 1;
-
+    // 2. Đếm tổng sản phẩm khớp với tìm kiếm
+    $count_sql = "SELECT COUNT(*) FROM sanpham" . $where_clause;
+    $total_products = $db->get_one($count_sql, $params)['COUNT(*)'] ?? 0;
+    
+    // Khi có tìm kiếm, luôn hiển thị trang 1
+    $total_pages = ceil($total_products / $limit);
+    $current_page = 1; 
+    $offset = 0; 
+    
 } else {
-    // Nếu không có tìm kiếm, áp dụng logic phân trang mặc định (NẾU CÓ)
+    // B. Xử lý khi KHÔNG có tìm kiếm (Phân trang mặc định)
     
-    // ⚠️ BẠN CẦN THAY THẾ PHẦN NÀY BẰNG LOGIC PHÂN TRANG THỰC TẾ CỦA BẠN
-    // Ví dụ về logic phân trang mẫu:
-    $current_page = $_GET['p'] ?? 1;
-    $items_per_page = 10;
-    
-    // (Bổ sung: Lấy tổng số sản phẩm để tính $total_pages nếu cần)
+    // 1. Đếm tổng sản phẩm
     $count_sql = "SELECT COUNT(*) FROM sanpham";
-    $total_items = $db->get_one($count_sql)['COUNT(*)'] ?? 0;
+    $total_products = $db->get_one($count_sql)['COUNT(*)'] ?? 0;
     
-    $total_pages = ceil($total_items / $items_per_page);
+    $total_pages = ceil($total_products / $limit);
     
-    $offset = ($current_page - 1) * $items_per_page;
-    $sql .= " LIMIT :limit OFFSET :offset";
+    // 2. Tính trang hiện tại và offset
+    $current_page = isset($_GET['p']) ? (int)$_GET['p'] : 1; 
     
-    $params[':limit'] = $items_per_page;
-    $params[':offset'] = $offset;
-    // ⚠️ HẾT PHẦN PHÂN TRANG MẪU
+    if ($current_page < 1) $current_page = 1;
+    if ($total_pages > 0 && $current_page > $total_pages) $current_page = $total_pages;
+
+    $offset = ($current_page - 1) * $limit;
+    
+    // $where_clause và $params vẫn rỗng
 }
 
-// Nối SQL và điều kiện tìm kiếm
-$sql .= $where_clause;
+// 5. THỰC HIỆN TRUY VẤN LẤY DỮ LIỆU SẢN PHẨM
+// Lưu ý: LIMIT và OFFSET được nối trực tiếp vì PDO không hỗ trợ bind chúng
+$sql = "SELECT * FROM sanpham" . $where_clause . " LIMIT " . $limit . " OFFSET " . $offset;
+$dssp = $db->get_all($sql, $params);
 
-// 3. THỰC HIỆN TRUY VẤN
-$dssp = $db->get_all($sql, $params); 
 
-
-// --- 4. CÁC BIẾN THỐNG KÊ (GIẢ ĐỊNH) ---
-// (Các biến này cần được lấy từ DB thông qua các truy vấn khác, tôi giữ nguyên giá trị mẫu)
+// 6. CÁC BIẾN THỐNG KÊ (GIỮ NGUYÊN GIÁ TRỊ GIẢ ĐỊNH)
+// ⚠️ Nếu muốn lấy từ DB, bạn phải thêm các câu truy vấn tương ứng ở đây.
 $revenue_today = 5000000;
 $order_count = 55;
 $new_orders = 7;
 $new_customers = 15;
 $return_rate = 1.2;
-// (Không cần đóng kết nối vì $db là đối tượng, nó sẽ tự giải phóng khi script kết thúc)
+$change_rate = 8.4; // Tỷ lệ thay đổi Doanh thu
+$search_term_safe = htmlspecialchars($search_term ?? '');
 
 
 // =========================================================
@@ -101,14 +101,14 @@ $return_rate = 1.2;
             <input type="text" 
                    name="search" 
                    placeholder="Tìm kiếm sản phẩm theo tên..."
-                   value="<?= htmlspecialchars($search_term ?? '') ?>" 
+                   value="<?= $search_term_safe ?>" 
                    class="search-input">
             
-            <button type="submit" class="search-button">
+            <button type="submit" class="search-button" style="">
                 <i class="fas fa-search"></i> 
             </button>
             <?php 
-            // Nếu có từ khóa tìm kiếm, thêm nút reset (xóa tìm kiếm)
+            // Nút reset tìm kiếm
             if (!empty($search_term)): ?>
                 <a href="?page=home" class="reset-search-btn">Xóa tìm kiếm</a>
             <?php endif; ?>
@@ -125,7 +125,6 @@ $return_rate = 1.2;
         <h2 class="main-value">₫ <?= number_format($revenue_today ?? 0) ?></h2>
         
         <?php 
-            $change_rate = 8.4; // Ví dụ: Lấy từ biến $revenue_change_rate
             $change_class = ($change_rate >= 0) ? 'increase' : 'decrease';
             $sign = ($change_rate >= 0) ? '+' : '';
         ?>
@@ -317,7 +316,9 @@ $return_rate = 1.2;
             <?php endforeach; ?>
             
             <?php if (empty($dssp) && !empty($search_term)): ?>
-                <p style="padding: 20px; text-align: center; width: 100%;">Không tìm thấy sản phẩm nào khớp với từ khóa "<?= htmlspecialchars($search_term) ?>".</p>
+                <p style="padding: 20px; text-align: center; width: 100%;">Không tìm thấy sản phẩm nào khớp với từ khóa "<?= $search_term_safe ?>".</p>
+            <?php elseif (empty($dssp) && empty($search_term)): ?>
+                <p style="padding: 20px; text-align: center; width: 100%;">Hiện chưa có sản phẩm nào trong database.</p>
             <?php endif; ?>
             
         </div>
@@ -325,8 +326,17 @@ $return_rate = 1.2;
         <div class="pagination">
             <?php if ($total_pages > 1): ?>
                 
+                <?php 
+                    // Đảm bảo $current_page và $total_pages đã được định nghĩa
+                    $current_page = $current_page ?? 1;
+                    $total_pages = $total_pages ?? 1;
+
+                    // Thêm tham số tìm kiếm vào URL phân trang (nếu có)
+                    $search_param = !empty($search_term) ? "&search=" . urlencode($search_term) : "";
+                ?>
+
                 <?php if ($current_page > 1): ?>
-                    <a href="?page=home&p=<?= $current_page - 1 ?>" class="page-link">← Trước</a>
+                    <a href="?page=home&p=<?= $current_page - 1 ?><?= $search_param ?>" class="page-link">← Trước</a>
                 <?php endif; ?>
 
                 <?php 
@@ -339,14 +349,14 @@ $return_rate = 1.2;
                 ?>
 
                 <?php for ($i = $start_loop; $i <= $end_loop; $i++): ?>
-                    <a href="?page=home&p=<?= $i ?>" 
+                    <a href="?page=home&p=<?= $i ?><?= $search_param ?>" 
                        class="page-link <?= ($i == $current_page ? 'active' : '') ?>">
                        <?= $i ?>
                     </a>
                 <?php endfor; ?>
                 
                 <?php if ($current_page < $total_pages): ?>
-                    <a href="?page=home&p=<?= $current_page + 1 ?>" class="page-link">Sau →</a>
+                    <a href="?page=home&p=<?= $current_page + 1 ?><?= $search_param ?>" class="page-link">Sau →</a>
                 <?php endif; ?>
 
             <?php endif; ?>

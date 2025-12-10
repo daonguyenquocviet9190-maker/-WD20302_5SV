@@ -168,11 +168,22 @@ public function remove_sp($id){
     }
 
     // === LẤY TẤT CẢ ĐÁNH GIÁ CỦA SẢN PHẨM ===
-    public function get_total_sp_count() {
-        $sql = "SELECT COUNT(*) as total FROM sanpham";
-        $result = $this->db->get_one($sql);
-        return $result ? (int)$result['total'] : 0;
-    }
+   // Trong Sanpham Model
+// Hàm đếm tổng sản phẩm
+public function get_total_sp_count($where = "", $params = []) {
+    // $this->db là đối tượng Database PDO của bạn
+    $sql = "SELECT COUNT(*) FROM sanpham" . $where;
+    return $this->db->get_one($sql, $params)['COUNT(*)'] ?? 0;
+}
+
+// Hàm lấy danh sách sản phẩm (có phân trang và tìm kiếm)
+public function getall_sp_paged($limit, $offset, $where = "", $params = []) {
+    
+    $sql = "SELECT * FROM sanpham" . $where . " LIMIT " . $limit . " OFFSET " . $offset;
+    
+    // Lưu ý: LIMIT và OFFSET thường được nối trực tiếp vào SQL chứ không bind qua $params
+    return $this->db->get_all($sql, $params);
+}
        // === LẤY NHIỀU SẢN PHẨM LIÊN QUAN (12 SẢN PHẨM CÙNG DANH MỤC) ===
     public function get_sp_lq_full($current_id, $id_dm) {
         $sql = "SELECT * FROM sanpham 
