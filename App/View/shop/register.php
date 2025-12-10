@@ -1,7 +1,7 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
-} // Bắt buộc để lưu session
+}
 include_once 'App/Model/user.php';
 $userObj = new User();
 
@@ -16,7 +16,9 @@ $register_errors = [];
 $login_error = '';
 $register_success = '';
 
-// ===== XỬ LÝ ĐĂNG KÝ =====
+/* ===========================
+    XỬ LÝ ĐĂNG KÝ
+=========================== */
 if (isset($_POST['register'])) {
     $username   = trim($_POST['username']);
     $email      = trim($_POST['email']);
@@ -36,19 +38,24 @@ if (isset($_POST['register'])) {
         $register_errors[] = "Email không hợp lệ.";
     }
 
-    // Kiểm tra username/email đã tồn tại
+    // Kiểm tra username/email tồn tại
     if (empty($register_errors)) {
-        $check = $userObj->db->getConnection()->prepare("SELECT id_User FROM user WHERE Username = ? OR Email = ?");
+        $check = $userObj->db->getConnection()->prepare(
+            "SELECT id_User FROM user WHERE Username = ? OR Email = ?"
+        );
         $check->execute([$username, $email]);
         if ($check->rowCount() > 0) {
             $register_errors[] = "Tên đăng nhập hoặc email đã được sử dụng.";
         }
     }
 
-    // Nếu không có lỗi → insert user
+    // Thêm tài khoản
     if (empty($register_errors)) {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $userObj->db->getConnection()->prepare("INSERT INTO user (Username, Password, Email, Role) VALUES (?, ?, ?, 'customer')");
+        $stmt = $userObj->db->getConnection()->prepare(
+            "INSERT INTO user (Username, Password, Email, Role, status) 
+             VALUES (?, ?, ?, 'customer', 'offline')"
+        );
         if ($stmt->execute([$username, $hashed, $email])) {
             $register_success = "Đăng ký thành công! Hãy đăng nhập ngay.";
         } else {
@@ -57,7 +64,9 @@ if (isset($_POST['register'])) {
     }
 }
 
-// ===== XỬ LÝ ĐĂNG NHẬP =====
+/* ===========================
+    XỬ LÝ ĐĂNG NHẬP
+=========================== */
 if (isset($_POST['login'])) {
     $user_or_email = trim($_POST['user_or_email']);
     $password = $_POST['password'];
@@ -65,14 +74,25 @@ if (isset($_POST['login'])) {
     if (empty($user_or_email) || empty($password)) {
         $login_error = "Vui lòng nhập đầy đủ thông tin.";
     } else {
-        $stmt = $userObj->db->getConnection()->prepare("SELECT * FROM user WHERE Username = ? OR Email = ?");
+        $stmt = $userObj->db->getConnection()->prepare(
+            "SELECT * FROM user WHERE Username = ? OR Email = ?"
+        );
         $stmt->execute([$user_or_email, $user_or_email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['Password'])) {
+
+            /* 🔥 Cập nhật trạng thái ONLINE ngay khi đăng nhập */
+            $update = $userObj->db->getConnection()->prepare(
+                "UPDATE user SET status = 'online' WHERE id_User = ?"
+            );
+            $update->execute([$user['id_User']]);
+
+            // Lưu session
             $_SESSION['user_id'] = $user['id_User'];
             $_SESSION['username'] = $user['Username'];
             $_SESSION['role'] = $user['Role'];
+
             header("Location: index.php?page=home");
             exit();
         } else {
