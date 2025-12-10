@@ -1,34 +1,57 @@
 <div class="admin-container">
 
     <div class="search-bar">
-        <input type="text" placeholder="Tìm kiếm sản phẩm, đơn hàng">
+        <!-- <input type="text" placeholder="Tìm kiếm sản phẩm, đơn hàng"> -->
     </div>
 
     <div class="stats-box">
-        <div class="stat-item">
-            <p class="title">Doanh thu (Hôm nay)</p>
-            <<h2>₫ <?= number_format($revenue_today ?? 0) ?></h2>
-            <span class="increase">+8.4% so với hôm qua</span>
+    
+    <div class="stat-item revenue-stat">
+        <div class="stat-header">
+            <i class="fas fa-chart-line icon-bg-red"></i> <p class="title">Doanh thu (Hôm nay)</p>
         </div>
-
-        <div class="stat-item">
-            <p class="title">Đơn hàng</p>
-            <h2><?= $order_count ?? 0 ?></h2>
-            <span class="sub">5 đơn mới</span>
-        </div>
-
-        <div class="stat-item">
-            <p class="title">Khách hàng mới</p>
-            <h2><?= $new_customers ?? 0 ?></h2>
-            <span class="sub">Trong 7 ngày</span>
-        </div>
-
-        <div class="stat-item">
-            <p class="title">Tỷ lệ hoàn trả</p>
-            <h2><?= ($return_rate ?? 0) ?>%</h2>
-            <span class="sub">Ổn định</span>
-        </div>
+        
+        <h2 class="main-value">₫ <?= number_format($revenue_today ?? 0) ?></h2>
+        
+        <?php 
+            $change_rate = 8.4; // Ví dụ: Lấy từ biến $revenue_change_rate
+            $change_class = ($change_rate >= 0) ? 'increase' : 'decrease';
+            $sign = ($change_rate >= 0) ? '+' : '';
+        ?>
+        <span class="<?= $change_class ?>"><?= $sign . number_format($change_rate, 1) ?>% so với hôm qua</span>
     </div>
+
+    <div class="stat-item order-stat">
+        <div class="stat-header">
+            <i class="fas fa-shopping-cart icon-bg-blue"></i> <p class="title">Đơn hàng</p>
+        </div>
+        
+        <h2 class="main-value"><?= number_format($order_count ?? 0) ?></h2>
+        
+        <span class="sub highlight-sub"><?= $new_orders ?? 5 ?> đơn mới đang chờ</span>
+    </div>
+
+    <div class="stat-item customer-stat">
+        <div class="stat-header">
+            <i class="fas fa-user-plus icon-bg-green"></i> <p class="title">Khách hàng mới</p>
+        </div>
+        
+        <h2 class="main-value"><?= number_format($new_customers ?? 0) ?></h2>
+        
+        <span class="sub">Trong $7$ ngày qua</span>
+    </div>
+
+    <div class="stat-item return-stat">
+        <div class="stat-header">
+            <i class="fas fa-redo-alt icon-bg-orange"></i> <p class="title">Tỷ lệ hoàn trả</p>
+        </div>
+        
+        <h2 class="main-value return-value"><?= ($return_rate ?? 0) ?>%</h2>
+        
+        <span class="sub">Ổn định</span>
+    </div>
+</div>
+
     
 
 
@@ -54,6 +77,7 @@
 
         </div> 
     </div>
+    
 
     <script>
     const labels = ['T.Hai', 'T.Ba', 'T.Tư', 'T.Năm', 'T.Sáu', 'T.Bảy', 'C.Nhật'];
@@ -216,6 +240,8 @@
             <?php endif; ?>
         </div>
         </div>
+
+        
 
 </div>
 

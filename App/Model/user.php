@@ -42,5 +42,9 @@ class User {
         $sql= "SELECT * FROM user WHERE User = '{$user}' AND Pass = '{$pass}'";
         return $this->db->get_all($sql);
     }
+    public function get_new_customer_count() {
+    // Ví dụ SQL: SELECT COUNT(id_user) FROM user WHERE ngay_dang_ky >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+    // ... (logic kết nối DB và trả về số lượng)
+}
 }
 ?>
