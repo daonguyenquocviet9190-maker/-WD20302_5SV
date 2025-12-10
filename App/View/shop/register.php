@@ -64,9 +64,6 @@ if (isset($_POST['register'])) {
     }
 }
 
-/* ===========================
-    XỬ LÝ ĐĂNG NHẬP
-=========================== */
 if (isset($_POST['login'])) {
     $user_or_email = trim($_POST['user_or_email']);
     $password = $_POST['password'];
