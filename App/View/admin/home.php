@@ -1,11 +1,9 @@
 <div class="admin-container">
 
-    <!-- Ô tìm kiếm -->
     <div class="search-bar">
         <input type="text" placeholder="Tìm kiếm sản phẩm, đơn hàng">
     </div>
 
-    <!-- 4 ô thống kê -->
     <div class="stats-box">
         <div class="stat-item">
             <p class="title">Doanh thu (Hôm nay)</p>
@@ -32,7 +30,6 @@
         </div>
     </div>
     
-
 
 
     <div class="report-section">
@@ -169,38 +166,10 @@
     new Chart(document.getElementById('khachHangChart'), khachHangConfig);
 </script>
 
-    <!-- Đơn hàng gần đây -->
-    <!-- <div class="recent-orders">
-        <div class="recent-header">
-            <h3>Đơn hàng gần đây</h3>
-            
-            <a href="App/view/admin/xemtatca.php">Xem tất cả →</a>
-        </div>
-
-        <table>
-            <tr>
-                <th>MÃ</th>
-                <th>KHÁCH HÀNG</th>
-                <th>TRẠNG THÁI</th>
-            </tr>
-
-            <?php foreach ($recent_orders ?? [] as $o): ?>
-            
-            <tr>
-                <td><?= $o[0] ?></td>
-                <td><?= $o[1] ?></td>
-                <td><?= $o[2] ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-    </div> -->
-
-    <!-- Quản lý sản phẩm -->
     <div class="products-section">
         <div class="products-header">
             <h3>Quản lý sản phẩm</h3>
-            <!-- <button class="add-btn">+ Thêm sản phẩm</button> -->
-        </div>
+            </div>
 
         <div class="product-list">
             <?php foreach ($dssp as $p): ?>
@@ -211,6 +180,42 @@
             </div>
             <?php endforeach; ?>
         </div>
-    </div>
+        
+        <?php 
+            // Đảm bảo các biến phân trang có giá trị, nếu Controller chưa truyền sang (tránh lỗi)
+            $current_page = $current_page ?? 1;
+            $total_pages = $total_pages ?? 1;
+        ?>
+        <div class="pagination">
+            <?php if ($total_pages > 1): ?>
+                
+                <?php if ($current_page > 1): ?>
+                    <a href="?page=home&p=<?= $current_page - 1 ?>" class="page-link">← Trước</a>
+                <?php endif; ?>
+
+                <?php 
+                    // Logic hiển thị tối đa 5 nút xung quanh trang hiện tại
+                    $start_loop = max(1, $current_page - 2);
+                    $end_loop = min($total_pages, $current_page + 2);
+
+                    if ($current_page < 3) $end_loop = min($total_pages, 5);
+                    if ($current_page > $total_pages - 2) $start_loop = max(1, $total_pages - 4);
+                ?>
+
+                <?php for ($i = $start_loop; $i <= $end_loop; $i++): ?>
+                    <a href="?page=home&p=<?= $i ?>" 
+                       class="page-link <?= ($i == $current_page ? 'active' : '') ?>">
+                       <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+                
+                <?php if ($current_page < $total_pages): ?>
+                    <a href="?page=home&p=<?= $current_page + 1 ?>" class="page-link">Sau →</a>
+                <?php endif; ?>
+
+            <?php endif; ?>
+        </div>
+        </div>
 
 </div>
+

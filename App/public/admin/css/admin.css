@@ -540,3 +540,33 @@ nav a:hover {
     color: #dc3545;
     font-size: 1.1em;
 }
+/* phân trang */
+.pagination {
+    clear: both; /* Đảm bảo phân trang không bị trôi lên product-list */
+    display: flex;
+    justify-content: center; /* Căn giữa các nút */
+    margin-top: 25px;
+    padding: 10px 0;
+}
+
+.page-link {
+    text-decoration: none;
+    padding: 8px 15px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    transition: background-color 0.3s, border-color 0.3s;
+    font-size: 14px;
+}
+
+.page-link:hover {
+    background-color: #f0f0f0;
+}
+
+.page-link.active {
+    background-color: #007bff; /* Màu xanh nổi bật */
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
