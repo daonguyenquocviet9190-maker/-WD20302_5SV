@@ -125,12 +125,6 @@ $product_count = count($dssp_timkiem);
     </aside>
     <main class="main-content full-width"> 
         <div class="top-bar">
-            <div class="result-count">
-                Kết quả tìm kiếm cho: 
-                <span class="search-highlight">"<?= htmlspecialchars($search_term) ?>"</span>
-                (Tìm thấy **<?= number_format($product_count) ?>** sản phẩm)
-            </div>
-            
             <select id="sort-select" onchange="updateSort(this.value)">
                 <option value="default" <?= $sort === 'default' ? 'selected' : '' ?>>Sắp xếp theo...</option>
                 <option value="newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Sắp xếp theo mới nhất</option>
