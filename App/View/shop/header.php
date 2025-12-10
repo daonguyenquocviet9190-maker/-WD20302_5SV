@@ -349,7 +349,7 @@ $user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
             <li><a href="index.php?page=nu_product">Áo nữ</a></li>
             <li><a href="index.php?page=giay_product">Giày thể thao</a></li>
             <li><a href="index.php?page=nam_product">Đồ nam</a></li>
-            <li><a href="index.php?page=product_detail&id=118">Bóng rổ DELTA</a></li>
+            <li><a href="index.php?page=product_detail&id=118">Bóng rổ</a></li>
             <li><a href="index.php?page=single_deal&price=11">Sản phẩm sale 11k</a></li>
             <li><a href="index.php?page=product_detail&id=132">Nước rửa vợt</a></li>
             <li><a href="index.php?page=hd_bongda">Đồ bóng đá</a></li>
