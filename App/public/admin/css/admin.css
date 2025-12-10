@@ -326,14 +326,28 @@ nav a:hover {
     gap: 20px;
 }
 
+/* 7. BIỂU ĐỒ VÀ BÁO CÁO (TỪ HOME.PHP) */
+
+/* ... (các đoạn mã CSS khác) ... */
+
 .chart-container {
-    width: 30%; /* 3 biểu đồ trên một hàng */
+    width: 30%; 
     padding: 15px;
     border: 1px solid #eee;
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
+    /* --- THÊM: Kỹ thuật tăng tốc phần cứng cho canvas, giúp render chữ mượt và chuẩn hơn */
+    display: flex; /* Đảm bảo canvas được chứa tốt hơn */
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.chart-container canvas {
+    /* Buộc GPU xử lý, đôi khi khắc phục lỗi rendering font khi zoom */
+    transform: translateZ(0); 
 }
 /* Responsive cho Chart */
 @media (max-width: 1200px) {
