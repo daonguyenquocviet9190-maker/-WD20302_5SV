@@ -570,3 +570,89 @@ nav a:hover {
     border-color: #007bff;
     font-weight: bold;
 }
+/* CONTAINER CHO CÁC CHỈ SỐ */
+.stats-box {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa các ô */
+    margin-bottom: 30px;
+}
+
+/* THIẾT KẾ CHUNG CHO MỖI Ô */
+.stat-item {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ nhàng */
+    border-left: 5px solid; /* Tạo đường viền màu nổi bật ở bên trái */
+}
+
+/* Màu đường viền trái (có thể tùy chỉnh) */
+.revenue-stat { border-left-color: #ff6384; } 
+.order-stat { border-left-color: #36a2eb; }
+.customer-stat { border-left-color: #4bc0c0; }
+.return-stat { border-left-color: #ff9f40; }
+
+/* PHẦN TIÊU ĐỀ (TITLE VÀ ICON) */
+.stat-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stat-header .title {
+    font-size: 14px;
+    color: #6c757d; /* Màu xám nhạt cho tiêu đề */
+    font-weight: 500;
+    margin: 0;
+    margin-left: 10px; /* Khoảng cách giữa icon và tiêu đề */
+}
+
+/* ICON */
+.stat-header i {
+    color: #ffffff;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* Màu nền Icon */
+.icon-bg-red { background-color: #ff6384; }
+.icon-bg-blue { background-color: #36a2eb; }
+.icon-bg-green { background-color: #4bc0c0; }
+.icon-bg-orange { background-color: #ff9f40; }
+
+
+/* GIÁ TRỊ CHÍNH (SỐ LỚN) */
+.main-value {
+    font-size: 32px;
+    font-weight: 700; /* Đậm hơn */
+    color: #343a40;
+    margin: 0 0 8px 0;
+}
+
+/* PHẦN PHỤ (CHI TIẾT THÊM) */
+.sub {
+    font-size: 13px;
+    color: #888;
+    display: block;
+}
+
+/* PHẦN TRĂM THAY ĐỔI (INCREASE/DECREASE) */
+.increase {
+    color: #28a745; /* Màu xanh lá cho tăng trưởng */
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.decrease {
+    color: #dc3545; /* Màu đỏ cho sụt giảm */
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* HIGHLIGHT ĐƠN MỚI */
+.highlight-sub {
+    color: #ff6384; /* Màu nổi bật cho hành động cần thiết */
+    font-weight: 600;
+}

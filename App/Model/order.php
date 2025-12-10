@@ -36,6 +36,15 @@ class Order {
         $sql_order = "DELETE FROM donhang WHERE id_dh = ?";
         $this->db->action($sql_order, [$id]);
     }
+    public function get_order_count() {
+    // Ví dụ SQL: SELECT COUNT(id_dh) FROM donhang
+    // ... (logic kết nối DB và trả về số lượng)
+}
+
+public function get_new_order_count() {
+    // Ví dụ SQL: SELECT COUNT(id_dh) FROM donhang WHERE status = 'Đang chờ'
+    // ... (logic kết nối DB và trả về số lượng)
+}
     
 }
 ?>
