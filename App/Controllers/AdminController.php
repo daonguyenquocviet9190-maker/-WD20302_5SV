@@ -15,11 +15,45 @@ require 'App/Model/order.php';
     $this->user = new User();
     $this->order = new Order();
   }
+    
+    // ==========================================================
+    // 🚀 HÀM home() ĐÃ ĐƯỢC CẬP NHẬT CHO PHÂN TRANG (LIMIT 10)
+    // ==========================================================
     public function home(){
-      $dssp = $this->sanpham->getall_sp();  
-    // $dsuser = $this->user->getall_user();
-    include 'App/View/admin/home.php';
-  }
+        // --- 1. Thiết lập các biến Phân trang ---
+        $limit = 10; // 10 sản phẩm mỗi trang theo yêu cầu
+        
+        // ⚠️ BƯỚC QUAN TRỌNG: Lấy tổng số lượng sản phẩm từ Model
+        // Bạn phải đảm bảo hàm get_total_sp_count() có trong Product Model
+        $total_products = $this->sanpham->get_total_sp_count() ?? 100; // Giả định 100 nếu Model chưa có hàm COUNT
+
+        $total_pages = ceil($total_products / $limit); 
+        
+        // Lấy số trang hiện tại từ URL (query parameter 'p')
+        $current_page = isset($_GET['p']) ? (int)$_GET['p'] : 1; 
+        
+        // Kiểm tra tính hợp lệ của trang hiện tại
+        if ($current_page < 1) $current_page = 1;
+        if ($total_pages > 0 && $current_page > $total_pages) $current_page = $total_pages;
+
+        // Tính OFFSET (Vị trí bắt đầu lấy dữ liệu)
+        $offset = ($current_page - 1) * $limit;
+
+        // --- 2. Lấy danh sách sản phẩm theo trang (sử dụng LIMIT và OFFSET) ---
+        // ⚠️ Bạn phải đảm bảo hàm getall_sp_paged($limit, $offset) có trong Product Model
+        // Nếu không có, bạn hãy tạm thời dùng $this->sanpham->getall_sp() 
+        // và xử lý cắt mảng trong home.php (như tôi đã làm ở bước 2).
+        $dssp = $this->sanpham->getall_sp_paged($limit, $offset) ?? $this->sanpham->getall_sp();
+
+        // Truyền các biến phân trang sang View
+        $total_products = $total_products;
+        $current_page = $current_page;
+        $total_pages = $total_pages;
+        
+        include 'App/View/admin/home.php';
+    }
+    // ==========================================================
+    
   public function product()
 {
     $sizes = $this->sanpham->getall_size();

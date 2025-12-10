@@ -172,6 +172,19 @@ public function remove_sp($id){
         $sql = "SELECT * FROM danhgia WHERE id_SP = ? ORDER BY ngay_danhgia DESC";
         return $this->db->get_all($sql, [$id_SP]);
     }
+    public function get_total_sp_count() {
+        $sql = "SELECT COUNT(*) as total FROM sanpham";
+        $result = $this->db->get_one($sql);
+        return $result ? (int)$result['total'] : 0;
+    }
+    public function getall_sp_paged($limit, $offset) {
+        $sql = "SELECT * FROM sanpham LIMIT :limit OFFSET :offset";
+        $stmt = $this->db->connect()->prepare($sql);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 ?>
