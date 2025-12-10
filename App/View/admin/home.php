@@ -199,7 +199,7 @@
     <div class="products-section">
         <div class="products-header">
             <h3>Quản lý sản phẩm</h3>
-            <button class="add-btn">+ Thêm sản phẩm</button>
+            <!-- <button class="add-btn">+ Thêm sản phẩm</button> -->
         </div>
 
         <div class="product-list">
