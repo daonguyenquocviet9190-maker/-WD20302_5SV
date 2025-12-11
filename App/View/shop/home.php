@@ -220,7 +220,7 @@
 
     <h1>MỞ KHÓA ĐẶC QUYỀN</h1>
     <p>
-        Gia nhập <strong>DELTAHOLIC</strong> để nhận hàng loạt quyền lợi hấp dẫn<br>
+        Gia nhập <strong>5SV</strong> để nhận hàng loạt quyền lợi hấp dẫn<br>
         dành riêng cho hàng thành viên.
     </p>
 
