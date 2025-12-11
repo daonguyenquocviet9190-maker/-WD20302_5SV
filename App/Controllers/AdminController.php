@@ -1,21 +1,26 @@
 <?php
+require 'App/Model/database.php'; // <--- Bổ sung dòng này
 require 'App/Model/category.php';
 require 'App/Model/product.php';
 require 'App/Model/user.php';
 require 'App/Model/order.php';
+require 'App/Model/voucher.php';
+
   class AdminController {
      public $danhmuc;
   public $sanpham;
   public $user;
   public $order;
+  public $voucher;
   public function __construct()
   {
     $this->danhmuc = new Category();
     $this->sanpham = new Product();
     $this->user = new User();
     $this->order = new Order();
+    $this->voucher = new Voucher();
   }
-    
+     
     // ==========================================================
     // 🚀 HÀM home() ĐÃ ĐƯỢC CẬP NHẬT CHO PHÂN TRANG (LIMIT 10)
     // ==========================================================
@@ -255,5 +260,111 @@ public function order() {
     // ✅ ĐÃ ĐÚNG: Include giao diện danh sách
     include "App/View/admin/order.php"; 
 }
+// DÁN TOÀN BỘ 3 HÀM NÀY VÀO CUỐI AdminController.php
+
+    // === QUẢN LÝ VOUCHER (CRUD) ===
+
+    /**
+     * R - Read: Hiển thị danh sách Voucher
+     */
+    public function vouchers()
+{
+    // Lấy tất cả voucher từ Voucher Model
+    // Phương thức get_all_vouchers() có sẵn trong Model Voucher.php
+    $ds_vouchers = $this->voucher->get_all_vouchers();
+
+    // Load View để hiển thị danh sách
+    // File view này sẽ dùng biến $ds_vouchers
+    include 'App/View/admin/vouchers_list.php';
+}
+
+    /**
+     * C-U - Create/Update: Thêm mới hoặc Chỉnh sửa Voucher
+     */
+    public function voucher_form()
+    {
+        $id = intval($_GET['id'] ?? 0);
+        $data = null; 
+        
+        // 1. Xử lý POST (Thêm/Sửa)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_type'])) {
+            
+            // Lấy dữ liệu từ POST
+            $code = trim($_POST['code']);
+            $discount_type = $_POST['discount_type'];
+            $discount_value = floatval($_POST['discount_value']);
+            $max_discount_amount = floatval($_POST['max_discount_amount'] ?? 0);
+            $min_order_amount = floatval($_POST['min_order_amount'] ?? 0);
+            $start_date = $_POST['start_date'];
+            $end_date = $_POST['end_date'];
+            $usage_limit = intval($_POST['usage_limit'] ?? 0);
+            $user_limit = intval($_POST['user_limit'] ?? 0);
+            $product_ids = trim($_POST['product_ids'] ?? '');
+            $is_active = isset($_POST['is_active']) ? 1 : 0;
+
+            $result = false;
+            
+            if ($_POST['action_type'] === 'add') {
+                $result = $this->voucher->add_voucher(
+                    $code, $discount_type, $discount_value, $max_discount_amount, 
+                    $min_order_amount, $start_date, $end_date, $usage_limit, 
+                    $user_limit, $product_ids, $is_active
+                );
+            } elseif ($_POST['action_type'] === 'edit' && $id) {
+                $result = $this->voucher->update_voucher(
+                    $id, $code, $discount_type, $discount_value, $max_discount_amount, 
+                    $min_order_amount, $start_date, $end_date, $usage_limit, 
+                    $user_limit, $product_ids, $is_active
+                );
+            }
+
+            if ($result) {
+                // Đặt thông báo thành công và chuyển hướng về trang danh sách
+                $_SESSION['message'] = "Cập nhật Voucher thành công!";
+                header('Location: admin.php?page=vouchers');
+                exit;
+            } else {
+                // Đặt thông báo lỗi, giữ lại dữ liệu form
+                $data = $_POST; 
+                $_SESSION['error'] = "Cập nhật Voucher thất bại. Vui lòng kiểm tra lại dữ liệu.";
+            }
+        }
+        
+        // 2. Lấy dữ liệu cho Form Edit
+        if (!$data && $id > 0) {
+             // Lấy voucher từ Model (get_voucher_by_id cần được định nghĩa trong voucher.php)
+            $data = $this->voucher->get_voucher_by_id($id); 
+            if (!$data) {
+                $_SESSION['error'] = "Voucher không tồn tại.";
+                header('Location: admin.php?page=vouchers');
+                exit;
+            }
+        }
+        
+        // 3. Tải View (Giả sử file view là 'app/View/admin/voucher_form.php')
+        // Biến $data sẽ được truyền vào view voucher_form.php
+        include 'app/View/admin/voucher_form.php';
+    }
+    
+    /**
+     * D - Delete: Xóa Voucher
+     */
+    public function delete_voucher()
+    {
+        if (isset($_GET['id'])) {
+            $id = intval($_GET['id']);
+            $result = $this->voucher->delete_voucher($id);
+
+            if ($result) {
+                $_SESSION['message'] = "Xóa Voucher thành công!";
+            } else {
+                 $_SESSION['error'] = "Xóa Voucher thất bại hoặc Voucher không tồn tại.";
+            }
+        }
+        
+        // Chuyển hướng về trang danh sách Voucher
+        header('Location: admin.php?page=vouchers');
+        exit;
+    }
   }
 ?>

@@ -1,5 +1,5 @@
 <?php
-include_once 'database.php';
+// include_once 'database.php';
 class Product {
     //  connect DB
     public $db;  // khởi tạo biến 

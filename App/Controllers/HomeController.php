@@ -2,6 +2,7 @@
 require 'app/Model/category.php';
 require 'app/Model/product.php';
 require 'app/Model/user.php';
+require 'app/Model/Voucher.php';
 class HomeController
 {
   public $danhmuc;
@@ -496,9 +497,7 @@ public function giohang_update()
 public function contact(){
   include 'app/View/shop/contact.php';
 }
+// ... (Các hàm khác của bạn)
 
-public function test_sms(){
-  include 'app/View/shop/test_sms.php';
 }
-}
-?>
+
