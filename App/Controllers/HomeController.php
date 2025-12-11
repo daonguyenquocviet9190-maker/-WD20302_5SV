@@ -2,6 +2,7 @@
 require 'app/Model/category.php';
 require 'app/Model/product.php';
 require 'app/Model/user.php';
+require 'app/Model/Voucher.php';
 class HomeController
 {
   public $danhmuc;
@@ -496,6 +497,104 @@ public function giohang_update()
 public function contact(){
   include 'app/View/shop/contact.php';
 }
+// ... (Các hàm khác của bạn)
 
+    /**
+     * Hàm helper: Tính tổng tiền hiện tại của giỏ hàng (trước giảm giá)
+     */
+    private function calculateCartTotal()
+    {
+        // BẮT BUỘC: PHẢI CÓ session_start() trước khi truy cập $_SESSION['cart']
+        // Tuy nhiên, vì hàm add_to_cart() và các hàm giohang đã gọi session_start()
+        // nên ta sẽ đảm bảo nó được gọi ở đây nếu cần.
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $total = 0;
+        $cart_items = $_SESSION['cart'] ?? [];
+
+        foreach ($cart_items as $item) {
+            // Dựa trên cấu trúc giỏ hàng trong add_to_cart(): price đã là giá sale/giá gốc
+            $total += $item['price'] * $item['quantity'];
+        }
+        return $total;
+    }
+
+
+    /**
+     * Xử lý yêu cầu AJAX áp dụng mã giảm giá từ trang Giỏ hàng
+     */
+    public function applyVoucher()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Kiểm tra đầu vào POST (AJAX)
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['voucher_code'])) {
+            // Nếu không phải là POST hoặc thiếu code, trả về lỗi JSON
+            header('Content-Type: application/json');
+            echo json_encode(['status' => false, 'message' => 'Yêu cầu không hợp lệ.']);
+            return;
+        }
+
+        $code = trim($_POST['voucher_code']);
+        $order_total = $this->calculateCartTotal(); // Tổng tiền giỏ hàng hiện tại
+
+        if ($order_total == 0) {
+            header('Content-Type: application/json');
+            echo json_encode(['status' => false, 'message' => 'Giỏ hàng đang trống.']);
+            return;
+        }
+        
+        // Lấy ID người dùng (Nếu bạn đã lưu id_user vào Session sau khi đăng nhập)
+        // **LƯU Ý:** Bạn cần đảm bảo đã lưu 'id_user' vào $_SESSION['id_user'] sau khi login
+        $user_id = $_SESSION['id_user'] ?? null; 
+        
+        // Khởi tạo Model Voucher
+        // (Voucher::__construct đã tự kết nối DB nên ta chỉ cần khởi tạo)
+        $voucherModel = new Voucher(); 
+        
+        // Lấy thông tin voucher
+        $voucher = $voucherModel->getVoucherByCode($code);
+        
+        // Kiểm tra tính hợp lệ
+        $check_result = $voucherModel->checkValidity($voucher, $order_total, $user_id);
+        
+        header('Content-Type: application/json');
+
+        if ($check_result['status']) {
+            // ÁP DỤNG THÀNH CÔNG
+            $discount_amount = $voucherModel->calculateDiscount($voucher, $order_total);
+            $new_total = $order_total - $discount_amount;
+            
+            // LƯU THÔNG TIN VOUCHER VÀO SESSION (Cho đến khi thanh toán)
+            $_SESSION['cart_discount'] = [
+                'code' => $code,
+                'voucher_id' => $voucher['id'],
+                'discount_amount' => $discount_amount,
+                'new_total' => $new_total
+            ];
+            
+            echo json_encode([
+                'status' => true,
+                'message' => $check_result['message'] . ' (Giảm: ' . number_format($discount_amount, 0, ',', '.') . 'đ)',
+                'discount' => $discount_amount,
+                'new_total' => $new_total,
+                'original_total' => $order_total
+            ]);
+        } else {
+            // ÁP DỤNG THẤT BẠI
+            unset($_SESSION['cart_discount']); // Xóa voucher cũ nếu có lỗi
+            
+            echo json_encode([
+                'status' => false,
+                'message' => $check_result['message'],
+                'discount' => 0
+            ]);
+        }
+    }
 }
 ?>
+

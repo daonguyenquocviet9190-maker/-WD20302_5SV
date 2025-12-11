@@ -8,7 +8,9 @@ if (!isset($_GET['page'])){
     }else{
         $page = $_GET['page'];
         $controller->$page();
+        
     }
 
 include "App/View/admin/footer.php";
+
 ?>
