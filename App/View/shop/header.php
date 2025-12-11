@@ -267,13 +267,13 @@ $search_term = $_GET['search'] ?? '';
                         <a href="?page=phukien">Phụ Kiện & Dụng Cụ <i class="fa-solid fa-caret-down"></i></a>
                         <div class="dropdown-menu large">
                             <div>
-                                <h4>Phụ kiện</h4>
+                                <h4 style="white-space: nowrap;">Phụ kiện</h4>
                                 <a href="#">Balo</a>
                                 <a href="#">Nón</a>
                                 <a href="#">Tất</a>
                             </div>
                             <div>
-                                <h4>Dụng cụ thể thao</h4>
+                                <h4 style="white-space: nowrap;">Dụng cụ thể thao</h4>
                                 <a href="#">Bóng chuyền</a>
                                 <a href="#">Bóng đá</a>
                                 <a href="#">Bóng mini</a>
@@ -287,7 +287,7 @@ $search_term = $_GET['search'] ?? '';
                     </li>
                     <li class="dropdown">
                         <a href="?page=single_deal">Single Deal <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="dropdown-menu large">
+                        <div class="dropdown-menu large" style="min-width: 170px; left: 0%;">
                             <div>
                                 <a href="?page=single_deal&price=11">Đồng giá 11k</a>
                                 <a href="?page=single_deal&price=111">Đồng giá 111k</a>
