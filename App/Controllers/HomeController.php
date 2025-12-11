@@ -497,5 +497,8 @@ public function contact(){
   include 'app/View/shop/contact.php';
 }
 
+public function test_sms(){
+  include 'app/View/shop/test_sms.php';
+}
 }
 ?>
