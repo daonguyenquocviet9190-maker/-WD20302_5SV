@@ -2,6 +2,7 @@
 require 'app/Model/category.php';
 require 'app/Model/product.php';
 require 'app/Model/user.php';
+require 'app/Model/Voucher.php';
 class HomeController
 {
   public $danhmuc;
@@ -496,10 +497,14 @@ public function giohang_update()
 public function contact(){
   include 'app/View/shop/contact.php';
 }
+
   // VOUCHER - FIXED WITH DEBUG
   public function apply_voucher() {
       session_start();
       header('Content-Type: application/json');
+
+// ... (Các hàm khác của bạn)
+
 
       error_log('Voucher request: ' . print_r($_POST, true));  // Debug log
 
@@ -563,4 +568,4 @@ public function contact(){
       exit;
   }
 }
-?>
+
