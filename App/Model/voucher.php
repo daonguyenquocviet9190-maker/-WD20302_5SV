@@ -139,6 +139,8 @@ class Voucher {
     public function update_voucher($id, $code, $type, $value, $max, $min, $start, $end, $usage, $user_limit, $p_ids, $active) {
         $sql = "UPDATE voucher SET 
                     code = ?, discount_type = ?, discount_value = ?, max_discount_amount = ?, 
+                    code = ?, discount_type = ?, discount_value = ?, max_discount_amount = ?,
+
 min_order_amount = ?, start_date = ?, end_date = ?, usage_limit = ?, 
                     user_limit = ?, product_ids = ?, is_active = ?, updated_at = NOW()
                 WHERE id = ?";
