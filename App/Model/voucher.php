@@ -1,23 +1,4 @@
 <?php
-
-class Voucher {
-    private $pdo;
-
-    public function __construct() {
-        require_once 'app/Model/database.php';
-        $db = new Database("localhost", "5svcode", "root", "");
-        $this->pdo = $db->connect();
-    }
-
-    // Lấy voucher theo code
-    public function get_by_code($code) {
-        $sql = "SELECT * FROM voucher WHERE code = ? AND trangthai = 'active' LIMIT 1";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$code]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-}
-
 // File: App/Model/Voucher.php
 
 class Voucher { 
@@ -84,7 +65,7 @@ class Voucher {
             $discount_amount = $voucher['discount_value'];
             if ($discount_amount > $order_total) {
                 $discount_amount = $order_total;
-            }
+}
         }
         return round($discount_amount, 2);
     }
@@ -158,7 +139,7 @@ class Voucher {
     public function update_voucher($id, $code, $type, $value, $max, $min, $start, $end, $usage, $user_limit, $p_ids, $active) {
         $sql = "UPDATE voucher SET 
                     code = ?, discount_type = ?, discount_value = ?, max_discount_amount = ?, 
-                    min_order_amount = ?, start_date = ?, end_date = ?, usage_limit = ?, 
+min_order_amount = ?, start_date = ?, end_date = ?, usage_limit = ?, 
                     user_limit = ?, product_ids = ?, is_active = ?, updated_at = NOW()
                 WHERE id = ?";
         $params = [$code, $type, $value, $max, $min, $start, $end, $usage, $user_limit, $p_ids, $active, $id];
@@ -174,5 +155,4 @@ class Voucher {
     }
     
 }
-
 ?>
