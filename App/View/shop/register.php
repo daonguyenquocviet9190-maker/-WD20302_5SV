@@ -1,163 +1,204 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 
-include_once 'App/Model/user.php';
-include_once 'App/Model/sms/SpeedSMSAPI.php';
+include_once __DIR__ . '/../../../App/Model/user.php';
+
+// --- Kiểm tra autoload composer ---
+$autoload_path = __DIR__ . '/../../../vendor/autoload.php';
+if(!file_exists($autoload_path)){
+    die("Không tìm thấy composer autoload.php. Kiểm tra đường dẫn: $autoload_path");
+}
+require_once $autoload_path;
+
+use Twilio\Rest\Client;
 
 $userObj = new User();
-$sms = new SpeedSMSAPI("WmqIPsIR8zktKoqxv3_gvzt-00p40TDI"); // TOKEN OTP THẬT
 
+// --- Twilio config ---
+$twilio_sid    = "ACa8f46a2839673948af6144605d60b5ed"; // Account SID
+$twilio_token  = "425efb7c5ea8700112db9c200ad4eb4c";   // Auth Token
+$twilio_number = "+84937781823";                      // Số Twilio đã active
+
+$twilio_client = null;
+
+// --- Khởi tạo Twilio client ---
+try {
+    if(!class_exists('\Twilio\Rest\Client')){
+        die("Twilio SDK chưa được load. Chạy composer require twilio/sdk");
+    }
+    $twilio_client = new Client($twilio_sid, $twilio_token);
+} catch(Exception $e){
+    error_log("[TWILIO INIT ERROR] ".$e->getMessage());
+    $twilio_client = null;
+}
+
+// --- Biến hiển thị ---
 $register_errors = [];
 $register_success = "";
 $login_error = "";
 $forgot_success = "";
 $forgot_error = "";
 
-// Hàm chuẩn hóa số điện thoại
-function normalizePhone($phone) {
+// --- Chuẩn hóa SĐT VN ---
+function normalizePhone($phone){
     $phone = preg_replace('/\D+/', '', $phone);
-    if (substr($phone, 0, 1) == '0') $phone = '+84' . substr($phone, 1);
-    elseif (substr($phone, 0, 2) == '84') $phone = '+'.$phone;
-    elseif (substr($phone, 0, 3) != '+84') $phone = '+84'.$phone;
-    return $phone;
+    if(substr($phone,0,1)=='0') return '+84'.substr($phone,1);
+    elseif(substr($phone,0,2)=='84') return '+'.$phone;
+    elseif(substr($phone,0,3)=='+84') return $phone;
+    else return '+84'.$phone;
 }
 
-// Nếu đã login → về home
-if (isset($_SESSION['user_id'])) {
+// --- Gửi OTP qua Twilio ---
+function sendOTP($phone, $content){
+    global $twilio_client, $twilio_number;
+
+    if(!$twilio_client){
+        error_log("[SMS ERROR] Twilio client chưa khởi tạo");
+        return ["success"=>false, "error"=>"Twilio client chưa khởi tạo"];
+    }
+
+    try{
+        $msg = $twilio_client->messages->create(
+            $phone,
+            [
+                'from' => $twilio_number,
+                'body' => $content
+            ]
+        );
+        return ["success"=>true, "sid"=>$msg->sid];
+    } catch(Exception $e){
+        error_log("[SMS ERROR] ".$e->getMessage());
+        return ["success"=>false, "error"=>$e->getMessage()];
+    }
+}
+
+// --- Nếu đã login ---
+if(isset($_SESSION['user_id'])){
     header("Location: index.php?page=home");
     exit;
 }
 
 /* ===================================================
-    ĐĂNG KÝ – GỬI OTP
+   ĐĂNG KÝ – GỬI OTP
 =================================================== */
-if (isset($_POST['send_otp_register'])) {
+if(isset($_POST['send_otp_register'])){
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $phone = trim($_POST['phone']);
     $password = $_POST['password'];
     $repassword = $_POST['repassword'];
 
-    if ($password !== $repassword) {
-        $register_errors[] = "Mật khẩu nhập lại không khớp.";
-    }
+    if($password !== $repassword) $register_errors[] = "Mật khẩu nhập lại không khớp.";
 
+    $normalized_phone = normalizePhone($phone);
     $stmt = $userObj->db->getConnection()->prepare("SELECT * FROM user WHERE Username=? OR Email=? OR Phone=?");
-    $stmt->execute([$username, $email, normalizePhone($phone)]);
-    if ($stmt->rowCount() > 0) {
-        $register_errors[] = "Tài khoản, email hoặc số điện thoại đã tồn tại.";
-    }
+    $stmt->execute([$username,$email,$normalized_phone]);
+    if($stmt->rowCount()>0) $register_errors[] = "Tài khoản, email hoặc số điện thoại đã tồn tại.";
 
-    if (empty($register_errors)) {
-        $otp = rand(100000, 999999);
+    if(empty($register_errors)){
+        $otp = rand(100000,999999);
         $_SESSION['pending_register'] = [
-            'username' => $username,
-            'email' => $email,
-            'phone' => normalizePhone($phone),
-            'password' => password_hash($password, PASSWORD_DEFAULT),
-            'otp' => $otp
+            'username'=>$username,
+            'email'=>$email,
+            'phone'=>$normalized_phone,
+            'password'=>password_hash($password,PASSWORD_DEFAULT),
+            'otp'=>$otp
         ];
+        $result = sendOTP($normalized_phone,"OTP đăng ký 5SV Sport: $otp");
 
-        $result = $sms->sendOTP($_SESSION['pending_register']['phone'], "OTP dang ky 5SV Sport: $otp");
-        if ($result['success']) {
-            $register_success = "OTP đã gửi tới số {$_SESSION['pending_register']['phone']}. Nhập OTP để hoàn tất đăng ký.";
+        if($result['success']){
+            $register_success = "OTP đã gửi tới số $normalized_phone. Nhập OTP để hoàn tất đăng ký.<br>SMS SID: ".$result['sid'];
         } else {
-            $register_errors[] = "Gửi OTP thất bại: " . ($result['error'] ?? "Lỗi không xác định từ SpeedSMS");
+            $register_errors[] = "Gửi OTP thất bại: ".$result['error'];
             unset($_SESSION['pending_register']);
         }
     }
 }
 
 /* ===================================================
-    XÁC NHẬN OTP ĐĂNG KÝ
+   XÁC NHẬN OTP ĐĂNG KÝ
 =================================================== */
-if (isset($_POST['verify_otp_register']) && isset($_SESSION['pending_register'])) {
-    if ($_POST['otp_register'] == $_SESSION['pending_register']['otp']) {
+if(isset($_POST['verify_otp_register']) && isset($_SESSION['pending_register'])){
+    if($_POST['otp_register'] == $_SESSION['pending_register']['otp']){
         $data = $_SESSION['pending_register'];
-        $stmt = $userObj->db->getConnection()->prepare("INSERT INTO user (Username, Email, Phone, Password, Role) VALUES (?,?,?,?,0)");
-        $stmt->execute([$data['username'], $data['email'], $data['phone'], $data['password']]);
+        $stmt = $userObj->db->getConnection()->prepare("INSERT INTO user (Username,Email,Phone,Password,Role) VALUES (?,?,?,?,0)");
+        $stmt->execute([$data['username'],$data['email'],$data['phone'],$data['password']]);
         unset($_SESSION['pending_register']);
         $register_success = "Đăng ký thành công! Bạn có thể đăng nhập ngay.";
-    } else {
-        $register_errors[] = "OTP không chính xác.";
-    }
+    } else $register_errors[] = "OTP không chính xác.";
 }
 
 /* ===================================================
-    ĐĂNG NHẬP
+   ĐĂNG NHẬP
 =================================================== */
-if (isset($_POST['login'])) {
+if(isset($_POST['login'])){
     $user_or_email = trim($_POST['user_or_email']);
-    $password = $_POST['password'];
+    $normalized_input = normalizePhone($user_or_email);
     $stmt = $userObj->db->getConnection()->prepare("SELECT * FROM user WHERE Username=? OR Email=? OR Phone=?");
-    $stmt->execute([$user_or_email, $user_or_email, $user_or_email]);
+    $stmt->execute([$user_or_email,$user_or_email,$normalized_input]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($user && password_verify($password, $user['Password'])) {
-        $_SESSION['user_id'] = $user['id_User'];
-        $_SESSION['username'] = $user['Username'];
-        $_SESSION['role'] = $user['Role'];
+    if($user && password_verify($_POST['password'],$user['Password'])){
+        $_SESSION['user_id']=$user['id_User'];
+        $_SESSION['username']=$user['Username'];
+        $_SESSION['role']=$user['Role'];
         header("Location: index.php?page=home");
         exit;
     } else $login_error = "Sai tài khoản hoặc mật khẩu.";
 }
 
 /* ===================================================
-    QUÊN MẬT KHẨU – GỬI OTP
+   QUÊN MẬT KHẨU – GỬI OTP
 =================================================== */
-if (isset($_POST['forgot_send_otp'])) {
+if(isset($_POST['forgot_send_otp'])){
     $phone = trim($_POST['forgot_phone']);
     $normalized_phone = normalizePhone($phone);
+    $stmt = $userObj->db->getConnection()->prepare("SELECT * FROM user WHERE Phone=?");
+    $stmt->execute([$normalized_phone]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (strlen($normalized_phone) < 10) {
-        $forgot_error = "Số điện thoại không hợp lệ.";
-    } else {
-        $stmt = $userObj->db->getConnection()->prepare("SELECT * FROM user WHERE Phone=?");
-        $stmt->execute([$normalized_phone]);
-        if ($stmt->rowCount() == 0) {
-            $forgot_error = "Không tìm thấy tài khoản với số này.";
+    if(!$user) $forgot_error = "Không tìm thấy tài khoản với số này.";
+    else {
+        $otp = rand(100000,999999);
+        $_SESSION['forgot_phone'] = $normalized_phone;
+        $_SESSION['forgot_otp'] = $otp;
+        $result = sendOTP($normalized_phone,"OTP reset mật khẩu 5SV Sport: $otp");
+
+        if($result['success']){
+            $forgot_success = "Mã OTP đã gửi đến số $normalized_phone. Nhập OTP để đổi mật khẩu.<br>SMS SID: ".$result['sid'];
         } else {
-            $otp = rand(100000, 999999);
-            $_SESSION['forgot_phone'] = $normalized_phone;
-            $_SESSION['forgot_otp'] = $otp;
-            $result = $sms->sendOTP($normalized_phone, "OTP reset mat khau 5SV Sport: $otp");
-            if ($result['success']) {
-                $forgot_success = "Mã OTP đã gửi đến số $normalized_phone. Hãy nhập OTP để đổi mật khẩu.";
-            } else {
-                $forgot_error = "Gửi OTP thất bại: " . ($result['error'] ?? "Lỗi không xác định từ SpeedSMS");
-            }
+            $forgot_success = "Mã OTP đã được tạo (SMS chưa gửi). Lỗi: ".$result['error'];
+            error_log("[SMS ERROR] ".$result['error']." cho $normalized_phone");
         }
     }
 }
 
 /* ===================================================
-    XÁC NHẬN OTP QUÊN MẬT KHẨU
+   XÁC NHẬN OTP QUÊN MẬT KHẨU
 =================================================== */
-if (isset($_POST['verify_forgot_otp']) && isset($_SESSION['forgot_otp'])) {
-    if ($_POST['otp_forgot'] == $_SESSION['forgot_otp']) {
+if(isset($_POST['verify_forgot_otp']) && isset($_SESSION['forgot_otp'])){
+    if($_POST['otp_forgot']==$_SESSION['forgot_otp']){
         $_SESSION['allow_reset'] = true;
         $forgot_success = "Xác minh thành công! Nhập mật khẩu mới.";
     } else $forgot_error = "OTP không chính xác.";
 }
 
 /* ===================================================
-    ĐẶT LẠI MẬT KHẨU
+   ĐẶT LẠI MẬT KHẨU
 =================================================== */
-if (isset($_POST['save_new_password']) && isset($_SESSION['allow_reset'])) {
+if(isset($_POST['save_new_password']) && isset($_SESSION['allow_reset'])){
     $newpass = $_POST['new_password'];
     $repass = $_POST['re_new_password'];
-    if ($newpass !== $repass) {
-        $forgot_error = "Mật khẩu nhập lại không khớp.";
-    } else {
-        $hash = password_hash($newpass, PASSWORD_DEFAULT);
+    if($newpass!==$repass) $forgot_error="Mật khẩu nhập lại không khớp.";
+    else{
+        $hash = password_hash($newpass,PASSWORD_DEFAULT);
         $phone = $_SESSION['forgot_phone'];
         $stmt = $userObj->db->getConnection()->prepare("UPDATE user SET Password=? WHERE Phone=?");
-        $stmt->execute([$hash, $phone]);
-        unset($_SESSION['allow_reset'], $_SESSION['forgot_otp'], $_SESSION['forgot_phone']);
-        $forgot_success = "Mật khẩu đã được đặt lại!";
+        $stmt->execute([$hash,$phone]);
+        unset($_SESSION['allow_reset'],$_SESSION['forgot_otp'],$_SESSION['forgot_phone']);
+        $forgot_success="Mật khẩu đã được đặt lại!";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -167,38 +208,39 @@ if (isset($_POST['save_new_password']) && isset($_SESSION['allow_reset'])) {
 <link rel="stylesheet" href="App/public/shop/style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* --- Giữ nguyên CSS layout cũ --- */
-body{font-family:Arial, sans-serif; background:#f5f5f5;}
-.auth-page{display:flex; justify-content:center; align-items:center; min-height:100vh;}
-.auth-container{display:flex; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.1);}
-.auth-image img{width:400px; display:block;}
-.auth-form{padding:30px; width:360px;}
-.auth-tabs{display:flex; margin-bottom:20px;}
-.tab-btn{flex:1; text-align:center; padding:10px 0; cursor:pointer; border-bottom:2px solid #ccc;}
-.tab-btn.active{color:#e31e24; border-bottom:4px solid #e31e24;}
+body{font-family:Arial,sans-serif;background:#f5f5f5;}
+.auth-page{display:flex;justify-content:center;align-items:center;min-height:100vh;}
+.auth-container{display:flex;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.1);}
+.auth-image img{width:400px;display:block;}
+.auth-form{padding:30px;width:360px;}
+.auth-tabs{display:flex;margin-bottom:20px;}
+.tab-btn{flex:1;text-align:center;padding:10px 0;cursor:pointer;border-bottom:2px solid #ccc;}
+.tab-btn.active{color:#e31e24;border-bottom:4px solid #e31e24;}
 .form-group{margin-bottom:15px;}
-.form-group input{width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;}
-.btn-submit{width:100%; padding:12px; background:#e31e24; color:#fff; border:none; border-radius:8px; cursor:pointer;}
+.form-group input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;}
+.btn-submit{width:100%;padding:12px;background:#e31e24;color:#fff;border:none;border-radius:8px;cursor:pointer;}
 .error-msg{background:#fdf2f2;color:#e74c3c;padding:10px;border-radius:6px;text-align:center;margin-bottom:10px;}
 .success-msg{background:#e6ffed;color:#2a7a2a;padding:10px;border-radius:6px;text-align:center;margin-bottom:10px;}
-.link-like{color:#e31e24; text-decoration:underline; cursor:pointer;}
-.otp-input{width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;}
-.modal-overlay{position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.55); display:none; justify-content:center; align-items:center; z-index:9999;}
-.modal-box{width:380px; background:#fff; border-radius:14px; padding:22px; animation:fadeIn .25s ease-in-out;}
-@keyframes fadeIn{from{opacity:0; transform:translateY(-10px);}to{opacity:1; transform:translateY(0);}}
-.modal-title{font-size:20px; font-weight:600; text-align:center; margin-bottom:18px;}
-.btn-modal{width:100%; padding:12px; background:#e31e24; color:#fff; border:none; border-radius:8px; cursor:pointer; margin-top:10px;}
-.modal-close{color:#666; text-align:center; margin-top:12px; cursor:pointer;}
+.link-like{color:#e31e24;text-decoration:underline;cursor:pointer;}
+.otp-input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;}
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);display:none;justify-content:center;align-items:center;z-index:9999;}
+.modal-box{width:380px;background:#fff;border-radius:14px;padding:22px;animation:fadeIn .25s ease-in-out;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.modal-title{font-size:20px;font-weight:600;text-align:center;margin-bottom:18px;}
+.btn-modal{width:100%;padding:12px;background:#e31e24;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-top:10px;}
+.modal-close{color:#666;text-align:center;margin-top:12px;cursor:pointer;}
 </style>
 </head>
 <body>
+
 <div class="auth-page">
 <div class="auth-container">
 <div class="auth-image"><img src="App/public/img/anhtrangdangky.png" alt="5SV Sport"></div>
 <div class="auth-form">
+
 <div class="auth-tabs">
-<div class="tab-btn <?= !empty($register_success) ? '' : 'active' ?>" onclick="showTab('register')">Đăng ký</div>
-<div class="tab-btn <?= !empty($register_success) ? 'active' : '' ?>" onclick="showTab('login')">Đăng nhập</div>
+<div class="tab-btn <?= !isset($_SESSION['pending_register']) ? 'active' : '' ?>" onclick="showTab('register')">Đăng ký</div>
+<div class="tab-btn <?= isset($_SESSION['pending_register']) ? 'active' : '' ?>" onclick="showTab('login')">Đăng nhập</div>
 </div>
 
 <?php if(!empty($register_success)): ?><div class="success-msg"><?= $register_success ?></div><?php endif;?>
@@ -208,7 +250,7 @@ body{font-family:Arial, sans-serif; background:#f5f5f5;}
 <?php if(!empty($forgot_success)): ?><div class="success-msg"><?= $forgot_success ?></div><?php endif;?>
 
 <!-- FORM ĐĂNG KÝ -->
-<div id="register-form" style="display:<?= (!empty($register_success) || isset($_SESSION['pending_register']))?'none':'block' ?>">
+<div id="register-form" style="display:<?= isset($_SESSION['pending_register'])?'none':'block' ?>">
 <form method="POST">
 <input type="text" name="username" placeholder="Tên đăng nhập" value="<?=htmlspecialchars($_POST['username']??'')?>" required>
 <input type="email" name="email" placeholder="Email" value="<?=htmlspecialchars($_POST['email']??'')?>" required>
@@ -230,7 +272,7 @@ body{font-family:Arial, sans-serif; background:#f5f5f5;}
 <?php endif;?>
 
 <!-- FORM ĐĂNG NHẬP -->
-<div id="login-form" style="display:<?= !empty($register_success)?'block':'none' ?>">
+<div id="login-form" style="display:<?= isset($_SESSION['pending_register'])?'block':'none' ?>">
 <form method="POST">
 <input type="text" name="user_or_email" placeholder="Tên đăng nhập / Email / SĐT" required>
 <input type="password" name="password" placeholder="Mật khẩu" required>
@@ -238,9 +280,8 @@ body{font-family:Arial, sans-serif; background:#f5f5f5;}
 <button type="submit" name="login" class="btn-submit">Đăng nhập</button>
 </form>
 </div>
-</div>
-</div>
-</div>
+
+</div></div></div>
 
 <!-- POPUP QUÊN MẬT KHẨU -->
 <div id="forgotModal" class="modal-overlay">
@@ -253,9 +294,7 @@ body{font-family:Arial, sans-serif; background:#f5f5f5;}
 </form>
 <div class="modal-close" onclick="closeForgotPopup()">Đóng</div>
 </div>
-
-<?php if(isset($_SESSION['forgot_phone'])): ?>
-<div id="modalStep2">
+<div id="modalStep2" style="display:none">
 <div class="modal-title">Nhập OTP</div>
 <form method="POST">
 <input type="text" name="otp_forgot" placeholder="OTP" required>
@@ -263,10 +302,7 @@ body{font-family:Arial, sans-serif; background:#f5f5f5;}
 </form>
 <div class="modal-close" onclick="closeForgotPopup()">Đóng</div>
 </div>
-<?php endif; ?>
-
-<?php if(isset($_SESSION['allow_reset']) && $_SESSION['allow_reset']): ?>
-<div id="modalStep3">
+<div id="modalStep3" style="display:none">
 <div class="modal-title">Mật khẩu mới</div>
 <form method="POST">
 <input type="password" name="new_password" placeholder="Mật khẩu mới" required>
@@ -275,48 +311,46 @@ body{font-family:Arial, sans-serif; background:#f5f5f5;}
 </form>
 <div class="modal-close" onclick="closeForgotPopup()">Đóng</div>
 </div>
-<?php endif; ?>
 </div>
 </div>
 
 <script>
 function showTab(tab){
-    document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
-    if(tab==='register'){
-        document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        document.getElementById('register-form').style.display='block';
-        document.getElementById('login-form').style.display='none';
-    }else{
-        document.querySelectorAll('.tab-btn')[1].classList.add('active');
-        document.getElementById('register-form').style.display='none';
-        document.getElementById('login-form').style.display='block';
-    }
+document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+if(tab==='register'){
+document.querySelectorAll('.tab-btn')[0].classList.add('active');
+document.getElementById('register-form').style.display='block';
+document.getElementById('login-form').style.display='none';
+}else{
+document.querySelectorAll('.tab-btn')[1].classList.add('active');
+document.getElementById('register-form').style.display='none';
+document.getElementById('login-form').style.display='block';
 }
-
+}
 function showForgotPopup(){
-    document.getElementById('forgotModal').style.display='flex';
-    if(document.getElementById('modalStep1')) document.getElementById('modalStep1').style.display='block';
-    if(document.getElementById('modalStep2')) document.getElementById('modalStep2').style.display='none';
-    if(document.getElementById('modalStep3')) document.getElementById('modalStep3').style.display='none';
+document.getElementById('forgotModal').style.display='flex';
+document.getElementById('modalStep1').style.display='block';
+document.getElementById('modalStep2').style.display='none';
+document.getElementById('modalStep3').style.display='none';
 }
 function closeForgotPopup(){document.getElementById('forgotModal').style.display='none';}
 
+// Khi reload trang, mở đúng bước OTP
 <?php if(isset($_SESSION['forgot_phone'])): ?>
 document.addEventListener('DOMContentLoaded',function(){
-    document.getElementById('forgotModal').style.display='flex';
-    if(document.getElementById('modalStep1')) document.getElementById('modalStep1').style.display='none';
-    if(document.getElementById('modalStep2')) document.getElementById('modalStep2').style.display='block';
+document.getElementById('forgotModal').style.display='flex';
+document.getElementById('modalStep1').style.display='none';
+document.getElementById('modalStep2').style.display='block';
 });
-<?php endif;?>
-
+<?php endif; ?>
 <?php if(isset($_SESSION['allow_reset']) && $_SESSION['allow_reset']): ?>
 document.addEventListener('DOMContentLoaded',function(){
-    document.getElementById('forgotModal').style.display='flex';
-    if(document.getElementById('modalStep1')) document.getElementById('modalStep1').style.display='none';
-    if(document.getElementById('modalStep2')) document.getElementById('modalStep2').style.display='none';
-    if(document.getElementById('modalStep3')) document.getElementById('modalStep3').style.display='block';
+document.getElementById('forgotModal').style.display='flex';
+document.getElementById('modalStep1').style.display='none';
+document.getElementById('modalStep2').style.display='none';
+document.getElementById('modalStep3').style.display='block';
 });
-<?php endif;?>
+<?php endif; ?>
 </script>
 </body>
 </html>
