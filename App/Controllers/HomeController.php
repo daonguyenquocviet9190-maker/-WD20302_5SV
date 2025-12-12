@@ -496,6 +496,71 @@ public function giohang_update()
 public function contact(){
   include 'app/View/shop/contact.php';
 }
+  // VOUCHER - FIXED WITH DEBUG
+  public function apply_voucher() {
+      session_start();
+      header('Content-Type: application/json');
 
+      error_log('Voucher request: ' . print_r($_POST, true));  // Debug log
+
+      $code = trim(strtoupper($_POST['voucher_code'] ?? ''));
+
+      if (empty($code)) {
+          error_log('Voucher error: Mã rỗng');
+          echo json_encode(['success' => false, 'message' => 'Vui lòng nhập mã']);
+          exit;
+      }
+
+      require_once 'App/Model/voucher.php';
+      $voucherModel = new Voucher();
+      $voucher = $voucherModel->get_by_code($code);
+
+      error_log('Voucher found: ' . print_r($voucher, true));  // Debug voucher DB
+
+      if (!$voucher) {
+          error_log('Voucher error: Không tìm thấy ' . $code);
+          echo json_encode(['success' => false, 'message' => 'Mã không tồn tại hoặc hết hạn']);
+          exit;
+      }
+
+      $type = (strpos($voucher['code'], '%') !== false || $voucher['value'] < 1000) ? 'percent' : 'fixed';
+
+      $_SESSION['voucher'] = [
+          'code'  => $voucher['code'],
+          'value' => (float)$voucher['value'],
+          'type'  => $type
+      ];
+
+      $cart = $_SESSION['cart'] ?? [];
+      $subtotal = 0;
+      foreach ($cart as $item) $subtotal += $item['price'] * $item['quantity'];
+
+      $discount = ($type === 'percent') ? $subtotal * ($voucher['value'] / 100) : $voucher['value'];
+      $shipping = 30000;
+      if (strtoupper($voucher['code']) === 'FREESHIP') {
+          $shipping = 0;
+          $discount = 0;
+      }
+
+      $total = $subtotal + $shipping - $discount;
+
+      echo json_encode([
+          'success' => true,
+          'message' => "Áp dụng {$voucher['code']} thành công!",
+          'voucher_code' => $voucher['code'],
+          'discount' => $discount,
+          'shipping' => $shipping,
+          'total' => $total,
+          'subtotal' => $subtotal
+      ]);
+      exit;
+  }
+
+  public function remove_voucher() {
+      session_start();
+      unset($_SESSION['voucher']);
+      echo json_encode(['success' => true]);
+      exit;
+  }
 }
 ?>

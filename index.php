@@ -26,6 +26,16 @@ if ($page == "giohang" && $action == "update") {
     exit;
 }
 
+// ===== VOUCHER ROUTER =====
+if ($page == "giohang" && $action == "apply_voucher") {
+    $controller->apply_voucher();
+    exit;
+}
+if ($page == "giohang" && $action == "remove_voucher") {  // sửa "gio" → "giohang"
+    $controller->remove_voucher();
+    exit;
+}
+
 // ===== ROUTER BÌNH THƯỜNG =====
 if (method_exists($controller, $page)) {
     $controller->$page();

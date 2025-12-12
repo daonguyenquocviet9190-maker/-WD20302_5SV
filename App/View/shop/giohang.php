@@ -5,9 +5,38 @@ $cart = $_SESSION['cart'] ?? [];
 $subtotal = 0;
 $shipping = 30000;
 
+// Tính tạm tính
 foreach ($cart as $product) {
     $subtotal += $product['price'] * $product['quantity'];
 }
+
+// Tính discount – ĐÃ FIX LỖI NON-NUMERIC 100%
+$discount = 0;
+$voucher_code = '';
+$voucher_type = 'fixed';
+$voucher_value = 0;
+
+if (isset($_SESSION['voucher']) && is_array($_SESSION['voucher'])) {
+    $voucher_code  = $_SESSION['voucher']['code'] ?? '';
+    $voucher_type  = $_SESSION['voucher']['type'] ?? 'fixed';
+    $voucher_value = (float)($_SESSION['voucher']['value'] ?? 0);   // Ép về số
+
+    if ($voucher_value > 0) {
+        if ($voucher_type === 'percent') {
+            $discount = $subtotal * ($voucher_value / 100);
+        } else {
+            $discount = $voucher_value;
+        }
+    }
+
+    // Miễn phí vận chuyển nếu dùng mã FREESHIP
+    if (strtoupper(trim($voucher_code)) === 'FREESHIP') {
+        $shipping = 0;
+        $discount = 0;
+    }
+}
+
+$total = $subtotal + $shipping - $discount;
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -119,9 +148,27 @@ body{background:#f5f5f5;color:#333}
   <div class="summary-box" id="summaryBox" style="<?= empty($cart) ? 'display:none;' : '' ?>">
     <h3 style="margin-bottom:10px">Tổng cộng</h3>
     <p style="display:flex;justify-content:space-between"><span>Tạm tính</span><b id="subtotal"><?= number_format($subtotal) ?> ₫</b></p>
-    <p style="display:flex;justify-content:space-between"><span>Vận chuyển</span><b><?= number_format($shipping) ?> ₫</b></p>
+    
+    <!-- VOUCHER AREA -->
+    <div style="margin:16px 0;">
+      <form id="voucherForm" style="display:flex;gap:8px;align-items:center;">
+        <input type="text" id="voucherInput" placeholder="Nhập mã giảm giá" value="<?= htmlspecialchars($voucher_code) ?>" 
+               style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;" <?= $voucher_code ? 'readonly' : '' ?>>
+        <?php if ($voucher_code): ?>
+          <button type="button" id="removeVoucher" style="padding:10px 14px;background:#ff4444;color:white;border:none;border-radius:8px;cursor:pointer;">Xóa</button>
+        <?php else: ?>
+          <button type="submit" style="padding:10px 16px;background:#d60000;color:white;border:none;border-radius:8px;cursor:pointer;">Áp dụng</button>
+        <?php endif; ?>
+      </form>
+      <div id="voucherMsg" style="margin-top:6px;font-size:14px;height:20px;"></div>
+      <p id="discountLine" style="display:<?= $discount > 0 ? 'flex' : 'none' ?>;justify-content:space-between;color:#d60000;margin-top:8px;">
+        <span>Giảm giá (<?= htmlspecialchars($voucher_code) ?>)</span><b id="discountValue">-<?= number_format($discount) ?> ₫</b>
+      </p>
+    </div>
+
+    <p style="display:flex;justify-content:space-between"><span>Vận chuyển</span><b id="shippingValue"><?= number_format($shipping) ?> ₫</b></p>
     <hr style="border:none;border-top:1px dashed #eee;margin:12px 0">
-    <p style="display:flex;justify-content:space-between;font-size:18px;color:#d60000;font-weight:700"><span>Tổng</span><span id="total"><?= number_format($subtotal + $shipping) ?> ₫</span></p>
+    <p style="display:flex;justify-content:space-between;font-size:18px;color:#d60000;font-weight:700"><span>Tổng</span><span id="total"><?= number_format($total) ?> ₫</span></p>
     <a href="index.php?page=order" class="btn-checkout" style="display:block;text-align:center;margin-top:14px">Thanh toán</a>
     <a href="index.php?page=product" class="btn-ttms" style="display:block;text-align:center;margin-top:14px">Tiếp tục mua sắm</a>
   </div>
@@ -144,7 +191,10 @@ body{background:#f5f5f5;color:#333}
 
 <script>
 // ---- config
-const shipping = <?= json_encode($shipping) ?>;
+let shipping = <?= $shipping ?>;
+const voucherType = '<?= $voucher_type ?>';
+const voucherValue = <?= $voucher_value ?>;
+const voucherCode = '<?= htmlspecialchars($voucher_code) ?>';
 
 // ---- DOM refs
 const productBox = document.getElementById('productBox');
@@ -154,6 +204,9 @@ const confirmOverlay = document.getElementById('confirmOverlay');
 const confirmYes = document.getElementById('confirmYes');
 const confirmNo = document.getElementById('confirmNo');
 const toast = document.getElementById('toast');
+const discountLine = document.getElementById('discountLine');
+const discountValue = document.getElementById('discountValue');
+const shippingValue = document.getElementById('shippingValue');
 
 // item pending to delete
 let pendingDeleteItem = null;
@@ -180,8 +233,32 @@ function updateTotals(){
     const qty = parseInt(p.querySelector('.qty-input').value) || 1;
     subtotal += price * qty;
   });
+
+  let discount = 0;
+  let currentShipping = shipping;
+  if (voucherType !== 'none') {
+    if (voucherType === 'percent') {
+      discount = subtotal * (voucherValue / 100);
+    } else {
+      discount = voucherValue;
+    }
+    if (voucherCode === 'FREESHIP') {
+      currentShipping -= discount;
+      discount = 0;
+    }
+  }
+
+  const total = subtotal + currentShipping - discount;
+
   document.getElementById('subtotal').textContent = subtotal.toLocaleString() + ' ₫';
-  document.getElementById('total').textContent = (subtotal + parseInt(shipping)).toLocaleString() + ' ₫';
+  if (discount > 0) {
+    discountLine.style.display = 'flex';
+    discountValue.textContent = '-' + discount.toLocaleString() + ' ₫';
+  } else {
+    discountLine.style.display = 'none';
+  }
+  shippingValue.textContent = currentShipping.toLocaleString() + ' ₫';
+  document.getElementById('total').textContent = total.toLocaleString() + ' ₫';
   summaryBox.style.display = 'block';
   emptyCart.style.display = 'none';
 }
@@ -201,8 +278,6 @@ function attachProductHandlers(){
   // remove existing to avoid double-binding
   const products = productBox.querySelectorAll('.product');
   products.forEach(p=>{
-    // if already has a bound flag, skip (we'll remove and rebind for simplicity)
-    // remove previous listeners by cloning node
     const clone = p.cloneNode(true);
     p.parentNode.replaceChild(clone, p);
   });
@@ -258,7 +333,6 @@ function attachProductHandlers(){
 
 // server calls
 function updateCartOnServer(id, quantity){
-  // posts to controller handling update; server should update $_SESSION accordingly
   post('index.php?page=giohang&action=update', { id, quantity })
   .catch(err=> console.error('updateCartOnServer error', err));
 }
@@ -313,6 +387,71 @@ confirmNo.addEventListener('click', ()=>{
 // initial bind + totals
 attachProductHandlers();
 updateTotals();
+</script>
+<script>
+// Xử lý voucher
+const voucherForm = document.getElementById('voucherForm');
+const voucherInput = document.getElementById('voucherInput');
+const voucherMsg = document.getElementById('voucherMsg');
+const removeVoucherBtn = document.getElementById('removeVoucher');
+
+// VOUCHER CẬP NHẬT NGAY KHÔNG CẦN F5
+if (voucherForm) {
+  voucherForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const code = voucherInput.value.trim().toUpperCase();
+
+    fetch('index.php?page=giohang&action=apply_voucher', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'voucher_code=' + encodeURIComponent(code)
+    })
+    .then(r => r.json())
+    .then(data => {
+      voucherMsg.style.color = data.success ? '#00aa00' : '#d60000';
+      voucherMsg.textContent = data.message;
+
+      if (data.success) {
+        // Cập nhật giao diện ngay lập tức
+        voucherInput.value = data.voucher_code;
+        voucherInput.readOnly = true;
+
+        // Đổi nút thành "Xóa"
+        const applyBtn = voucherForm.querySelector('button[type="submit"]');
+        applyBtn.outerHTML = '<button type="button" id="removeVoucher" style="padding:10px 16px;background:#ff4444;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">Xóa mã</button>';
+
+        // Hiện dòng giảm giá
+        const discountLine = document.getElementById('discountLine') || document.querySelector('#discountLine');
+        if (discountLine) {
+          discountLine.style.display = 'flex';
+          discountLine.querySelector('span').textContent = `Giảm giá (${data.voucher_code})`;
+          discountLine.querySelector('b').textContent = '-' + Number(data.discount).toLocaleString() + ' ₫';
+        }
+
+        // Cập nhật vận chuyển & tổng
+        document.getElementById('shippingValue').textContent = Number(data.shipping).toLocaleString() + ' ₫';
+        document.getElementById('total').textContent = Number(data.total).toLocaleString() + ' ₫';
+
+        // Gắn lại nút Xóa
+        document.getElementById('removeVoucher').addEventListener('click', () => {
+          fetch('index.php?page=giohang&action=remove_voucher', {method: 'POST'})
+            .then(() => location.reload());
+        });
+      }
+    })
+    .catch(() => {
+      voucherMsg.textContent = 'Lỗi kết nối, thử lại nhé!';
+      voucherMsg.style.color = '#d60000';
+    });
+  });
+}
+
+if (removeVoucherBtn) {
+  removeVoucherBtn.addEventListener('click', function() {
+    fetch('index.php?page=giohang&action=remove_voucher', { method: 'POST' })
+    .then(() => location.reload());
+  });
+}
 </script>
 </body>
 </html>
