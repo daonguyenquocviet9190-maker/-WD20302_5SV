@@ -1,21 +1,29 @@
 <?php
 session_start();
-include_once 'App/Model/database.php'; // kết nối DB
+include_once 'App/Model/database.php';
 
 $user = null;
+$avatar = '/-WD20302_5SV/App/public/img/default-avatar.avif'; // avatar mặc định
 
-// Nếu đã login (có user_id trong session)
 if (isset($_SESSION['user_id'])) {
-    $pdo = (new Database("localhost", "5svcode", "root", ""))->connect();
-    $stmt = $pdo->prepare("SELECT Username FROM user WHERE id_User = ?");
+    $pdo = (new Database("localhost","5svcode","root",""))->connect();
+    $stmt = $pdo->prepare("SELECT Username, Avatar FROM user WHERE id_User=?");
     $stmt->execute([$_SESSION['user_id']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($row) $user = $row['Username'];
-}
 
+    if ($row) {
+        $user = $row['Username'];
+
+        // Kiểm tra avatar user
+        $avatarPath = __DIR__ . '/../../../uploads/avatars/' . $row['Avatar'];
+        if (!empty($row['Avatar']) && file_exists($avatarPath)) {
+            $avatar = '/-WD20302_5SV/uploads/avatars/' . htmlspecialchars($row['Avatar']) . '?t=' . time();
+        }
+    }
+}
 // Lấy từ khóa tìm kiếm
 $search_term = $_GET['search'] ?? '';
-?>  
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -33,10 +41,12 @@ $search_term = $_GET['search'] ?? '';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
  /* USER DROPDOWN */
+/* USER DROPDOWN */
 .user-dropdown {
     position: relative;
     display: inline-block;
     z-index: 9999;
+    font-family: 'Arial', sans-serif;
 }
 
 .user-trigger {
@@ -44,21 +54,36 @@ $search_term = $_GET['search'] ?? '';
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: white;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    color: #0f0e0eff;
+    padding: 5px 8px;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    transition: all 0.25s ease;
 }
 
 .user-trigger:hover {
-    background: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    transform: translateY(-1px);
+}
+
+.user-trigger .header-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.user-trigger .user-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
 }
 
 .user-trigger .arrow {
-    display: inline-block;
+    font-size: 12px;
+    color: #666;
     transition: transform 0.3s ease;
 }
 
@@ -68,10 +93,17 @@ $search_term = $_GET['search'] ?? '';
 
 /* MENU */
 .user-menu {
+    position: absolute;
+    right: 0;
+    top: 46px;
+    min-width: 180px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    padding: 8px 0;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
-    pointer-events: none;
     transition: all 0.3s ease;
 }
 
@@ -79,32 +111,32 @@ $search_term = $_GET['search'] ?? '';
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    pointer-events: auto;
 }
-
 
 .user-menu a {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 18px;
+    padding: 10px 16px;
     font-size: 14px;
     color: #333;
     text-decoration: none;
-    border-radius: 8px;
     transition: all 0.2s ease;
+    border-radius: 8px;
 }
 
 .user-menu a:hover {
-    background: #e31e24;
+    background-color: #e31e24;
     color: #fff;
-    transform: translateX(5px);
+    transform: translateX(4px);
 }
 
 .user-menu i {
     width: 18px;
     text-align: center;
+    color: #555;
 }
+
 /* --- 1. Container chính của Tìm kiếm Gần đây --- */
 .search-popup-recent {
     padding: 15px 20px;
@@ -309,29 +341,35 @@ $search_term = $_GET['search'] ?? '';
             </nav>
 
             <!-- Icons -->
-            <div class="icons">
 
                 <!-- User -->
-                <div class="user-dropdown">
-    <div class="user-trigger">
-        <i class="fa-regular fa-user"></i>
-        <span class="user-name"><?= $user ? 'Xin chào,' . " ". htmlspecialchars($user) : '' ?></span>
-        <i class="fa-solid fa-chevron-down arrow"></i>
-    </div>
+<!-- User -->
+            <div class="user-dropdown">
+                <div class="user-trigger">
+                    <?php if($user): ?>
+                        <img src="<?= $avatar ?>" alt="avatar" class="header-avatar">
+                        <span class="user-name"><?= 'Xin chào, ' . htmlspecialchars($user) ?></span>
+                    <?php else: ?>
+                        <img src="App/public/img/default-avatar.avif" alt="avatar" class="header-avatar">
+                        <span class="user-name">Đăng nhập / Đăng ký</span>
+                    <?php endif; ?>
+                    <i class="fa-solid fa-chevron-down arrow"></i>
+                </div>
 
-    <div class="user-menu">
-        <?php if($user): ?>
-            <a href="index.php?page=profile"><i class="fa-solid fa-id-card"></i> Hồ sơ</a>
-            <a href="index.php?page=order_history"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng</a>
-            <a href="index.php?page=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
-        <?php else: ?>
-            <a href="index.php?page=register"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập / Đăng ký</a>
-        <?php endif; ?>
-    </div>
-</div>
-                <a href="?page=wishlist"><i class="fas fa-heart"></i></a>
-                <a href="javascript:void(0)" id="openSearchPopup"><i class="fas fa-search"></i></a>
-                <a href="?page=giohang"><i class="fas fa-shopping-cart"></i></a>
+                <div class="user-menu">
+                    <?php if($user): ?>
+                        <a href="index.php?page=profile"><i class="fa-solid fa-id-card"></i> Hồ sơ</a>
+                        <a href="index.php?page=order_history"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng</a>
+                        <a href="index.php?page=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                    <?php else: ?>
+                        <a href="index.php?page=register"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập / Đăng ký</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+                <a href="?page=wishlist" style="color: white;"><i class="fas fa-heart"></i></a>
+                <a href="javascript:void(0)" id="openSearchPopup" style="color: white;"><i class="fas fa-search"></i></a>
+                <a href="?page=giohang" style="color: white;"><i class="fas fa-shopping-cart"></i></a>
             </div>
 
         </div>
@@ -380,21 +418,19 @@ $search_term = $_GET['search'] ?? '';
 
  <script>
 // CLICK TOGGLE MENU
+// CLICK TOGGLE USER MENU
 const userDropdown = document.querySelector('.user-dropdown');
 const userTrigger = userDropdown.querySelector('.user-trigger');
 
 userTrigger.addEventListener('click', function(e){
     e.stopPropagation();
-    userDropdown.classList.toggle('active'); // click mở/đóng
+    userDropdown.classList.toggle('active');
 });
 
-// Để menu **giữ nguyên trạng thái**, không tự ẩn khi click ra ngoài
-// Nếu muốn click ngoài đóng, thêm đoạn này:
-// document.addEventListener('click', (e) => {
-//     if(!userDropdown.contains(e.target)) {
-//         userDropdown.classList.remove('active');
-//     }
-// });
+// Click ngoài đóng menu
+document.addEventListener('click', function(e){
+    if(!userDropdown.contains(e.target)) userDropdown.classList.remove('active');
+});
 
 </script>
 
