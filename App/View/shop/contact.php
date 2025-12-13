@@ -53,7 +53,7 @@ if (isset($_POST['send_contact'])) {
                 $mail->addAddress('tronghoainguyen5@gmail.com', 'Admin'); // Email nhận
 
                $mail->isHTML(true);
-$mail->Subject = "📩 Liên hệ mới từ website: $subject";
+$mail->Subject = "📩 New contact from website: $subject";
 $mail->Body = "
 <div style='font-family:Arial,sans-serif;line-height:1.6;color:#333;padding:20px;background:#f7f7f7;'>
     <div style='max-width:600px;margin:0 auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);'>

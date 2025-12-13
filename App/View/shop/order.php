@@ -22,42 +22,14 @@ if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
     exit;
 }
 
-/// ================== TÍNH TIỀN CÓ VOUCHER (THAY ĐOẠN CŨ) ==================
+// Tính tổng
 $subtotal = 0;
 $shipping = 30000;
-
 foreach ($_SESSION['cart'] as $item) {
     $subtotal += $item['price'] * $item['quantity'];
 }
+$total = $subtotal + $shipping;
 
-// Tính discount giống hệt giỏ hàng
-$discount = 0;
-$voucher_code_display = '';
-
-if (isset($_SESSION['voucher']) && is_array($_SESSION['voucher'])) {
-    $vcode  = $_SESSION['voucher']['code'] ?? '';
-    $vtype  = $_SESSION['voucher']['type'] ?? 'fixed';
-    $vvalue = (float)($_SESSION['voucher']['value'] ?? 0);
-
-    if ($vvalue > 0) {
-        if ($vtype === 'percent') {
-            $discount = $subtotal * ($vvalue / 100);
-        } else {
-            $discount = $vvalue;
-        }
-    }
-
-    // FREESHIP → miễn phí vận chuyển
-    if (strtoupper(trim($vcode)) === 'FREESHIP') {
-        $shipping = 0;
-        $discount = 0;
-    }
-
-    $voucher_code_display = $vcode;
-}
-
-$total = $subtotal + $shipping - $discount;
-// =====================================================================
 // XỬ LÝ ĐẶT HÀNG
 if (isset($_POST['submit'])) {
     $fullname = $_POST['fullname'];
@@ -68,14 +40,11 @@ if (isset($_POST['submit'])) {
     $payment  = $_POST['payment'];
 
     // Lưu đơn hàng
-        $sql_order = "INSERT INTO donhang 
-        (fullname, phone, email, address, note, payment, subtotal, shipping, discount, voucher_code, total, ngay_mua, id_User, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, 'Chờ xử lý')";
+    $sql_order = "INSERT INTO donhang 
+        (fullname, phone, email, address, note, payment, subtotal, shipping, total, ngay_mua, id_User, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, 'Chờ xử lý')";
     $stmt = $pdo->prepare($sql_order);
-       $stmt->execute([
-        $fullname, $phone, $email, $address, $note, $payment,
-        $subtotal, $shipping, $discount, $voucher_code_display, $total, $id_User
-    ]);
+    $stmt->execute([$fullname, $phone, $email, $address, $note, $payment, $subtotal, $shipping, $total, $id_User]);
     $order_id = $pdo->lastInsertId();
 
     // Lưu chi tiết đơn hàng
@@ -213,20 +182,9 @@ hr { margin: 18px 0; border: none; border-top: 1px solid #e5e5e5; }
             </div>
         <?php endforeach; ?>
         <hr>
-                <hr>
-        <p><span>Tạm tính:</span><span><?= number_format($subtotal) ?> ₫</span></p>
-        
-        <?php if ($discount > 0): ?>
-        <p><span style="color:#d60000;">Giảm giá (<?= htmlspecialchars($voucher_code_display) ?>):</span>
-           <span style="color:#d60000;">-<?= number_format($discount) ?> ₫</span></p>
-        <?php endif; ?>
-        
-        <p><span>Vận chuyển:</span><span><?= number_format($shipping) ?> ₫</span></p>
-        <hr>
-        <p style="font-size:20px;font-weight:700;color:#d60000;">
-            <span>Tổng thanh toán:</span>
-            <span><?= number_format($total) ?> ₫</span>
-        </p>
+        <p><span>Tạm tính:</span><span><?= number_format($subtotal) ?> đ</span></p>
+        <p><span>Vận chuyển:</span><span><?= number_format($shipping) ?> đ</span></p>
+        <p><span>Tổng cộng:</span><span><?= number_format($total) ?> đ</span></p>
     </div>
 
 </div>
