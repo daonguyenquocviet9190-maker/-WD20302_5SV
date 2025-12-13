@@ -2,8 +2,8 @@
 // profile.php (full) - PUT into the same location as your old profile file
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-require_once __DIR__ . "/../../Model/database.php";
-require_once __DIR__ . "/../../vendor/autoload.php"; // PHPMailer + composer
+require_once __DIR__ . "/../../../App/Model/database.php";
+require_once __DIR__ . "/../../../vendor/autoload.php"; // PHPMailer + composer
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

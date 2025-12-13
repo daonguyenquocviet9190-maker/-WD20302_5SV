@@ -1,13 +1,21 @@
 <?php
 session_start();
+include_once 'App/Model/database.php'; // kết nối DB
 
-// Lấy username từ session nếu đã login
-$user = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+$user = null;
 
-// 🔥 THAY ĐỔI: Lấy từ khóa tìm kiếm từ tham số 'search' trên URL.
-// Nếu không tồn tại (chưa tìm kiếm), gán giá trị rỗng.
-$search_term = $_GET['search'] ?? ''; 
-?>
+// Nếu đã login (có user_id trong session)
+if (isset($_SESSION['user_id'])) {
+    $pdo = (new Database("localhost", "5svcode", "root", ""))->connect();
+    $stmt = $pdo->prepare("SELECT Username FROM user WHERE id_User = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row) $user = $row['Username'];
+}
+
+// Lấy từ khóa tìm kiếm
+$search_term = $_GET['search'] ?? '';
+?>  
 <!DOCTYPE html>
 <html lang="vi">
 
