@@ -29,7 +29,7 @@ $adminName = "Admin";
         <li><a href="?page=category">Loại sản phẩm</a></li>
         <li><a href="?page=user">Khách hàng</a></li>
         <li><a href="?page=order">Đơn hàng</a></li>
-        <li><a href="admin.php?page=voucher_form">Danh sách Voucher</a></li>
+        <!-- <li><a href="admin.php?page=voucher_form">Danh sách Voucher</a></li> -->
     </ul>
 </nav>
 

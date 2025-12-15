@@ -1,9 +1,4 @@
 <?php
-// =========================================================
-// PHẦN LOGIC XỬ LÝ: KẾT NỐI DB, TÌM KIẾM VÀ PHÂN TRANG
-// =========================================================
-
-// ⚠️ BẬT HIỂN THỊ LỖI (Nên tắt khi triển khai chính thức)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
