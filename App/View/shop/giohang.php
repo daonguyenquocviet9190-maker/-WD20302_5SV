@@ -149,22 +149,7 @@ body{background:#f5f5f5;color:#333}
     <h3 style="margin-bottom:10px">Tổng cộng</h3>
     <p style="display:flex;justify-content:space-between"><span>Tạm tính</span><b id="subtotal"><?= number_format($subtotal) ?> ₫</b></p>
     
-    <!-- VOUCHER AREA -->
-    <div style="margin:16px 0;">
-      <form id="voucherForm" style="display:flex;gap:8px;align-items:center;">
-        <input type="text" id="voucherInput" placeholder="Nhập mã giảm giá" value="<?= htmlspecialchars($voucher_code) ?>" 
-               style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;" <?= $voucher_code ? 'readonly' : '' ?>>
-        <?php if ($voucher_code): ?>
-          <button type="button" id="removeVoucher" style="padding:10px 14px;background:#ff4444;color:white;border:none;border-radius:8px;cursor:pointer;">Xóa</button>
-        <?php else: ?>
-          <button type="submit" style="padding:10px 16px;background:#d60000;color:white;border:none;border-radius:8px;cursor:pointer;">Áp dụng</button>
-        <?php endif; ?>
-      </form>
-      <div id="voucherMsg" style="margin-top:6px;font-size:14px;height:20px;"></div>
-      <p id="discountLine" style="display:<?= $discount > 0 ? 'flex' : 'none' ?>;justify-content:space-between;color:#d60000;margin-top:8px;">
-        <span>Giảm giá (<?= htmlspecialchars($voucher_code) ?>)</span><b id="discountValue">-<?= number_format($discount) ?> ₫</b>
-      </p>
-    </div>
+    
 
     <p style="display:flex;justify-content:space-between"><span>Vận chuyển</span><b id="shippingValue"><?= number_format($shipping) ?> ₫</b></p>
     <hr style="border:none;border-top:1px dashed #eee;margin:12px 0">
